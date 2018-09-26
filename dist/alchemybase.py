@@ -96,3 +96,8 @@ class UserSchema(ModelSchema):
     class Meta:
         model = User
         model_converter = SQLAlchemyUtilsConverter
+
+class CustomerSchema(ModelSchema):
+    class Meta:
+        model = Customer
+        model_converter = SQLAlchemyUtilsConverter
