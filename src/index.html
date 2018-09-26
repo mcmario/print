@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <title>HR portal | BusMarket</title>
-  <link rel="stylesheet" href="static/css/final.min.css">
+  <!-- build:css static/css/final.min.css -->
+  <link rel="stylesheet" href="/static/css/final.min.css">
+  <!-- /build -->
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,6 +15,8 @@
 <body ng-controller="RootController as ctrl" ng-class="{'testingMode': testingMode}">
 <ng-view>
 </ng-view>
-<script src="static/js/scripts.min.js"></script>
+<!-- build:js static/js/scripts.min.js -->
+<script src="/static/js/scripts.min.js"></script>
+<!-- /build -->
 </body>
 </html>

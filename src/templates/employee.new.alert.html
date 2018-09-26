@@ -1,0 +1,24 @@
+<div class="doc_preview_modal" style="width: auto;">
+
+    <div class="col-xs-12">
+
+        <h3 class="text-center">Введений Вами ІПН {{ngDialogData.ipn}} уже є в базі</h3>
+
+<div class="col-xs-12 no-padding">
+    <span class="col-xs-4">Прізвище</span><span class="col-xs-8">{{ngDialogData.surname_ua}}</span>
+    <span class="col-xs-4">Ім*я</span><span class="col-xs-8">{{ngDialogData.name_ua}}</span>
+
+    <span class="col-xs-12 text-center" ng-if="ngDialogData.status!=='active'"><strong>Звільнений </strong></span>
+    <span class="col-xs-12 text-center" ng-if="ngDialogData.status==='active'"><strong>Працівник </strong></span>
+    <span class="col-xs-4">Департамент</span><span class="col-xs-8" ng-bind="ngDialogData.department.name?ngDialogData.department.name:'Не вказано'">{{ngDialogData.department.name}}</span>
+    <span class="col-xs-4">Посада</span><span class="col-xs-8">{{ngDialogData.position.name}}</span>
+
+</div>
+
+
+        <button class="btn btn-primary col-xs-4 " ng-click="closeThisDialog(0);">Закрити</button>
+        <a class="btn btn-success col-xs-4 " href="#!/employees/{{ngDialogData.status}}/{{ngDialogData.fk_person}}#hire" ng-click="closeThisDialog(0)"> Продовжити</a>
+        <a class="btn btn-primary col-xs-4 " href="#!/employees/{{ngDialogData.status}}/{{ngDialogData.fk_person}}" target="_blank">Переглянути</a>
+    </div>
+
+</div>

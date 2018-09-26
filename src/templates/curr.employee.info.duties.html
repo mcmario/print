@@ -1,0 +1,105 @@
+<div class="doc_preview_modal" style="width: auto;">
+
+    <div class=" col-xs-12 animate-if modal-main" style="padding-left: 20px;">
+        <div class="duties-modal" ng-init="edition=[];ctrl.duties=ngDialogData.duties">
+            <div class="col-xs-12 no-padding" style="margin-bottom: 30px">
+                <span class="duties-modal-title">Функціональні обов'язки</span>
+            </div>
+            <div class="col-xs-12 duties-modal-items no-padding" ng-repeat=" duties in ctrl.duties track by $index">
+
+
+                <span class="col-xs-1 duties-modal-items-numbers">{{$index+1}}</span>
+                <textarea class="col-xs-9 resizableTextArea" id="duty{{$index}}"
+                          onkeyup="this.style.height=this.scrollHeight+'px'; "
+
+                          ng-init="this.style.height=this.scrollHeight+'px'"
+                          onmousemove="this.style.height=this.scrollHeight+'px'"
+                          type="text" ng-model="ctrl.duties[$index]"
+                          ng-click=" ctrl.tempDuty=ctrl.duties[$index]"
+                          ng-change="
+                                    edition[$index]=true;
+                                    ctrl.notSaved=true"
+
+                          placeholder="введіть обов'язок">{{ ctrl.duties[$index] }}
+
+
+                </textarea>
+
+
+                <div class="col-xs-2 duties-modal-items-buttons"
+                     style=" height: 61px;">
+                    <button class="col-xs-12 duties-modal-items-buttons_delete"
+                            ng-click="ctrl.duties.splice($index,1);
+                                        ctrl.tehtareaHeight($index);
+                                        ctrl.notSaved=!checkDuties(ctrl.duties);
+                                        ctrl.editionSave=true;"
+
+                            ng-if="edition[$index]!=true"
+                    ></button>
+
+                    <button class="duties-modal-items-buttons_cancel col-xs-6"
+                            ng-show="edition[$index]"
+                            ng-click="edition[$index]=false;
+                                        ctrl.duties[$index]=ctrl.tempDuty;
+                                        ctrl.notSaved=false;
+
+                                        !ctrl.duties[$index].length?ctrl.duties.splice($index,1):null;
+                                        ctrl.newDuty=false"
+
+                    >
+
+                    </button>
+
+
+                    <button class="duties-modal-items-buttons_save col-xs-6"
+                            ng-click="
+                                    edition=[];
+
+                                    ctrl.editionSave=true;
+                                    ctrl.notSaved=!checkDuties(ctrl.duties);
+                                    ctrl.newDuty=false"
+                            ng-class="{'hidden':!ctrl.duties[$index]}"
+                            ng-show="edition[$index]">
+                    </button>
+
+
+                </div>
+
+
+            </div>
+            <span class="col-xs-12 duties-modal-items-numbers" ng-if="ngDialogData.duties.length==0"> Інформація відсутня</span>
+
+            <div class="col-xs-12 no-padding">
+                <button ng-click="
+                            ctrl.duties.push('');
+                            edition=[];
+
+
+                            ctrl.notSaved=!checkDuties(ctrl.duties)"
+
+
+                        class="col-xs-3 col-xs-offset-1 duties-modal-items-buttons_add"
+                        ng-disabled=" ctrl.duties[ctrl.duties.length-1]===0||ctrl.notSaved===true"
+                >Додати
+                </button>
+            </div>
+
+
+        </div>
+
+
+        <div class="button_panel no-padding col-xs-12 animate-if" ng-if='ctrl.editionSave'>
+            <br>
+            <button ng-click="saveDuties(ctrl.duties,ngDialogData.id);closeThisDialog(0)"
+                    class="duties-modal-items-buttons_add save_duty col-xs-5 col-xs-offset-1"
+                    ng-disabled=" ctrl.duties[ctrl.duties.length-1]===0||ctrl.notSaved===true"
+
+            >
+                Зберегти зміни
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

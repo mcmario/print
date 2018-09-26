@@ -1,0 +1,75 @@
+<!--<header-component></header-component>-->
+<sidebar></sidebar>
+
+<div class="content head_menu_background" ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}"
+style="height: 60px;"></div>
+<div class="content" ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}">
+    <div class="col-xs-12">
+              <div class="col-lg-2 visible-lg"></div>
+
+
+        <div class="col-xs-10 notes_header ">
+
+            <!--<h1 class="notes_title">Нотатки</h1>-->
+            <button class="button_add_notes  col-auto" ng-click="ctrl.addNote()">Створити
+                нотатку
+            </button>
+        </div>
+    </div>
+    <div class=" notes customScroll" style="overflow-y: auto">
+        <div class="col-lg-2 visible-lg"></div>
+         <div class="col-xs-6 col-lg-5 no-padding">
+            <div class="col-xs-12 animate-if" ng-repeat="note in notes track by $index"
+                 ng-if="$even">
+                <note-component data="note"></note-component>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-lg-4 no-padding">
+            <div class="col-xs-12 animate-if" ng-repeat="note in notes track by $index"
+
+
+                 ng-if="$odd">
+                <note-component data="note"></note-component>
+
+            </div>
+        </div>
+
+                <div class="col-lg-2 visible-lg"></div>
+
+
+    </div>
+
+
+    <!--<div class="notes"  style="overflow-y: auto;-->
+    <!--display: flex;-->
+    <!--flex-direction: column;-->
+    <!--justify-content: space-between;" >-->
+    <!--<note-component data="note" class="col-xs-6" ng-repeat="note in notes track by $index" ng-if="$odd"></note-component>-->
+    <!--</div>-->
+    <!--<span class="bg_for_note" ng-class="{'visible': getNoteStatus()}"></span>-->
+
+
+    <!--<div class="container" style="background: #00af00">-->
+
+    <!--<div class="col-sm-5  col-lg-6 " ng-repeat="note in notes track by $index">-->
+    <!--<note-component data="note" class="col-xs-12"></note-component>-->
+
+
+    <!--</div>-->
+
+
+    <!--<div-->
+    <!--ng-show="notes" id="tile_container" class="row col-xs-11 col-lg-11 justify-content-around animate-if">-->
+    <!--<div class="col-sm-5  ml-sm-auto col-lg-6 d-flex justify-content-between" ng-repeat="note in notes track by $index">-->
+    <!--<note-component data="note"></note-component>-->
+
+    <!--</div>-->
+    <!--&lt;!&ndash;<div class="col-sm-5  ml-sm-auto col-lg-6 d-flex justify-content-between" ng-repeat="note in notes track by $index">&ndash;&gt;-->
+    <!--&lt;!&ndash;<note-component data="note" ng-if='$odd'></note-component>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--</div>-->
+    <!--</div>-->
+</div>
+<!--</div>-->

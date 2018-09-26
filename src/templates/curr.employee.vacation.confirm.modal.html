@@ -1,0 +1,33 @@
+<div class="doc_preview_modal" style="width: auto;">
+
+
+
+    <div ng-if=" ::ngDialogData.type=='period'" class="col-xs-12">
+        <h3 class="text-center">Ви дісно хочете видалити період відпустки</h3>
+        <button class="btn btn-success col-xs-5 col-xs-offset-1" ng-click="deletePeriod(ngDialogData.id);closeThisDialog(0)">так</button>
+        <button class="btn btn-danger col-xs-5 col-xs-offset-1" ng-click="closeThisDialog(0)">ні</button>
+    </div>
+
+
+
+    <div ng-if=" ::ngDialogData.type=='vacation'" class="col-xs-12">
+        <h3 class="text-center">Ви дісно хочете видалити відпустку</h3>
+        <button class="btn btn-success col-xs-5 col-xs-offset-1" ng-click="deleteVacation(ngDialogData.id);closeThisDialog(0);">так</button>
+        <button class="btn btn-danger  col-xs-5 col-xs-offset-1" ng-click="closeThisDialog(0)">ні</button>
+    </div>
+    <div ng-if=" ::ngDialogData.type=='pending'" class="col-xs-12">
+        <h3 class="text-center">Підтвердіть відмову у наданні відпустки</h3>
+        <textarea class="col-xs-12 resizableTextArea" style="min-height: 60px;" placeholder="Ваш коментар" ng-init="ngDialogData.hrComments=''" ng-model='ngDialogData.hrComments'></textarea>
+
+        <button class="btn btn-success col-xs-5" style="margin-top: 30px;" ng-click="deletePendingVacation(ngDialogData.id,ngDialogData.hrComments);closeThisDialog(0);">так</button>
+        <button class="btn btn-danger  col-xs-5 col-xs-offset-2" style="margin-top: 30px;" ng-click="closeThisDialog(0)">ні</button>
+    </div>
+<div ng-if=" ::ngDialogData.type=='confirmation'" class="col-xs-12">
+        <h3 class="text-center">Ви дійсно хочете підтвердити заявку на відпустку?</h3>
+
+        <button class="btn btn-success col-xs-5 col-xs-offset-1" ng-click="confirmationPendingVacation(ngDialogData);closeThisDialog(0);">так</button>
+        <button class="btn btn-danger  col-xs-5 col-xs-offset-1" ng-click="closeThisDialog(0)">ні</button>
+    </div>
+
+
+</div>

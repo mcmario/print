@@ -1,0 +1,44 @@
+.f-r {
+  font-family: "Gilroy";
+}
+
+.f-m {
+  font-family: "Gilroy";
+  font-weight: 700;
+}
+
+.f-b {
+  font-family: "Gilroy Bold";
+}
+
+.scrollbar(@width: 7px) {
+  &::-webkit-scrollbar {
+    width: @width;
+  }
+
+  &::-webkit-scrollbar-track {
+    width: @width;
+    background-color: lighten(darkgrey, 20%);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: @width;
+    background-color: darkgrey;
+  }
+}
+
+.scrollbarH(@width: 7px) {
+  &::-webkit-scrollbar {
+    height: @width;
+  }
+
+  &::-webkit-scrollbar-track {
+    height: @width;
+    background-color: lighten(darkgrey, 20%);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: @width;
+    background-color: darkgrey;
+  }
+}

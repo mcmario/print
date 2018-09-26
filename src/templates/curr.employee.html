@@ -1,0 +1,111 @@
+<!--<header-component></header-component>-->
+
+
+
+<sidebar></sidebar>
+
+<div class="content no-padding" style="overflow:hidden;"
+     ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}">
+<component-control-menu-current-employee
+        form-info="ctrl.formInfo">
+</component-control-menu-current-employee>
+  <div class="no-padding page_wrapper smooth_width col-xs-12 customScroll"
+       style="overflow: auto"
+       ng-class="{'col-lg-8': displayNotes(), 'col-lg-12': !displayNotes()}">
+    <div class="container-fluid page "
+    ng-class="{'col-lg-9 col-lg-offset-1': !displayNotes()}">
+
+
+
+        <curr-employee-info-general
+          ng-if="showPane() === 1"
+          data="ctrl.data"
+          form-info="ctrl.formInfo"
+
+      >
+      </curr-employee-info-general>
+      <curr-employee-info-all
+           ng-class="{'col-lg-8': displayNotes(), 'col-lg-8': !displayNotes()}"
+          ng-if="showPane() === 2000"
+          data="ctrl.data"
+          form-info="ctrl.formInfo"
+          >
+      </curr-employee-info-all>
+      <curr-employee-documents
+              ng-class="{'col-lg-12': displayNotes(), 'col-lg-12': !displayNotes()}"
+          ng-if="showPane() === 3"
+          data="ctrl.data"
+          form-info="ctrl.formInfo"
+          url="/">
+      </curr-employee-documents>
+
+      <curr-employee-info-polls
+              ng-if="showPane() === 5"
+              data="ctrl.data"
+              form-info="ctrl.formInfo"
+              url="/api/emailOfPerson/education">
+
+
+      </curr-employee-info-polls>
+      <!--<curr-employee-info-hire-->
+              <!--ng-if="showPane() === 'hire'"-->
+              <!--data="ctrl.data"-->
+              <!--form-info="ctrl.formInfo"-->
+              <!--url="/api/emailOfPerson/education">-->
+
+      <!--</curr-employee-info-hire>-->
+      <curr-employee-info-hire
+              ng-class="{'col-lg-12': displayNotes(), 'col-lg-12': !displayNotes()}"
+              ng-if="showPane() === 'hire'"
+>
+      </curr-employee-info-hire>
+
+      <curr-employee-info-vacations
+              ng-class="{'col-lg-12': displayNotes(), 'col-lg-12': !displayNotes()}"
+                ng-if="showPane() === 6"
+                data="ctrl.data"
+                form-info="ctrl.formInfo"
+                url="/api/emailOfPerson/vacation">
+
+
+        </curr-employee-info-vacations>
+        <curr-employee-info-education
+                ng-class="{'col-lg-12': displayNotes(), 'col-lg-12': !displayNotes()}"
+                ng-if="showPane() === 7"
+                data="ctrl.data"
+                form-info="ctrl.formInfo"
+                url="/api/emailOfPerson/education">
+
+
+        </curr-employee-info-education>
+
+      <curr-employee-info-family
+              ng-class="{'col-lg-12': displayNotes(), 'col-lg-12': !displayNotes()}"
+              ng-if="showPane() === 8"
+              data="ctrl.data"
+              form-info="ctrl.formInfo"
+              url="/api/emailOfPerson/family">
+
+
+      </curr-employee-info-family>
+      <curr-employee-info-workexp
+              ng-class="{'col-lg-12': displayNotes(), 'col-lg-12': !displayNotes()}"
+              ng-if="showPane() === 9"
+              data="ctrl.data"
+              form-info="ctrl.formInfo"
+              url="/api/emailOfPerson/workExp">
+
+
+      </curr-employee-info-workexp>
+
+      <!--<curr-employee-fixed-inverter ng-if="showPane() === 7"></curr-employee-fixed-inver
+      ter>-->
+    </div>
+  </div>
+  <div ng-if="displayNotes()" class="col-md-4 no-padding position-absolute"
+
+       ng-class="{'width_0': !displayNotes()}">
+    <notes-component>
+    </notes-component>
+  </div>
+</div>

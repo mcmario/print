@@ -1,0 +1,31 @@
+.animate-slide {
+  overflow: hidden;
+  transition: height .3s ease, padding .3s ease;
+  font-size: 0;
+  //margin: 0 -15px;
+  //margin: 0 -15px;
+  margin: 0 !important;
+  padding: 30px 15px 0;
+
+  .form-row {
+    margin-bottom: 20px;
+  }
+  &.ng-hide-add,
+  &.ng-hide-remove {
+    display: block !important;
+  }
+  &.ng-hide {
+    padding-top: 0;
+    height: 0;
+    display: block !important;
+  }
+}
+
+.rows {
+  &-4 {
+    height: 382px;
+  }
+  &-6 {
+    height: 558px;
+  }
+}

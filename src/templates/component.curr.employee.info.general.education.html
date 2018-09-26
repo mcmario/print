@@ -1,0 +1,62 @@
+<div class="col-xs-12 general_info_widgets-header">
+    <span class="general_info_widgets-title">Освіта</span>
+    <span class="general_info_widgets-button col-xs-1 " ng-click="$ctrl.addEduModal()">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.667 11.653"><defs><style>.aplus{fill:#457bbf;}</style></defs><path class="aplus" d="M8.833,4.154V8.815H4.167v2.331H8.833v4.661h2.333V11.146h4.667V8.815H11.166V4.154Z" transform="translate(-4.167 -4.154)"/></svg>
+    </span>
+</div>
+
+<div class="col-xs-12 general_info_widgets-container  no-padding"
+     ng-if="education.length==0">
+      <h4 class="text-center">Дані відсутні</h4>
+    <h5  class="text-center">Для додавання інформації натисніть "+"</h5>
+</div>
+<div class="col-xs-12 general_info_widgets-container general_info_widgets-container-edu no-padding "
+     ng-repeat="edu in education |limitTo:2:education.length-2 track by $index"
+style="font-size: 16px;">
+
+    <div class="col-xs-12 no-padding widget_row" style="">
+        <span class="col-xs-4 widget_row_span_f">Тип освіти, рік</span>
+        <span class="col-xs-8 " style="text-align: left;" ng-if=" edu.education_type||edu.date_of_graduation">{{edu.education_type}}, {{edu.date_of_graduation}}</span>
+        <span class="col-xs-8" style="text-align: left; " ng-if="!edu.education_type&&!edu.date_of_graduation">не вказано</span>
+
+    </div>
+    <div class="col-xs-12 no-padding widget_row" >
+
+        <span class="col-xs-4 widget_row_span_s" >Назва НЗ</span>
+
+        <span class="col-xs-8" style="text-align: left;" ng-if="edu.institution_name">{{edu.institution_name}} </span>
+
+                        <span class="col-xs-8" style="text-align: left; " ng-if="!edu.institution_name">не вказано</span>
+
+
+    </div>
+    <div class="col-xs-12 no-padding widget_row" >
+        <span class="col-xs-4 widget_row_span_l" >Спеціальність</span>
+        <span class="col-xs-8" style="text-align: left;  " ng-if="edu.main_specialty">{{edu.main_specialty}}</span>
+                <span class="col-xs-8" style="text-align: left; " ng-if="!edu.main_specialty">не вказано</span>
+
+
+    </div>
+
+
+    <!--<div class="col-xs-4 general_info_widgets-left">-->
+    <!---->
+    <!---->
+    <!---->
+    <!--<span>Тип освіти, рік</span>-->
+
+    <!--<span>Назва НЗ</span>-->
+    <!--<span>Спеціальність</span>-->
+
+    <!--</div>-->
+    <!--<div class="col-xs-8 general_info_widgets-right">-->
+    <!--<span style="text-align: left;">{{edu.education_type}}, {{edu.date_of_graduation}}</span>-->
+    <!--<span style="text-align: left;">{{edu.institution_name}}</span>-->
+    <!--<span style="text-align: left;">{{edu.main_specialty}}</span>-->
+
+
+    <!--</div>-->
+
+
+</div>
+

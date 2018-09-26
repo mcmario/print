@@ -1,0 +1,154 @@
+<div class="info_container cities_widget branch-widget">
+    <div class="spinner_container" ng-if="$ctrl.spinner==true">
+        <div class="spinner spinner_components">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-11">
+
+            <span class="info_header_title">Адміністрування: статистичні дані</span>
+
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xs-7 general_info_widgets-container general_info_widgets-container-edu no-padding "
+
+         style="font-size: 16px;">
+
+        <div class="col-xs-12 no-padding widget_row" style="">
+            <span class="col-xs-4 widget_row_span_f">загальна к-сть працівників</span>
+            <span class="col-xs-8 " style="text-align: left;"
+                  ng-bind="$ctrl.empStat.curEmloyees?$ctrl.empStat.curEmloyees:'не вказано' "></span>
+
+        </div>
+        <div class="col-xs-12 no-padding widget_row" style="">
+            <span class="col-xs-4 widget_row_span_f">загальна к-сть звільнених</span>
+            <span class="col-xs-8 " style="text-align: left;"
+                  ng-bind="$ctrl.empStat.disEmployees?$ctrl.empStat.disEmployees:'не вказано' "></span>
+
+        </div>
+        <div class="col-xs-12 no-padding widget_row" style="">
+            <span class="col-xs-4 widget_row_span_f">середній стаж (працюючих)</span>
+            <span class="col-xs-8 " style="text-align: left;"
+                  ng-bind="$ctrl.empStat.averYearCompanyA?$ctrl.empStat.averYearCompanyA+' місяців':'не вказано' "></span>
+
+        </div>
+        <div class="col-xs-12 no-padding widget_row" style="">
+            <span class="col-xs-4 widget_row_span_f">середній стаж (звільнених)</span>
+            <span class="col-xs-8 " style="text-align: left;"
+                  ng-bind="$ctrl.empStat.averYearCompanyD?$ctrl.empStat.averYearCompanyD +' місяців':'не вказано' "></span>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <div class="col-xs-12">
+
+
+
+        <table class="table table-bordered" ng-if="$ctrl.empStat.statisticsNew[0]">
+            <tr>
+                <th class="col-xs-2">{{$ctrl.requiredPeriod.year}}</th>
+                <th class="col-xs-2" ng-repeat="(key, value) in $ctrl.empStat.statisticsNew[0]">{{key}}
+                <!--<th class="col-xs-3" ng-repeat="key in [2016,2017,2018]">{{key}}-->
+                <!--<td></td>-->
+                </th>
+
+                <th class="col-xs-2">
+                    <select name="" id="" ng-model="key"  ng-change="$ctrl.getStatByMonth(key)">
+                        <option value="" disabled selected>виберіть рік</option>
+                        <option ng-value="key" ng-repeat="(key, value) in $ctrl.empStat.statisticsNew[0]">{{key}}
+                        </option>
+                    </select>
+                </th>
+                <th class="col-xs-2">
+                    <select name="" ng-model="$ctrl.requiredPeriod.month" ng-change="$ctrl.getStatByMonth()">
+                        <option ng-value="1">Січень</option>
+                        <option ng-value="2">Лютий</option>
+                        <option ng-value="3">Березень</option>
+                        <option ng-value="4">Квітень</option>
+                        <option ng-value="5">Травень</option>
+                        <option ng-value="6">Червень</option>
+                        <option ng-value="7">Липень</option>
+                        <option ng-value="8">Серпень</option>
+                        <option ng-value="9">Вересень</option>
+                        <option ng-value="10">Жовтень</option>
+                        <option ng-value="11">Листопад</option>
+                        <option ng-value="12">Грудень</option>
+                    </select>
+                </th>
+            </tr>
+            <tr>
+                <td>прийнято</td>
+                <td ng-repeat="(key, value) in $ctrl.empStat.statisticsNew[0]">{{value}}
+                </td>
+                <td colspan="2">{{$ctrl.empStat.in}}</td>
+
+            </tr>
+            <tr>
+                <td>звільнено</td>
+                <td ng-repeat="(key, value) in $ctrl.empStat.statisticsDis[0]">{{value}}
+                </td>
+                <td colspan="2">{{$ctrl.empStat.out}}</td>
+
+            </tr>
+
+        </table>
+
+
+    </div>
+    <!--<div class="col-xs-12"><h4>стстистика по відпустках</h4>-->
+
+        <!--<div class="col-xs-12 info_body_button_panel">-->
+            <!--<div class="col-xs-6">-->
+                <!--<button class="btn btn-primary col-xs-3" ng-repeat="year in restYears"-->
+                        <!--ng-click="$ctrl.getRests(year);sorter='saldo';orderS=true">{{year}}-->
+                <!--</button>-->
+            <!--</div>-->
+
+            <!--&lt;!&ndash;<select name="" class="col-xs-3" ng-model="period" ng-change="$ctrl.getRests(period);sorter='saldo';orderS=true">&ndash;&gt;-->
+            <!--&lt;!&ndash;<option value="">виберіть період</option>&ndash;&gt;-->
+            <!--&lt;!&ndash;<option value="{{year}}" ng-repeat="year in restYears">{{year}}</option>&ndash;&gt;-->
+
+
+            <!--&lt;!&ndash;</select>&ndash;&gt;-->
+            <!--<button ng-click="$ctrl.printStat()">print</button>-->
+        <!--</div>-->
+
+        <!--<table class="table table-bordered table-hover" id="restTable" ng-if="personRest.length">-->
+            <!--<tr>-->
+                <!--<th ng-click="sorter='sname';orderS=!orderS ">прізвище, ім'я</th>-->
+                <!--<th>нараховано днів</th>-->
+                <!--<th>використано днів</th>-->
+                <!--<th ng-click="sorter='saldo';orderS=!orderS ">залишок днів</th>-->
+            <!--</tr>-->
+            <!--<tr ng-repeat="person in personRest | orderBy:sorter:orderS" oninit="">-->
+                <!--<td><a href="#!/employees/active/{{person.id}}#6">{{person.name}} {{person.sname}}</a></td>-->
+
+                <!--<td>{{person.count}}</td>-->
+                <!--<td>{{person.used}}</td>-->
+                <!--<td>{{person.saldo}}</td>-->
+            <!--</tr>-->
+
+
+        <!--</table>-->
+
+    <!--</div>-->
+
+
+
+    <br>
+    <br>
+</div>
+

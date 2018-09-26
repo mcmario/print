@@ -1,0 +1,101 @@
+<div class="head_menu_background head_menu_wrapper head_menu_wrapper_curr ">
+    <!--<div class="container-fluid">-->
+    <!--<div class="row">-->
+    <!--&lt;!&ndash;ng-class="{'col-lg-12': displayNotes(), 'col-lg-12': !displayNotes()}"&ndash;&gt;-->
+    <!--<div class="smooth_width col-xs-12">-->
+    <div class="  col-xs-12 cur_emp_tabs" style="display: flex;
+align-items: center">
+
+
+        <ul class="tabs_list col-xs-8 col-lg-8"
+        >
+            <li class="tabs_item align-middle"
+                ng-click="ctrl.changePane(1);ctrl.getPane()"
+                ng-class="{'active': showPane() === 1}">
+                Загальна інформація
+            </li>
+
+            <li class="tabs_item align-middle"
+                ng-click="ctrl.changePane(2)"
+                ng-class="{'active': showPane() === 2}">
+                Персонал
+            </li>
+            <li class="tabs_item align-middle"
+                ng-click="ctrl.changePane(3)"
+                ng-class="{'active': showPane() === 3}">
+                Відпустки за період
+            </li>
+            <li class="tabs_item align-middle "
+                ng-click="ctrl.changePane(4)"
+                ng-class="{'active': showPane() === 4}">
+                Залишки відпусток
+            </li>
+            <li class="tabs_item align-middle "
+                ng-click="ctrl.changePane(6)"
+                ng-class="{'active': showPane() === 6}">
+                Заявки на відпустку
+                <span class="red_sign" ng-if="Number.data>0">{{Number.data}}</span>
+
+            </li>
+   <li class="tabs_item align-middle "
+                ng-click="ctrl.changePane(5)"
+                ng-class="{'active': showPane() === 5}">
+                Стаж в компанії
+            </li>
+
+
+        </ul>
+        <div class="head_menu_button_container visible-lg col-lg-4">
+
+            <button class="head_menu_button  col-xs-6 text-success" ng-click="ctrl.addNote()">
+
+            <span>
+               Створити нотатку
+
+            </span>
+            </button>
+
+
+            <button class="head_menu_button visible-lg col-lg-6 text-success" ng-click="ctrl.toggleNotes()">
+
+            <span ng-bind="displayNotes()?'Приховати нотатки':'Показати нотатки'">
+
+                <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 17.354" class="arrow-right">-->
+                <!--<defs>-->
+                <!--<style>-->
+                <!--.cls-1 {-->
+                <!--fill: #457bbf;-->
+                <!--}-->
+                <!--</style>-->
+                <!--</defs>-->
+                <!--<path id="Path_254" data-name="Path 254" class="cls-1"-->
+                <!--d="M21.686,7.968a.845.845,0,0,0-.091.023.729.729,0,0,0-.568.727V30.192l-6.681-6.681a.723.723,0,1,0-1.023,1.023l7.908,7.931.523.5.523-.5,7.908-7.931a.727.727,0,1,0-1.023-1.023l-6.681,6.681V8.717a.728.728,0,0,0-.8-.75Z"-->
+                <!--transform="translate(-7.964 30.456) rotate(-90)"/>-->
+                <!--</svg>-->
+            </span>
+                <!--<span ng-if="!displayNotes()">-->
+                <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 17.354" class="arrow-left">-->
+                <!--<defs>-->
+                <!--<style>-->
+                <!--.cls-1 {-->
+                <!--fill: #457bbf;-->
+                <!--}-->
+                <!--</style>-->
+                <!--</defs>-->
+                <!--<path id="Path_254" data-name="Path 254" class="cls-1"-->
+                <!--d="M21.686,7.968a.845.845,0,0,0-.091.023.729.729,0,0,0-.568.727V30.192l-6.681-6.681a.723.723,0,1,0-1.023,1.023l7.908,7.931.523.5.523-.5,7.908-7.931a.727.727,0,1,0-1.023-1.023l-6.681,6.681V8.717a.728.728,0,0,0-.8-.75Z"-->
+                <!--transform="translate(-7.964 30.456) rotate(-90)"/>-->
+                <!--</svg>-->
+                <!--Показати нотатки-->
+                <!--</span>-->
+            </button>
+        </div>
+        <!---->
+        <!--<button class="head_menu_button visible-lg text-success col-xs-2" ng-click="$ctrl.toggleNotes()"-->
+        <!--style="color: red;">-->
+        <!--<span ng-if="displayNotes()">Приховати нотатки →</span>-->
+        <!--<span ng-if="!displayNotes()">← Показати нотатки </span>-->
+        <!--</button>-->
+    </div>
+
+</div>

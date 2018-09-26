@@ -1,0 +1,104 @@
+<div class="info_container cities_widget">
+    <div class="spinner_container" ng-if="$ctrl.spinner==true">
+        <div class="spinner spinner_components">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-11">
+
+            <span class="info_header_title">Адміністрування: міста</span>
+
+
+        </div>
+        <div class="col-xs-1 info_body_button_panel">
+            <span class="general_info_widgets-button col-xs-12 " ng-click="$ctrl.newCityModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+                        <defs>
+                            <style>
+                                .cls-1 {
+                                    fill: #457bbf;
+                                }
+                            </style>
+                        </defs>
+                        <path id="Path_327" data-name="Path 327" class="cls-1"
+                              d="M9.983,2.973a1.166,1.166,0,0,0-1.15,1.181V8.815H4.167a1.165,1.165,0,1,0,0,2.331H8.833v4.661a1.167,1.167,0,0,0,2.333,0V11.146h4.667a1.165,1.165,0,1,0,0-2.331H11.166V4.154A1.166,1.166,0,0,0,9.983,2.973Z"
+                              transform="translate(-3 -2.972)"/>
+                    </svg>
+    </span>
+
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xs-6 general_info_widgets-container no-padding " ng-repeat="city in citieslist track by $index " style="flex-direction: row; justify-content: space-between;">
+        <!--<div class="col-xs-12 general_info_widgets-container no-padding ">-->
+
+        <div class="col-xs-3 general_info_widgets-left">
+
+
+
+            <span >
+                Місто:
+            </span>
+            <span>
+                Місто(en):
+            </span>
+            <span >
+                Область:
+            </span>
+            <span>
+                Область(en):
+            </span>
+
+        </div>
+        <div class="col-xs-8 general_info_widgets-right">
+            <span ng-if="!editCity" class="text-left">
+
+                {{city.name}}
+            </span>
+            <input type="text" class="newEmpName col-xs-10"
+               ng-model="$ctrl.uCity.name" ng-value="city.name"  ng-if="editCity">
+           <span ng-if="!editCity" class="text-left">
+
+                {{city.name_en}}
+            </span>
+            <input type="text" class="newEmpName col-xs-10"
+                ng-value="city.name_en"  ng-if="editCity">
+
+
+            <span ng-if="!editCity" class="text-left">
+                {{city.region.name}}
+            </span>
+            <select type="text" class="newEmpName col-xs-10" ng-if="editCity" style="font-size: 16px;"
+                    ng-model="$ctrl.uCity.fk_region">
+                <option value="" selected disabled>Виберіть область</option>
+            <option ng-value="reg.id" ng-repeat="reg in regionslist">{{reg.name}}</option>
+
+
+            </select>
+            <span ng-if="!editCity" class="text-left">
+                {{city.region.name_en}}
+            </span>
+            <input type="text" readonly class="newEmpName col-xs-10"
+               ng-value="city.region.name_en"  ng-if="editCity">
+
+        </div>
+        <div class="col-xs-1 city_widget_button_panel no-padding">
+            <button class="col-xs-12  edit" ng-click="editCity=true; $ctrl.editCity($index)" ng-hide="editCity" title="редагувати місто"></button>
+            <button class="col-xs-12 save" ng-click="editCity=false; $ctrl.saveEditedCity()" ng-hide="!editCity"></button>
+            <button class="col-xs-12 cancel" ng-click="editCity=false" ng-hide="!editCity"></button>
+            <button class="col-xs-12 delete" ng-click="$ctrl.deleteCity($index,city.id)" ng-hide="editCity"></button>
+
+        </div>
+    </div>
+
+
+    <br>
+    <br>
+</div>
+

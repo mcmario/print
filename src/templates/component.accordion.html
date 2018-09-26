@@ -1,0 +1,8 @@
+<div class="accordion_block">
+  <h5 class="accrodion_title"><a href="{{$ctrl.content.main.url}}">{{$ctrl.content.main.title}}</a></h5>
+  <ul class="accrordion_list">
+    <li ng-repeat="i in $ctrl.content.elements" class="accrordion_item">
+      <a href="{{i.url}}" class="accrordion_link">{{i.title}}</a>
+    </li>
+  </ul>
+</div>

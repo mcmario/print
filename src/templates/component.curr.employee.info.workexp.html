@@ -1,0 +1,277 @@
+<div class="info_container eduEdition">
+    <div class="spinner_container" ng-if="$ctrl.spinner==true">
+        <div class="spinner spinner_components">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-9">
+            <h3 class="curr_empl_name ">
+                {{$ctrl.data[0].surname_ua}} {{$ctrl.data[0].name_ua}} {{$ctrl.data[0].middle_name_ua}}
+            </h3>
+            <span class="info_header_title">Попередній досвід</span>
+
+
+        </div>
+        <div class="col-xs-3 info_body_button_panel info_body_button_panel_add_new no-padding">
+            <button ng-click="$ctrl.addWorkExpModal()"
+                    class="animate-if info_button_add col-xs-3 no-padding">
+                Додати досвід
+            </button>
+
+
+        </div>
+
+    </div>
+
+    <h4 class="curr_empl_name col-xs-12 "
+        ng-if="!workExp.length">
+        відсутні дані</h4>
+
+
+    <div class="col-xs-12 vacations_add_new_container animate-if"
+         style="padding: 10px 10px 10px 0;"
+         ng-repeat="workExp in workExp  track by $index "
+
+
+    >
+        <form name="expInfo" class=" no-padding ">
+
+            <div class="col-xs-11 col-lg-11 no-padding ">
+
+
+                <div class="col-xs-12 no-padding"
+                ng-if="workExp.workplace.length||$ctrl.edition[$index]">
+                    <span class="col-xs-3 vacations_vacation_list_titles">Компанія:</span>
+                    <span class="col-xs-9" ng-if="!$ctrl.edition[$index]">{{workExp.workplace}}</span>
+                    <input type="text" ng-if="$ctrl.edition[$index]"
+                           class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "
+                           ng-model="$ctrl.editedWorkExp.workplace"
+                           ng-value="workExp.workplace">
+
+                </div>
+
+
+                <div class="col-xs-12 no-padding"
+                ng-if="workExp.position.length||$ctrl.edition[$index]">
+                    <span class="col-xs-3 vacations_vacation_list_titles">Посада:</span>
+                    <span class="col-xs-9" ng-if="!$ctrl.edition[$index]">{{workExp.position}}</span>
+                    <input type="text" ng-if="$ctrl.edition[$index]"
+                           class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "
+                           ng-model="$ctrl.editedWorkExp.position"
+                           ng-value="workExp.position">
+
+                </div>
+                <div class="col-xs-12 no-padding"
+                ng-if="workExp.years.length||$ctrl.edition[$index]">
+                    <span class="col-xs-3 vacations_vacation_list_titles">Період роботи:</span>
+                    <span class="col-xs-9" ng-if="!$ctrl.edition[$index]">{{workExp.years}}</span>
+                    <input type="text" ng-if="$ctrl.edition[$index]"
+                           class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "
+                           ng-model="$ctrl.editedWorkExp.years"
+                           ng-value="workExp.years">
+
+                </div>
+                <div class="col-xs-12 no-padding"
+                ng-if="workExp.salary.length||$ctrl.edition[$index]">
+                    <span class="col-xs-3 vacations_vacation_list_titles">Заробітна плата:</span>
+                    <span class="col-xs-9 " ng-if="!$ctrl.edition[$index]">{{workExp.salary}}</span>
+                    <input type="text" ng-if="$ctrl.edition[$index]"
+                           class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "
+                           ng-model="$ctrl.editedWorkExp.salary"
+                           ng-value="workExp.salary">
+
+                </div>
+                <div class="col-xs-12 no-padding"
+                ng-if="workExp.dismissal_reason.length||$ctrl.edition[$index]">
+                    <span class="col-xs-3 vacations_vacation_list_titles">Причина звільнення:</span>
+                    <span class="col-xs-9" ng-if="!$ctrl.edition[$index]">{{workExp.dismissal_reason}}</span>
+                    <input type="text" ng-if="$ctrl.edition[$index]"
+                           class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "
+                           ng-model="$ctrl.editedWorkExp.dismissal_reason"
+                           ng-value="workExp.dismissal_reason">
+
+                </div>
+                <div class="col-xs-12 no-padding"
+                ng-if="workExp.duties.length||$ctrl.edition[$index]">
+                    <span class="col-xs-3 vacations_vacation_list_titles">Функціональні обов'зки:</span>
+                    <span class="col-xs-9" ng-if="!$ctrl.edition[$index]" ng-bind="workExp.duties"></span>
+                    <textarea type="text" rows="3" ng-if="$ctrl.edition[$index]"
+                              class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input customScroll "
+                              ng-model="$ctrl.editedWorkExp.duties"
+
+                              ng-value="workExp.duties">{{workExp.duties}}
+                </textarea>
+                </div>
+                <!--<div class="col-xs-12 no-padding">-->
+                <!--<span class="col-xs-3 vacations_vacation_list_titles">Документ:</span>-->
+                <!--<span class="col-xs-9"  ng-if="!$ctrl.edition[$index]">{{edu.diploma}}</span>-->
+                <!--<input type="text" ng-if="$ctrl.edition[$index]" class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "-->
+                <!--ng-model="$ctrl.editedEducation.diploma"-->
+                <!--ng-value="edu.diploma">-->
+
+                <!--</div>-->
+                <!--<div class="col-xs-12 no-padding">-->
+                <!--<span class="col-xs-3 vacations_vacation_list_titles">Досвід за спеціальністю:</span>-->
+                <!--<span class="col-xs-9"  ng-if="!$ctrl.edition[$index]">{{edu.years_of_experience}} (роки\ів)</span>-->
+                <!--<input type="text" ng-if="$ctrl.edition[$index]" class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "-->
+                <!--ng-model="$ctrl.editedEducation.years_of_experience"-->
+                <!--ng-value="edu.years_of_experience">-->
+
+                <!--</div>-->
+
+            </div>
+            <div class="col-xs-1 info_body_button_panel"
+                 ng-class="{'edu':!$ctrl.edition[$index]}">
+                <button class="info_body_button_panel_edit editBtn"
+
+                        ng-click="$ctrl.editWorkExp($index, workExp)"
+
+                        ng-if="!$ctrl.edition[$index]"
+                        title="редагувати">
+
+
+                </button>
+                <button class="info_body_button_panel_cancel cancelBtn"
+                                           ng-click="$ctrl.edition[$index]=false"
+
+                        ng-if="$ctrl.edition[$index]"
+                        title="скасувати"
+                >
+
+
+                </button>
+
+                <button class="info_body_button_panel_delete deleteBtn"
+                                           ng-click="$ctrl.deleteWorkExp(workExp,'experience')"
+
+                        ng-if="!$ctrl.edition[$index]"
+                        title="видалити"
+                >
+
+                </button>
+
+                <button class="info_body_button_panel_save saveBtn"
+                        ng-click="$ctrl.saveEditedWorkExp()"
+                        ng-if="$ctrl.edition[$index] "
+                        title="зберегти">
+
+                </button>
+            </div>
+        </form>
+    </div>
+    <!--<div ng-repeat="workExp in workExp track by $index" class="col-xs-12 ">-->
+        <!--<div class="col-xs-9 no-padding info_body">-->
+            <!--<form name="newWEI" class='no-padding'>-->
+
+
+                <!--<div class="col-xs-12 no-padding info_body_row"-->
+                     <!--nf-if="workExp.position.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                <!--<span class="col-xs-4">-->
+                    <!--Компанія:-->
+                <!--</span>-->
+                    <!--<span ng-if="workExp.workplace.length>1&&!$ctrl.edition[$index]">{{workExp.workplace}}</span>-->
+                    <!--<input class="col-xs-7" type="text" ng-model="$ctrl.editedWorkExp.workplace"-->
+                           <!--ng-value="workExp.workplace"-->
+                           <!--ng-if="$ctrl.edition[$index]">-->
+
+                <!--</div>-->
+                <!--<div class="col-xs-12 no-padding info_body_row"-->
+                     <!--nf-if="workExp.position.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                    <!--<span class="col-xs-4">Посада:</span>-->
+                    <!--<span ng-if="workExp.position.length>1&&!$ctrl.edition[$index]">-->
+                    <!--{{workExp.position}}-->
+                <!--</span>-->
+                    <!--<input type="text"-->
+                           <!--class="col-xs-7"-->
+                           <!--ng-model="$ctrl.editedWorkExp.position"-->
+                           <!--ng-value="workExp.position"-->
+                           <!--ng-if="$ctrl.edition[$index]">-->
+
+                <!--</div>-->
+
+                <!--<div class="col-xs-12 no-padding info_body_row"-->
+                     <!--nf-if="workExp.position.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                    <!--<span class="col-xs-4">Період роботи:</span>-->
+                    <!--<span ng-if="workExp.years.length>1&&!$ctrl.edition[$index]">-->
+                    <!--{{workExp.years}}-->
+                <!--</span>-->
+                    <!--<input type="text"-->
+                           <!--class="col-xs-7" ng-if="$ctrl.edition[$index]"-->
+                           <!--ng-model="$ctrl.editedWorkExp.years"-->
+                           <!--ng-value="workExp.years">-->
+
+                <!--</div>-->
+                <!--<div class="col-xs-12 no-padding info_body_row"-->
+                     <!--nf-if="workExp.position.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                    <!--<span class="col-xs-4">Заробітна плата:</span>-->
+                    <!--<span ng-if="workExp.salary.length>1&&!$ctrl.edition[$index]">{{workExp.salary}} грн.</span>-->
+                    <!--<input class="col-xs-7" type="text" ng-if="$ctrl.edition[$index]"-->
+                           <!--ng-model="$ctrl.editedWorkExp.salary"-->
+                           <!--ng-value="workExp.salary">-->
+
+
+                <!--</div>-->
+                <!--<div class="col-xs-12 no-padding info_body_row"-->
+                     <!--nf-if="workExp.position.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                    <!--<span class="col-xs-4">Причина звільнення:</span>-->
+                    <!--<span ng-if="workExp.dismissal_reason.length>1&&!$ctrl.edition[$index]">{{workExp.dismissal_reason}}</span>-->
+                    <!--<input class="col-xs-7" type="text" ng-if="$ctrl.edition[$index]"-->
+                           <!--ng-model="$ctrl.editedWorkExp.dismissal_reason"-->
+                           <!--ng-value="workExp.dismissal_reason">-->
+
+
+                <!--</div>-->
+
+                <!--<div class="col-xs-12 no-padding info_body_row"-->
+                     <!--nf-if="workExp.work_place.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                    <!--<span class="col-xs-4">Функціональні обов'зки:</span>-->
+                    <!--<span ng-if="workExp.duties.length>1&&!$ctrl.edition[$index]">{{workExp.duties}}</span>-->
+                    <!--<textarea class="col-xs-7 newEmpTextarea resizableTextAreaNew customScroll" rows="1"-->
+                              <!--ng-model="$ctrl.editedWorkExp.duties"-->
+                              <!--ng-value="workExp.duties"-->
+                              <!--ng-if="$ctrl.edition[$index]">-->
+
+                    <!--</textarea>-->
+
+                <!--</div>-->
+
+            <!--</form>-->
+
+        <!--</div>-->
+        <!--<div class="col-xs-3 info_body_button_panel">-->
+            <!--<button class="info_body_button_panel_edit"-->
+                    <!--ng-click="$ctrl.editWorkExp($index, workExp)"-->
+                    <!--ng-if="!$ctrl.edition[$index]">-->
+                <!--Редагувати-->
+            <!--</button>-->
+            <!--<button class="info_body_button_panel_cancel"-->
+                    <!--ng-click="$ctrl.edition[$index]=false"-->
+                    <!--ng-if="$ctrl.edition[$index]">-->
+                <!--Скасувати-->
+            <!--</button>-->
+            <!--<button class="info_body_button_panel_delete"-->
+                    <!--ng-click="$ctrl.deleteWorkExp(workExp,'experience')"-->
+            <!--&gt;-->
+                <!--Видалити-->
+            <!--</button>-->
+            <!--<button class="info_body_button_panel_save"-->
+                    <!--ng-click="$ctrl.saveEditedWorkExp()"-->
+                    <!--ng-if="$ctrl.edition[$index]">-->
+                <!--Зберегти-->
+
+            <!--</button>-->
+
+        <!--</div>-->
+        <!--<br>-->
+        <!--<div class="row cox-xs-12"><input type="text" class="invisible"></div>-->
+
+    <!--</div>-->
+
+
+    <br>
+    <br>
+</div>
+

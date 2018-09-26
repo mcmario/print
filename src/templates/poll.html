@@ -1,0 +1,47 @@
+<div class="no-padding" ng-class="col-xs-12">
+    <div class="no-padding smooth_width" class="col-xs-12">
+        <!--<div class="container-fluid page page_boxed">-->
+        <div  ng-if="ctrl.finish==true" class="container container-fluid no-padding">
+            <h3>дякуємо, що пройшли опитування</h3>
+        </div>
+        <div  ng-if="ctrl.finish==false" class="container container-fluid no-padding">
+
+            <h3>пройдіть опитування</h3>
+            <p>{{ctrl.poll.description}}</p>
+
+            <div class="row col-xs-12">
+                <span class="col-xs-12">запитання {{ctrl.poll.number_question}}/ з {{ctrl.poll.count}}</span>
+                <!--<textarea name="" id=""-->
+                <!--style="overflow: auto; resize:none;"-->
+                <!--class="col-xs-9"-->
+                <!--ng-model="question.text"-->
+                <!--placeholder="Введіть запитання">-->
+
+                <!--</textarea>-->
+                <p class="col-xs-12"> {{ctrl.poll.question.text}} ---- {{ctrl.poll.question.type}} </p>
+                <div class=" row answer_variant col-xs-12" ng-if="ctrl.poll.question.type==='text'">
+                    <textarea name="" id="" cols="40" rows="4" class="" ng-model="ctrl.answer.answer" placeholder="Ваша відповідь"> </textarea>
+                </div>
+
+                <div class=" row answer_variant col-xs-12" ng-if="ctrl.poll.question.type==='radio'">
+                    <label for="" ng-repeat="variant in ctrl.poll.question.answer" class="row col-xs-2">
+                        {{variant}}<input type="radio" name="radio_variant" ng-model="ctrl.answer.answer" required ng-value='variant' style="display: block;">
+
+                    </label>
+                </div>
+                <div class=" row answer_variant col-xs-12" ng-if="ctrl.poll.question.type==='check'">
+                    <label ng-repeat="variant in ctrl.poll.question.answer track by $index" class="row col-xs-2">
+                        <input type="checkbox"  ng-true-value="'{{variant}}'" ng-false-value="''" ng-model="ctrl.answer.answer[$index]" required style="display: block;">{{variant}}
+
+                    </label>
+                </div>
+
+                <button ng-if="ctrl.poll.number_question!=ctrl.poll.count" ng-click="ctrl.sendAnswer()">наступне запитання</button>
+                <button ng-if="ctrl.poll.number_question==ctrl.poll.count" ng-click="ctrl.sendLastAnswer()">завершити опитування</button>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<div ng-if="!ctrl.fileType">
+    <h1 class="modal_title">Додавання документу</h1>
+    <form
+
+            novalidate
+            enctype=multipart/form-data
+            method="post"
+            action='/files'
+            id="documentsForm"
+            name="form">
+
+        <label class="block_padding">
+            <select name="type" id="" ng-model="data.doctype">
+                <option value="" selected disabled>Вкажіть тип документу</option>
+                <option value="passport">паспорт</option>
+                <option value="photo">фото</option>
+                <option value="ipn">ІПН</option>
+                <option value="education">документи про освіту</option>
+                <option value="license">посвідчення водія</option>
+                <option value="other">інше</option>
+
+
+            </select>
+        </label>
+        <label class="block_padding">
+            <span class="control-label">Вкажіть назву документу:</span>
+            <input
+                    ng-class="{'disabled':!data.doctype}"
+                    tabindex="1"
+                    required
+                    type="text"
+                    name="name"
+                    ng-model="data.fileName"
+                    class="form-control"
+                    placeholder="Назва документу"/>
+        </label>
+        <input style="display: none;" type="text" name="id" value="{{data.person[0].id}}">
+        <label>
+            <span ng-class="{'disabled':!data.fileName}" class="button save curr_empl_button">Обрати файл</span>
+            <input
+                    id="fileName"
+                    ng-class="{'disabled':!data.fileName}"
+                    style="display: none"
+                    tabindex="2"
+                    accept="image/*, application/pdf, .djvu"
+                    name="file"
+                    type="file"
+                    fileinput="file"
+                    filepreview="data.file"
+                    placeholder="Оберіть файл"/>
+        </label>
+        {{ data.fileName }}
+
+    </form>
+    <div class="material-modal_button_container">
+        <button
+                type="submit"
+                form="documentsForm"
+                class="button save curr_empl_button"
+                ng-disabled="!data.fileName || !data.file">
+            <i class="buttons-icon icon-upload"></i>
+            Відправити
+        </button>
+        <img style="max-width: 100%;" src="{{data.file}}" alt="">
+    </div>
+</div>
+

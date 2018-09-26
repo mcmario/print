@@ -1,0 +1,363 @@
+{% extends "base.html" %}
+{% block body %}
+
+
+{# Form #}
+<style>
+    .block{
+        width: 80%;
+        display: flex;
+    }
+    .elblock{
+        width: 33%;
+    }
+</style>
+<div>
+
+    <form name="businessCardForm" method="POST" action="{{ url_for('synchronize') }}" class="row">
+        <div class="block">
+            <div class="elblock">1c</div>
+            <div class="elblock">Mysql</div>
+            <div class="elblock">AD</div>
+        </div>
+        <div class="block">
+            <div class="elblock">
+                <label>
+                <input  type="checkbox" name="options1C"  value="">
+                   <span >Ім'я українською</span>
+                <input type="text" name="">
+                    </label>
+            </div>
+            <div class="elblock">
+                <label>
+                <input  type="checkbox" name="optionsMysql"  value="givenNameUa">
+                   <span >Ім'я українською</span>
+                <input type="text" name="givenNameUaM" value="{{mysql[0]['nameUa']}}">
+                    </label>
+            </div>
+            <div class="elblock">
+                <label>
+                <input  type="checkbox" name="optionsAD"  value="givenNameUa">
+                   <span >Ім'я українською</span>
+                <input type="text" name="givenNameUa" value="{{ad['givenNameUa']}}">
+                    </label>
+            </div>
+        </div>
+        <div class="block">
+            <div class="elblock">
+                <label>
+                <input  type="checkbox" name="options1C"  value="">
+                   <span >Прізвище українською</span>
+                <input type="text" name="" >
+                    </label>
+            </div>
+            <div class="elblock">
+                <label>
+                <input  type="checkbox" name="optionsMysql"  value="snUa">
+                   <span >Прізвище українською</span>
+                <input type="text" name="snUaM" value="{{mysql[0]['snameUa']}}">
+                    </label>
+            </div>
+            <div class="elblock">
+                <label>
+                <input  type="checkbox" name="optionsAD"  value="snUa">
+                   <span >Прізвище українською</span>
+                <input type="text" name="snUa" value="{{ad['snUa']}}">
+                    </label>
+            </div>
+        </div>
+
+        <div class="block">
+            <div class="elblock">
+                <label>
+                <input  type="checkbox" name="options1C"  value="">
+                   <span >По-батькові українською</span>
+                <input type="text" name="">
+                    </label>
+            </div>
+            <div class="elblock">
+                <label>
+                <input  type="checkbox" name="optionsMysql"  value="surname_ua">
+                   <span >По-батькові українською</span>
+                <input type="text" name="surname_uaM" value="{{mysql[0]['surname_ru']}}">
+                    </label>
+            </div>
+            <div class="elblock">
+            </div>
+        </div>
+
+          <div class="block">
+            <div class="elblock">
+                <label><input  type="checkbox" name="options1C"  value="">
+                   <span >Ім'я російською</span>
+                <input type="text" name=""></label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="givenName">
+                   <span >Ім'я російською</span>
+                <input type="text" name="givenNameM" value="{{mysql[0]['namRu']}}"></label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsAD"  value="givenName">
+                   <span >Ім'я російською</span>
+                <input type="text" name="givenName" value="{{ad['givenName']}}"></label>
+            </div>
+        </div>
+        <div class="block">
+            <div class="elblock">
+                <label><input  type="checkbox" name="options1C"  value="">
+                   <span >Прізвище російською</span>
+                <input type="text" name=""></label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="sn">
+                   <span >Прізвище російською</span>
+                <input type="text" name="snM" value="{{mysql[0]['snameRu']}}"></label>
+            </div>
+            <div class="elblock">
+                <label> <input  type="checkbox" name="optionsAD"  value="sn">
+                   <span >Прізвище російською</span>
+                <input type="text" name="sn" value="{{ad['sn']}}"> </label>
+            </div>
+        </div>
+
+        <div class="block">
+            <div class="elblock">
+                <label><input  type="checkbox" name="options1C"  value="">
+                   <span >По-батькові російською</span>
+                <input type="text" name=""> </label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="surname_ru">
+                   <span >По-батькові російською</span>
+                <input type="text" name="surname_ruM" value="{{mysql[0]['surname_ru']}}"> </label>
+            </div>
+            <div class="elblock">
+            </div>
+        </div>
+
+             <div class="block">
+            <div class="elblock">
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="givenName-En">
+                   <span >Ім'я англійською</span>
+                <input type="text" name="givenName-EnM" value="{{mysql[0]['name_en']}}"></label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsAD"  value="givenName-En">
+                   <span >Ім'я англійською</span>
+                <input type="text" name="givenName-En" value="{{ad['givenName-En']}}"></label>
+            </div>
+        </div>
+        <div class="block">
+            <div class="elblock">
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="snEn">
+                   <span >Прізвище англійською</span>
+                <input type="text" name="snEnM" value="{{mysql[0]['sname_en']}}"></label>
+            </div>
+            <div class="elblock">
+                <label> <input  type="checkbox" name="optionsAD"  value="snEn">
+                   <span >Прізвище англійською</span>
+                <input type="text" name="snEn" value="{{ad['snEn']}}"> </label>
+            </div>
+        </div>
+
+          <div class="block">
+            <div class="elblock">
+                <label><input  type="checkbox" name="options1C"  value="">
+                   <span >Дата народження</span>
+                <input type="text" name=""></label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="date">
+                   <span >Дата народження</span>
+                <input type="text" name="dateM" value="{{mysql[0]['date']}}"></label>
+            </div>
+            <div class="elblock">
+            </div>
+        </div>
+
+          <div class="block">
+            <div class="elblock">
+                <label><input  type="checkbox" name="options1C"  value="">
+                   <span >Сімейний стан</span>
+                <input type="text" name=""></label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="status">
+                   <span >Сімейний стан</span>
+                <input type="text" name="statusM" value="{{mysql[0]['status']}}"></label>
+            </div>
+            <div class="elblock">
+            </div>
+        </div>
+
+          <div class="block">
+            <div class="elblock">
+                <label><input  type="checkbox" name="options1C"  value="">
+                   <span >Адреса проживання</span>
+                <input type="text" name=""></label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="address_residence">
+                   <span >Адреса проживання</span>
+                <input type="text" name="address_residenceM" value="{{mysql[0]['address_residence']}}"></label>
+            </div>
+            <div class="elblock">
+            </div>
+        </div>
+
+          <div class="block">
+            <div class="elblock">
+                <label><input  type="checkbox" name="options1C"  value="">
+                   <span >Адреса прописки</span>
+                <input type="text" name=""></label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="registration">
+                   <span >Адреса прописки</span>
+                <input type="text" name="registrationM" value="{{mysql[0]['registration']}}"></label>
+            </div>
+            <div class="elblock">
+            </div>
+        </div>
+
+          <div class="block">
+            <div class="elblock">
+                <label><input  type="checkbox" name="options1C"  value="">
+                   <span >Контактний телефон</span>
+                <input type="text" name=""></label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="mobile">
+                   <span >Контактний телефон</span>
+                <input type="text" name="mobileM" value="{{mysql[0]['phone']}}"></label>
+            </div>
+            <div class="elblock">
+                <label> <input  type="checkbox" name="optionsAD"  value="mobile">
+                   <span >Контактний телефон</span>
+                <input type="text" name="mobile" value="{{ad['mobile']}}"> </label>
+            </div>
+        </div>
+
+
+          <div class="block">
+            <div class="elblock">
+                <label><input  type="checkbox" name="options1C"  value="">
+                   <span >Домашній телефон</span>
+                <input type="text" name=""></label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="phone_home">
+                   <span >Домашній телефон</span>
+                <input type="text" name="phone_homeM" value="{{mysql[0]['phone_home']}}"></label>
+            </div>
+              <div class="elblock"></div>
+        </div>
+
+          <div class="block">
+            <div class="elblock">
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="mail">
+                   <span >e-mail</span>
+                <input type="text" name="mailM" value="{{mysql[0]['email']}}"></label>
+            </div>
+            <div class="elblock">
+                <label> <input  type="checkbox" name="optionsAD"  value="mail">
+                   <span >e-mail</span>
+                <input type="text" name="mail" value="{{ad['mail']}}"> </label>
+            </div>
+        </div>
+
+          <div class="block">
+            <div class="elblock">
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="pager">
+                   <span >Скайп</span>
+                <input type="text" name="pagerM" value="{{mysql[0]['skype']}}"></label>
+            </div>
+            <div class="elblock">
+                <label> <input  type="checkbox" name="optionsAD"  value="pager">
+                   <span >Скайп</span>
+                <input type="text" name="pager" value="{{ad['pager']}}"> </label>
+            </div>
+        </div>
+
+          <div class="block">
+            <div class="elblock">
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="ipPhone">
+                   <span >Офісний телефон</span>
+                <input type="text" name="ipPhoneM" value="{{mysql[0]['ip_phone']}}"></label>
+            </div>
+            <div class="elblock">
+                <label> <input  type="checkbox" name="optionsAD"  value="ipPhone">
+                   <span >Офісний телефон</span>
+                <input type="text" name="ipPhone" value="{{ad['ipPhone']}}"> </label>
+            </div>
+        </div>
+
+          <div class="block">
+            <div class="elblock">
+                <label><input  type="checkbox" name="options1C"  value="">
+                   <span >Посада</span>
+                <input type="text" name=""></label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="titleUa">
+                   <span >Посада</span>
+                <input type="text" name="titleUaM" value="{{mysql[0]['position']}}"></label>
+            </div>
+            <div class="elblock">
+                <label> <input  type="checkbox" name="optionsAD"  value="titleUa">
+                   <span >Посада</span>
+                <input type="text" name="titleUa" value="{{ad['titleUa']}}"> </label>
+            </div>
+        </div>
+
+          <div class="block">
+            <div class="elblock">
+                <label><input  type="checkbox" name="options1C"  value="">
+                   <span >Відділ</span>
+                <input type="text" name=""></label>
+            </div>
+            <div class="elblock">
+                <label><input  type="checkbox" name="optionsMysql"  value="departmentUa">
+                   <span >Відділ</span>
+                <input type="text" name="departmentUaM" value="{{mysql[0]['department']}}"></label>
+            </div>
+            <div class="elblock">
+                <label> <input  type="checkbox" name="optionsAD"  value="departmentUa">
+                   <span >Відділ</span>
+                <input type="text" name="departmentUa" value="{{ad['departmentUa']}}"> </label>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div >
+            <button type="submit" >Зберегти зміни</button>
+        </div>
+
+    </form>
+
+</div>
+
+
+{% endblock %}

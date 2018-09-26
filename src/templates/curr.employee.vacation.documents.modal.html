@@ -1,0 +1,35 @@
+<div  class="doc_preview_modal" style="width: auto;">
+
+
+
+  <div class="doc_preview_panel ">
+    <!--<button ng-click="printDoc()" class="doc_preview_button-print" ng-if="currentDocument.link_file.split('.')[1]!=='pdf'">-->
+      <button
+              ng-click="printDocModalVac(ngDialogData);closeThisDialog(0)"
+              class="doc_preview_button-print"
+      title="роздрукувати заяву"
+
+      >
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 23" style="height: 28px">
+                    <defs>
+                        <style>
+                            .cls-1print {
+                                fill: #ffffff;
+                            }
+                        </style>
+                    </defs>
+                    <path id="Path_547" data-name="Path 547" class="cls-1print"
+                          d="M7,4A1,1,0,0,0,6,5V7H24V5a1,1,0,0,0-1-1ZM4,9a2,2,0,0,0-2,2v9a2,2,0,0,0,2,2H6v5H24V22h2a2,2,0,0,0,2-2V11a2,2,0,0,0-2-2Zm4,6H22V25H8Z"
+                          transform="translate(-2 -4)"/>
+                </svg>
+    </button>
+  </div>
+  <br>
+
+  <img style="max-width: 80%; min-height: 300px;" src={{ngDialogData.file}} alt="" ng-if="ngDialogData.filename.indexOf('.pdf')<0" >
+
+  <object data="" style="width: 100%; min-height: 500px;" type="" ng-if="ngDialogData.filename.indexOf('.pdf')>=0">
+    <embed src="{{ngDialogData.pdf}}" style="width: 100%; height: 500px;"  type="application/pdf"></embed></object>
+
+</div>

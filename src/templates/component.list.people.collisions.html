@@ -1,0 +1,188 @@
+<!--<header-component></header-component>-->
+<sidebar></sidebar>
+<div class="spinner_container " ng-if="ctrl.spinner==true">
+    <span class="spinner_message" style="">триває синхронізація, це може зайняти тривалий час</span><br>
+    <div class="spinner spinner_synchronize">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+        <br>
+
+    </div>
+
+</div>
+
+<div class="content  collisions_page no-padding" style="overflow:hidden;"
+     ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}">
+    <div class="col-xs-12 head_menu_background">
+        <div class="col-xs-4 col-lg-3 collision_head_menu" style="">
+            <button class="button_submit startSync" ng-click="ctrl.startSync()">Запустити синхронізацію</button>
+        </div>
+        <div class="col-xs-2 collision_head_menu head_menu_input" >
+            <input style="height: 40px" type="text" class="col-xs-12 align-middle" ng-model="ctrl.myPerson"
+                   placeholder="введіть ім'я">
+        </div>
+        <div class="dropdown  col-xs-4 col-lg-2 no-padding collision_head_menu ">
+            <button class=" polls_statistics_filters dropdown-toggle rounded-buttons-header" type="button"
+                    data-toggle="dropdown"
+                    style="width: 100%; height: 40px;"
+                    ng-click="depSearch=''">
+
+                <span ng-if="!ctrl.myDepartment">Оберіть департамент</span>
+                <span ng-if="ctrl.myDepartment!==false">{{ctrl.myDepartment}}</span>
+            </button>
+
+            <ul class="dropdown-menu col-xs-12 customScroll"
+                style="min-width: 350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+                <!--<li class="dropdown-menu_search-input" style="position: sticky; top: 0;">-->
+                <!--<input type="text"-->
+                <!--style="width: 100%;"-->
+                <!--autofocus placeholder="Введіть назву департаменту"-->
+                <!--ng-model="depSearch"></li>-->
+                <li class="polls_statistics_filters_li"
+                    ng-click="$ctrl.department=false;;ctrl.myDepartment=''">
+                                <span class=""
+                                      ng-class="{'glyphicon checked':!ctrl.myDepartment}"></span>
+                    <span>Усі відділи</span>
+                </li>
+
+
+                <li class="polls_statistics_filters_li"
+                    ng-repeat="(key, value) in ctrl.data"
+                    ng-click="ctrl.myDepartment=key"
+                >
+                    <span ng-class="{'glyphicon checked':ctrl.myDepartment==key}"></span>
+                    <span>{{key}} ({{key.length}})</span>
+                </li>
+
+            </ul>
+        </div>
+        <div class="col-xs-1 collision_head_menu " >
+            <button ng-click="ctrl.myPerson='';ctrl.myDepartment='';"
+                    class="col-lg-offset-3 col-xs-12 col-lg-6 polls_statistics_filters_clear"></button>
+        </div>
+        <div class="head_menu_button_container col-xs-2 col-lg-4 collision_head_menu" >
+
+            <button class="head_menu_button  no-padding col-xs-6 text-success" style="height: 40px;"
+                    ng-click="ctrl.addNote()">
+
+            <span>
+               Створити нотатку
+
+            </span>
+            </button>
+
+
+            <button class="head_menu_button visible-lg no-padding col-lg-6 text-success text-center"
+                    ng-click="ctrl.toggleNotes()">
+
+             <span ng-bind="displayNotes()?'Приховати нотатки':'Показати нотатки'">
+                <!--Приховати нотатки-->
+                 <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 17.354" class="note-arrow arrow-right">-->
+                 <!--<defs>-->
+                 <!--<style>-->
+                 <!--.cls-1 {-->
+                 <!--fill: #457bbf;-->
+                 <!--}-->
+                 <!--</style>-->
+                 <!--</defs>-->
+                 <!--<path id="Path_254" data-name="Path 254" class="cls-1"-->
+                 <!--d="M21.686,7.968a.845.845,0,0,0-.091.023.729.729,0,0,0-.568.727V30.192l-6.681-6.681a.723.723,0,1,0-1.023,1.023l7.908,7.931.523.5.523-.5,7.908-7.931a.727.727,0,1,0-1.023-1.023l-6.681,6.681V8.717a.728.728,0,0,0-.8-.75Z"-->
+                 <!--transform="translate(-7.964 30.456) rotate(-90)"/>-->
+                 <!--</svg>-->
+                 <!--</span>-->
+                 <!--<span ng-if="!displayNotes()">-->
+                 <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 17.354" class="note-arrow arrow-left">-->
+                 <!--<defs>-->
+                 <!--<style>-->
+                 <!--.cls-1 {-->
+                 <!--fill: #457bbf;-->
+                 <!--}-->
+                 <!--</style>-->
+                 <!--</defs>-->
+                 <!--<path id="Path_254" data-name="Path 254" class="cls-1"-->
+                 <!--d="M21.686,7.968a.845.845,0,0,0-.091.023.729.729,0,0,0-.568.727V30.192l-6.681-6.681a.723.723,0,1,0-1.023,1.023l7.908,7.931.523.5.523-.5,7.908-7.931a.727.727,0,1,0-1.023-1.023l-6.681,6.681V8.717a.728.728,0,0,0-.8-.75Z"-->
+                 <!--transform="translate(-7.964 30.456) rotate(-90)"/>-->
+                 <!--</svg>-->
+                 <!--Показати нотатки-->
+            </span>
+            </button>
+        </div>
+    </div>
+
+    <div class=" page_wrapper smooth_width col-xs-12 container_collisions customScroll"
+         ng-class="{'col-lg-8': displayNotes(), 'col-lg-12': !displayNotes()}">
+
+
+        <div class="container-fluid "
+             ng-repeat="(deptName, deptList) in ctrl.data track by $index">
+            <div ng-repeat="person in deptList | orderBy: person.sname | filter: ctrl.myDepartment| filter: ctrl.myPerson ">
+                <div class="row">
+                    <h5 class="component_list_people_dept_title"
+                        ng-bind="deptName"
+                        ng-if="deptList&&$index==0"
+                    >
+                    </h5>
+                </div>
+                <div
+                        class="component_list_people_person "
+                        style="margin-bottom: 2px;box-shadow: 0 1px 2px 0 rgba(0,0,0,.16);"
+                >
+
+
+                    <div class="container-fluid component_list_people_person_title ">
+                        <a href="" ng-if="person.description.includes('SID')" class="col-xs-12"
+                           style="color: inherit; text-decoration: none"
+                           ng-click="ctrl.unavailableSync()"
+                        >
+                            <div class="col-sm-3 component_list_people_person_cell">
+                                {{person.name}} {{person.surname}}
+                            </div>
+
+                            <div class="col-sm-5 component_list_people_person_cell">
+                                {{person.position}}
+                            </div>
+                            <span style="color: red; text-decoration: none;max-width: 33%;float: right;">({{person.description}})</span>
+                            <div class="col-sm-4 component_list_people_person_cell component_list_people_person_action_wrapper"
+                                 ng-click="ctrl.unavailableSync()">
+                            </div>
+                        </a>
+
+                        <a href="#!/sync/person/{{person.sid}}" class="col-xs-12"
+                           style="color: inherit; text-decoration: none"
+                           ng-if="!person.description.includes('SID')">
+
+                            <div class="col-sm-3 component_list_people_person_cell">
+                                {{person.name}} {{person.surname}}
+                            </div>
+
+                            <div class="col-sm-5 component_list_people_person_cell">
+                                {{person.position}}
+                            </div>
+                            <span style="color: red; text-decoration: none">({{person.description}})</span>
+                            <!--<span clas style="color: red">({{person.description}}) неспівпадіння</span>-->
+
+                            <div class="col-sm-4 component_list_people_person_cell component_list_people_person_action_wrapper">
+
+
+                            </div>
+                        </a>
+                    </div>
+
+                    <!--<div class="col-sm-4 component_list_people_person_cell"></div>-->
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+    <div ng-if="displayNotes()" class="hidden-sm hidden-xs hidden-md col-lg-4 no-padding"
+         ng-class="{'width_0': !displayNotes()}">
+        <notes-component>
+        </notes-component>
+    </div>
+
+</div>

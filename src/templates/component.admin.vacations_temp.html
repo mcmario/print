@@ -1,0 +1,311 @@
+<div class="info_container cities_widget branch-widget">
+
+
+    <div class="spinner_container" ng-if="$ctrl.spinner==true">
+        <div class="spinner spinner_components">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+
+
+    <div class="spinner_container"
+         ng-if="$ctrl.spinner2==true">
+
+        <span class="spinner_message" style="left: 25%;">триває перевірка, це може зайняти тривалий час</span><br>
+        <div class="spinner spinner_components ">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+            <br>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-11">
+
+            <span class="info_header_title" ng-click="ctrl.showList()">Адміністрування: Відпустки</span>
+
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12">
+        <div class="panel col-xs-12">
+            <div class="col-xs-4">
+                <span class="col-xs-12">період з</span>
+                <input class="col-xs-12" type="date" ng-model="ctrl.startPeriod">
+            </div>
+            <div class="col-xs-4">
+                <span class="col-xs-12">період до</span>
+                <input class="col-xs-12" type="date" ng-model="ctrl.endPeriod">
+            </div>
+            <div class="col-xs-4">
+
+                <button class="col-xs-12" ng-show="!showVacationByPeriod" ng-click="ctrl.getVacationsByPeriod(); showVacationByPeriod=true">відобразити</button>
+                <button class="col-xs-12" ng-show="showVacationByPeriod" ng-click=" showVacationByPeriod=false">Приховати</button>
+            </div>
+
+        </div>
+        <div class="col-xs-12" ng-if="showVacationByPeriod">
+            <div class="col xs-12">
+                <span class="col-xs-2">Прізвище, ім'я</span>
+                <span class="col-xs-2"> Департамент</span>
+                <span class="col-xs-2"> Посада</span>
+                <span class="col-xs-2"> Дата початку</span>
+                <span class="col-xs-2"> Дата закінчення</span></div>
+                <span class="col-xs-2"> За період</span></div>
+            <div class="col-xs-12" ng-repeat="person in ctrl.vacationsByPeriod">
+                <div class="col-xs-2"><span>{{person.name}} {{person.surname}}</span></div>
+                <div class="col-xs-2"><span>{{person.department}}</span></div>
+                <div class="col-xs-2"><span>{{person.position}}</span></div>
+                <div class="col-xs-2"><span>{{person.start_date | date: 'dd.MM.yyyy'}}</span></div>
+                <div class="col-xs-2"><span>{{person.end_date | date:' dd.MM.yyyy'}}</span></div>
+                <div class="col-xs-2"><span>{{person.year}}</span></div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!--<div class="panel col-xs-12">-->
+
+            <!--<div class="dropdown  col-xs-4 col-lg-4 no-padding"-->
+                 <!--style="position: relative;height: 40px;">-->
+                <!--<button class=" polls_statistics_filters dropdown-toggle rounded-buttons-header" type="button"-->
+                        <!--data-toggle="dropdown"-->
+                        <!--style="width: 100%;height: 40px; border-radius: 0"-->
+                        <!--ng-click="depSearch='';$ctrl.depTitle='';$ctrl.getDepartments()">-->
+                    <!--<span ng-bind="$ctrl.depTitle.length>2?$ctrl.depTitle:'Оберіть департамент'"></span>-->
+
+                <!--</button>-->
+
+                <!--<ul class="dropdown-menu col-xs-12 customScroll"-->
+                    <!--style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">-->
+                    <!--<li class="dropdown-menu_search-input" style="position: sticky; top: 0;">-->
+                        <!--<input type="text"-->
+                               <!--style="width: 100%; padding-left:35px"-->
+                               <!--autofocus placeholder="Введіть ім'я чи прізвище"-->
+                               <!--ng-model="depSearch"></li>-->
+                    <!--<li class="polls_statistics_filters_li"-->
+
+                        <!--ng-click="$ctrl.getREstsFull();$ctrl.depTitle='Усі відділи'"-->
+
+
+                    <!--&gt;-->
+                        <!--<span class="invisible"></span>-->
+                        <!--<span>Усі відділи</span>-->
+                    <!--</li>-->
+
+
+                    <!--<li class="polls_statistics_filters_li"-->
+
+
+                        <!--ng-click="$ctrl.getREstsFullDep(dep);$ctrl.depTitle=dep;filterYear='' "-->
+                        <!--ng-repeat="dep in departments | filter: depSearch"-->
+
+                    <!--&gt;-->
+                        <!--<span class="invisible"></span>-->
+                        <!--<span>{{dep}}</span>-->
+                    <!--</li>-->
+
+                <!--</ul>-->
+            <!--</div>-->
+
+            <!--&lt;!&ndash;year filter for department&ndash;&gt;-->
+            <!--<div class="dropdown  col-xs-4 col-lg-4 no-padding"-->
+                 <!--ng-if="$ctrl.depTitle.length>=2"-->
+
+                 <!--style="position: relative;height: 40px;">-->
+                <!--<button class=" polls_statistics_filters dropdown-toggle rounded-buttons-header" type="button"-->
+                        <!--data-toggle="dropdown"-->
+                        <!--style="width: 100%;height: 40px; border-radius: 0"-->
+                        <!--ng-click="yearSearch='';$ctrl.yearTitle=''"-->
+
+                <!--&gt;-->
+                    <!--<span ng-bind="$ctrl.shownYear?$ctrl.shownYear:'Оберіть рік'"></span>-->
+
+                <!--</button>-->
+
+                <!--<ul class="dropdown-menu col-xs-12 customScroll"-->
+                    <!--style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">-->
+                    <!--<li class="dropdown-menu_search-input" style="position: sticky; top: 0;">-->
+                    <!--<li class="polls_statistics_filters_li"-->
+
+                        <!--ng-click="filterYear=false;$ctrl.shownYear='Усі роки'"-->
+
+
+                    <!--&gt;-->
+                        <!--<span class="invisible"></span>-->
+                        <!--<span>всі роки</span>-->
+                    <!--</li>-->
+                    <!--<li class="polls_statistics_filters_li"-->
+
+                        <!--ng-click="$ctrl.filterByYear($index+2)"-->
+                        <!--ng-repeat="year in  restYears track by $index"-->
+
+                    <!--&gt;-->
+                        <!--<span class="invisible"></span>-->
+                        <!--<span>{{year}}</span>-->
+                    <!--</li>-->
+
+                <!--</ul>-->
+            <!--</div>-->
+
+            <!--&lt;!&ndash;year filter for general&ndash;&gt;-->
+            <!--<div class="dropdown  col-xs-4 col-lg-4 no-padding"-->
+                 <!--ng-if="$ctrl.depTitle.length<2||!$ctrl.depTitle"-->
+                 <!--style="position: relative;height: 40px;">-->
+                <!--<button class=" polls_statistics_filters dropdown-toggle rounded-buttons-header" type="button"-->
+                        <!--data-toggle="dropdown"-->
+                        <!--style="width: 100%;height: 40px; border-radius: 0"-->
+                <!--&gt;-->
+
+                    <!--<span ng-bind="$ctrl.shownYearS?$ctrl.shownYearS:'Оберіть рік'"></span>-->
+
+                <!--</button>-->
+
+                <!--<ul class="dropdown-menu col-xs-12 customScroll"-->
+                    <!--style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">-->
+                    <!--<li class="dropdown-menu_search-input" style="position: sticky; top: 0;">-->
+                    <!--<li class="polls_statistics_filters_li"-->
+
+                        <!--ng-repeat="year in  restYears track by $index"-->
+                        <!--ng-click="$ctrl.shownYearS=year;$ctrl.getRests(year)"-->
+                    <!--&gt;-->
+                        <!--<span class="invisible"></span>-->
+                        <!--<span>{{year}}</span>-->
+                    <!--</li>-->
+
+                <!--</ul>-->
+            <!--</div>-->
+
+            <!--<button ng-click="filterYear='';depSearch='';$ctrl.personRestF=false;$ctrl.depTitle=false;$ctrl.getRests(restYears[0])"-->
+                    <!--class="col-xs-1 polls_statistics_filters_clear" title="очистити фільтри">-->
+                <!--<svg style='height: 30px;' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25.002 23.338">-->
+                    <!--<defs>-->
+                        <!--<style>.acf {-->
+                            <!--fill: #212121;-->
+                        <!--}</style>-->
+                    <!--</defs>-->
+                    <!--<g transform="translate(-2.998 -4)">-->
+                        <!--<path class="acf"-->
+                              <!--d="M19.439,4a1.646,1.646,0,0,0-1.18.486L3.486,19.415a1.718,1.718,0,0,0,0,2.4L8.8,27.175a.568.568,0,0,0,.4.156H24.109a.561.561,0,1,0,0-1.111H15.238L27.512,13.826a1.715,1.715,0,0,0,0-2.4L20.637,4.486A1.685,1.685,0,0,0,19.439,4Zm0,1.111a.572.572,0,0,1,.4.174l6.874,6.944a.54.54,0,0,1,.139.521.547.547,0,0,0-.521-.417.556.556,0,0,0-.017,1.111L25.22,14.537a.556.556,0,1,0-.573.573l-1.094,1.111a.556.556,0,1,0-.556.556l-1.111,1.111a.556.556,0,1,0-.556.556h.035L20.2,19.606c0-.02.017-.033.017-.052A.557.557,0,0,0,19.665,19a.531.531,0,0,0-.278.087L18.45,18.2a.54.54,0,0,0,.1-.312.553.553,0,0,0-.92-.417l-.9-.851a.565.565,0,0,0,.156-.4.557.557,0,0,0-.556-.556.549.549,0,0,0-.417.191L15,14.989a.543.543,0,0,0,.226-.434A.557.557,0,0,0,14.665,14a.538.538,0,0,0-.451.26l-.972-.885a.548.548,0,0,0,.312-.486A.549.549,0,0,0,12.5,12.68l-.312-.3a.528.528,0,0,0-.087-.069l6.961-7.031A.534.534,0,0,1,19.439,5.111Zm.226.556a.556.556,0,1,0,.556.556A.557.557,0,0,0,19.665,5.667ZM18,7.333a.556.556,0,1,0,.556.556A.557.557,0,0,0,18,7.333Zm3.333,0a.556.556,0,1,0,.556.556A.557.557,0,0,0,21.331,7.333ZM16.332,9a.556.556,0,1,0,.556.556A.557.557,0,0,0,16.332,9Zm3.333,0a.556.556,0,1,0,.556.556A.557.557,0,0,0,19.665,9ZM23,9a.556.556,0,1,0,.556.556A.557.557,0,0,0,23,9Zm-8.333,1.667a.556.556,0,1,0,.556.556A.557.557,0,0,0,14.665,10.666Zm3.333,0a.556.556,0,1,0,.556.556A.557.557,0,0,0,18,10.666Zm3.333,0a.556.556,0,1,0,.556.556A.557.557,0,0,0,21.331,10.666Zm3.333,0a.556.556,0,1,0,.556.556A.557.557,0,0,0,24.665,10.666Zm-8.333,1.667a.556.556,0,1,0,.556.556A.557.557,0,0,0,16.332,12.333Zm3.333,0a.556.556,0,1,0,.556.556A.557.557,0,0,0,19.665,12.333Zm3.333,0a.556.556,0,1,0,.556.556A.557.557,0,0,0,23,12.333Zm-11.683.781a.589.589,0,0,0,.1.1L19.3,20.527l-5.642,5.694H9.44L4.284,21.013a.561.561,0,0,1,0-.8ZM18,14a.556.556,0,1,0,.556.556A.557.557,0,0,0,18,14Zm3.333,0a.556.556,0,1,0,.556.556A.557.557,0,0,0,21.331,14Zm-1.667,1.667a.556.556,0,1,0,.556.556A.557.557,0,0,0,19.665,15.666Z"/>-->
+                    <!--</g>-->
+                <!--</svg>-->
+            <!--</button>-->
+
+
+            <!--&lt;!&ndash;<select name="" id="" ng-model="filterYear" ng-init="filterYear=0" class="col-xs-4">&ndash;&gt;-->
+            <!--&lt;!&ndash;<option value="" selected disabled>виберіть рік</option>&ndash;&gt;-->
+            <!--&lt;!&ndash;<option value="">all years</option>&ndash;&gt;-->
+            <!--&lt;!&ndash;<option ng-repeat="year in restYears track by $index" ng-value="$index+2">{{year}}</option>&ndash;&gt;-->
+            <!--&lt;!&ndash;</select>&ndash;&gt;-->
+
+        <!--</div>-->
+
+
+    </div>
+    <br><br><br><br><br>
+
+    <!--<div class="col-xs-12 animate-if" ng-if="$ctrl.personRestF">-->
+        <!--<div class="col-xs-3 "></div>-->
+        <!--<div class="col-xs-3 well well-sm" ng-repeat="year in restYears track by $index"-->
+             <!--ng-if="$index+2==filterYear||!filterYear">{{year}}-->
+        <!--</div>-->
+
+        <!--<div class="col-xs-12 no-padding" ng-repeat="(dep, depList) in $ctrl.personRestF track by $index">-->
+            <!--<h3> {{dep}} {{ filterYear}}</h3>-->
+            <!--<div class="col-xs-12 no-padding" ng-repeat="person in depList | filter: 2018"-->
+                 <!--ng-if="!filterYear|| person.vacation[filterYear-2][0].balance"-->
+            <!--&gt;-->
+                <!--<span class="col-xs-3 well well-sm">{{person.surname_ua}} {{person.name_ua}}</span>-->
+                <!--<span class="col-xs-3 well well-sm"-->
+                      <!--ng-bind="person.vacation[0][0]?person.vacation[0][0].balance: ' - '"-->
+                      <!--ng-if="!filterYear||filterYear===2"-->
+
+
+                <!--&gt;</span>-->
+                <!--<span class="col-xs-3 well well-sm"-->
+                      <!--ng-bind="person.vacation[1][0]?person.vacation[1][0].balance: ' - '"-->
+                      <!--ng-if="!filterYear||filterYear==3"-->
+
+
+                <!--&gt;</span>-->
+                <!--<span class="col-xs-3 well well-sm"-->
+                      <!--ng-bind="person.vacation[2][0]?person.vacation[2][0].balance: ' - '"-->
+                      <!--ng-if="!filterYear||filterYear==4"-->
+
+                <!--&gt;</span>-->
+
+
+            <!--</div>-->
+
+
+        <!--</div>-->
+
+
+    <!--</div>-->
+
+
+    <!--<div class="col-xs-12" ng-if="!$ctrl.depTitle">-->
+        <!--<span class="col-xs-6">інформація за <span ng-bind="$ctrl.shownYearS?$ctrl.shownYearS:restYears[0]"></span> рік-->
+        <!--</span>-->
+        <!--&lt;!&ndash;<select class="col-xs-3" name="" id="" ng-model="year" ng-change="$ctrl.getRests(year)"&ndash;&gt;-->
+        <!--&lt;!&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<option value="" selected disabled>оберіть рік</option>&ndash;&gt;-->
+        <!--&lt;!&ndash;<option ng-repeat="year in restYears" ng-value="year">{{year}}</option>&ndash;&gt;-->
+        <!--&lt;!&ndash;</select>&ndash;&gt;-->
+
+        <!--<table class="table table-bordered table-hover" id="restTable" ng-if="personRest.length">-->
+            <!--<tr>-->
+                <!--<th ng-click="sorter='balance';orderS=!orderS ">прізвище, ім'я</th>-->
+                <!--<th>нараховано днів</th>-->
+                <!--<th>використано днів</th>-->
+                <!--<th ng-click="sorter='balance';orderS=!orderS ">залишок днів</th>-->
+            <!--</tr>-->
+            <!--<tr ng-repeat="person in personRest | orderBy:sorter:orderS" ng-init="sorter='balance';orderS=!orderS ">-->
+                <!--<td><a href="#!/employees/active/{{person.worker.id}}#6">{{person.worker.name_ua}}-->
+                    <!--{{person.worker.surname_ua}}</a></td>-->
+
+                <!--<td>{{person.count}}</td>-->
+                <!--<td>{{person.used}}</td>-->
+                <!--<td>{{person.balance}}</td>-->
+            <!--</tr>-->
+
+
+        <!--</table>-->
+    <!--</div>-->
+
+
+</div>
+
+
+<br>
+<br>
+</div>
+

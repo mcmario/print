@@ -1,0 +1,83 @@
+<div class="doc_preview_modal" style="width: auto;">
+    <span class="title-text">Додати освіту</span>
+    <div class=" col-xs-12 animate-if modal-main">
+        <label class="newUserLable">тип освіти
+            <span style="color: red;"
+                  title="обов'язкове поле">*</span></label>
+        <select class="newEmpName"
+                ng-model="ctrl.newEduInfo.education_type">
+            <option type="text" value="" selected disabled>виберіть тип освіти</option>
+            <option ng-value="type.name" ng-repeat="type in ::ngDialogData track by $index">{{type.name}}
+            </option>
+        </select>
+        <span ng-bind-html="eduType"></span>
+
+        <label class="newUserLable">Форма навчання <span style="color: red;"
+                                                         title="обов'язкове поле">*</span></label>
+        <select class="newEmpName"
+                ng-model="ctrl.newEduInfo.form_of_training">
+            <option type="text" value="" selected disabled>Форма навчання</option>
+            <option value="Денна">Денна</option>
+            <option value="Заочна">Заочна</option>
+            <option value="Інше">Інше</option>
+
+        </select>
+        <label class="newUserLable">Освітній заклад <span style="color: red;"
+                                                          title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newEduInfo.institution_name">
+
+        <label class="newUserLable">Спеціальність <span style="color: red;"
+
+                                                        title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newEduInfo.specialty">
+
+
+        <label class="newUserLable">рік закінчення <span style="color: red;"
+                                                         title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newEduInfo.date_of_graduation">
+
+        <label class="newUserLable">Диплам серія номер <span style="color: red;"
+                                                             title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newEduInfo.diploma">
+
+        <label class="newUserLable">Факультет <span style="color: red;"
+                                                    title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newEduInfo.faculty">
+
+        <label class="newUserLable">Основна спеціальність <span style="color: red;"
+                                                                title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newEduInfo.main_specialty">
+
+        <label class="newUserLable">Кваліфікація <span style="color: red;"
+                                                       title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newEduInfo.qualification">
+
+        <label class="newUserLable">Досвід за спеціальністю <span style="color: red;"
+                                                                  title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newEduInfo.years_of_experience">
+        <br>
+        <div class="button_panel">
+            <br>
+            <button class="info_body_button_panel_vacations_save col-xs-6"
+                    ng-click="saveNewEduInfo(ctrl.newEduInfo);closeThisDialog(0)"
+            >
+                Зберегти
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>

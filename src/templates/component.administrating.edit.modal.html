@@ -1,0 +1,140 @@
+<!--<div class="doc_preview_modal" style="width: auto;">-->
+<!--{{ngDialogData}}-->
+
+
+<!--<div class="col-xs-12">-->
+
+
+<!--<div class="col-xs-12 no-padding">-->
+<!--<span class="col-xs-4">Назва</span><span class="col-xs-8">{{City.name}}</span></div>-->
+<!--<div class="col-xs-12 no-padding">-->
+<!--<span class="col-xs-4">Назва(англійською)</span><span class="col-xs-8">{{City.name_en}}</span></div>-->
+<!--<div class="col-xs-12 no-padding">-->
+<!--<span class="col-xs-4">Область</span><span class="col-xs-8">{{City.region.name}}</span></div>-->
+<!--<div class="col-xs-12 no-padding">-->
+<!--<span class="col-xs-4">Область(англійською)</span><span class="col-xs-8">{{City.region.name_en}}</span>-->
+<!--</div>-->
+<!--<button ng-click="$ctrl.deleteCity(index,City.id)">{{City.id}}delete</button>-->
+
+<!--</div>-->
+<!--</div>-->
+
+<div class="doc_preview_modal" style="width: auto;" ng-if="!ngDialogData.zip_code">
+
+    <div class=" col-xs-12 animate-if modal-main">
+        <label class="newUserLable">Місто <span style="color: red;"
+                                                title="обов'язкове поле">*</span></label>
+
+        <span ng-if="!edition">{{ngDialogData.name}}</span>
+
+        <input ng-if="edition" type="text" class="newEmpName"
+               ng-model="ngDialogData.name"
+        ng-keyup="ngDialogData.name_en=translit(ngDialogData.name)"
+
+        >
+
+
+        <label class="newUserLable">Місто англійською</label>
+        <span>{{ngDialogData.name_en}}</span>
+
+
+        <label class="newUserLable">Область
+        </label>
+        <span ng-if="!edition">{{ngDialogData.region.name}}</span>
+
+        <select ng-if="edition" type="text" class="newEmpName"
+                ng-model="ngDialogData.fk_region"
+        ng-change="ngDialogData.region.name_en=translit(ngDialogData.region.name)">
+            <option value="" selected disabled>Виберіть область</option>
+            <option ng-value="reg.id" ng-repeat="reg in regionslist">{{reg.name}}</option>
+        </select>
+
+        <label class="newUserLable">Область англійською
+        </label>
+        <span>{{ngDialogData.region.name_en}}</span>
+
+
+        <div class="button_panel">
+            <br>
+            <button ng-if="edition" class="info_body_button_panel_vacations_save col-xs-6"
+                    ng-click="saveEdited(ngDialogData,'city');closeThisDialog(0)"
+            >
+                Зберегти
+
+            </button>
+               <button ng-hide="edition" class="info_body_button_panel_vacations_save col-xs-6"
+                    ng-click="edition=true"
+            >
+                редагувати
+
+            </button>
+        </div>
+    </div>
+
+</div>
+<div class="doc_preview_modal" style="width: auto;" ng-if="ngDialogData.zip_code">
+
+
+    <div class=" col-xs-12 animate-if modal-main">
+
+
+        <label class="newUserLable">Місто
+        </label>
+        <span ng-if="!edition">{{ngDialogData.city.name}}</span>
+        <select ng-if="edition" type="text" class="newEmpName"
+                ng-model="ngDialogData.fk_city">
+            <option value="" selected disabled>Виберіть місто</option>
+            <option ng-value="city.id" ng-repeat="city in citieslist">{{city.name}}</option>
+
+
+        </select>
+
+
+        <label class="newUserLable">Назва філіалу <span style="color: red;"
+                                                        title="обов'язкове поле">*</span></label>
+        <span ng-if="!edition">{{ngDialogData.name}}</span>
+        <input ng-if="edition" type="text" class="newEmpName"
+               ng-model="ngDialogData.name">
+
+
+        <label class="newUserLable">Індекс <span style="color: red;"
+                                                 title="обов'язкове поле">*</span></label>
+        <span ng-if="!edition">{{ngDialogData.zip_code}}</span>
+        <input ng-if="edition" type="number" class="newEmpName"
+               ng-model="ngDialogData.zip_code">
+
+
+        <label class="newUserLable">Вулиця <span style="color: red;"
+                                                 title="обов'язкове поле">*</span></label>
+        <span ng-if="!edition">{{ngDialogData.address_ua}}</span>
+        <input ng-if="edition" type="text" class="newEmpName"
+               ng-model="ngDialogData.address_ua">
+
+        <label class="newUserLable">Вулиця (російською) <span style="color: red;"
+                                                              title="обов'язкове поле">*</span></label>
+        <span ng-if="!edition">{{ngDialogData.address_ru}}</span>
+        <input ng-if="edition" type="text" class="newEmpName"
+               ng-model="ngDialogData.address_ru">
+        <label class="newUserLable">Вулиця (англійською) <span style="color: red;"
+                                                              title="обов'язкове поле">*</span></label>
+        <span >{{ngDialogData.address_en}}</span>
+
+
+        <div class="button_panel">
+            <br>
+            <button ng-if="edition" class="info_body_button_panel_vacations_save col-xs-6"
+                    ng-click="saveEdited(ngDialogData,'branch');closeThisDialog(0)"
+            >
+                Зберегти
+
+            </button>
+            <button ng-hide="edition" class="info_body_button_panel_vacations_save col-xs-6"
+                    ng-click="edition=true"
+            >
+                редагувати
+
+            </button>
+        </div>
+    </div>
+
+</div>

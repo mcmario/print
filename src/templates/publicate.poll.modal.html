@@ -1,0 +1,104 @@
+<!--**************************************************************************************************-->
+<div class="col-xs-12 poll_modal_container">
+    <div class="poll_modal_header col-xs-12 no-padding">
+        <span class="modal_title polls_modal_publicate_title col-xs-12">Публікація опитування</span>
+
+    </div>
+    <div class="polls_modal_buttons_panel no-padding col-xs-12 " style="margin-top: 10px;">
+        <input class="col-xs-12" id="polls_modal_publicate_input" type="text"
+               ng-model="string"
+               ng-keypress="checkKey($event)"
+               placeholder="введіть контакти">
+        <button class="polls_modal_publicate_button_add col-xs-12"
+                ng-click="addContacts()">Додати
+        </button>
+
+
+    </div>
+    <div class="polls_modal_contacts_title_text" ng-if="pollContacts.trash.length>0"><span class="" >Некоректні контактні дані </span></div>
+    <div class="col-xs-12 no-padding polls_modal_contacts polls_modal_contacts_incorrect_container"  ng-if="pollContacts.trash.length>0">
+
+        <div class="col-xs-12 polls_modal_contacts_incorrect"
+
+        >
+
+            <span class="polls_modal_button_delete polls_modal_button_delete_small"
+                    style="overflow-wrap: break-word; color: white; background-color: rgba(177, 61, 58,0.5); "
+                    ng-repeat="mail in pollContacts.trash track by $index"
+                  ng-if="mail.length>0"
+                    >
+
+                <span>{{mail}}</span>
+                <svg ng-click="deleteFromContacts($index,'trash')" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50"
+                     version="1.1" fill="white" style="width:16px;padding-top:0px">
+                    <g id="surface1">
+                        <path style="width:10px"
+                              d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z "
+                              fill="white"></path>
+                    </g>
+                </svg>
+            </span>
+
+
+        </div>
+    </div>
+    <br>
+    <div class="polls_modal_contacts_title_text" ng-if="pollContacts.email.length>0||pollContacts.mobile.length>0"><span class="" >Додані контакти</span>
+    </div>
+    <div class="col-xs-12  polls_modal_contacts">
+
+        <div class="col-xs-12 polls-modal-contacts_correct no-padding">
+            <div class="polls_publicate_modal_button_email_container col-xs-12 no-padding"
+
+                 ng-repeat="email in pollContacts.email track by $index"
+                 ng-class="{'polls_publicate_modal_button_delete_edited':activeClassB[$index]==true }"
+            >
+                <span
+                        class="polls_modal_button_delete col-xs-10"
+
+                       >
+                    <span>{{email.email}}</span>
+                    <svg  ng-click="deleteFromContacts($index,'email')" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                         viewBox="0 0 50 50"
+                         version="1.1" fill="white" style="width:16px;padding:0;     margin-right: 10px;">
+                        <g id="surface1">
+                            <path style="width:10px "
+                                  d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z "
+                                  fill="#909090"></path>
+                        </g>
+                    </svg>
+                </span>
+                <input type="number" placeholder="к-сть копій" class="col-xs-2 vacations_number numberInput polls_modal_button_number"
+                       ng-model="pollContacts.email[$index].copy"
+                       ng-blur="changeCopyNumber(pollContacts.email[$index].copy,$index);activeClassB=[]"
+                       ng-click="activeClassButton($index)"
+                       min="1">
+            </div>
+        </div>
+        <div class="col-xs-12 polls_modal_contacts_correct no-padding">
+            <span
+                    class="polls_modal_button_delete polls_modal_button_delete_small"
+                    ng-repeat="mob in refactorPhones(pollContacts.mobile) track by $index"
+                    >+{{mob}}
+                <svg ng-click="deleteFromContacts($index,'mobile')" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50"
+                     version="1.1" fill="#909090" style="width:16px;padding-top:0px">
+                    <g id="surface1">
+                        <path style="width:10px "
+                              d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z "
+                              fill="#909090"></path>
+                    </g>
+                </svg>
+            </span>
+
+        </div>
+
+
+    </div>
+    <div class="col-xs-12 polls_modal_buttons_panel_bottom no-padding">
+        <button class="polls_add_new_button col-xs-6 button_adaptive_font"
+                ng-class="{'disabled': pollContacts.mobile.length<1&&pollContacts.email.length<1}"
+                ng-click="publicateThisPoll();$rootScope.spinner=true; closeThisDialog(0)">Опублікувати
+        </button>
+    </div>
+
+</div>

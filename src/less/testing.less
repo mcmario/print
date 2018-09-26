@@ -1,0 +1,335 @@
+.form-control, input[type="text"], input[type="number"], input[type="password"], select {
+  padding: 6px 10px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+  border: 1px solid #d6d6d6;
+  //box-shadow: inset 3px 3px 1px #f5f5f5, 2px 2px 8px #f9f9f9;
+  //border-radius: 2px;
+  border-radius: 0;
+}
+
+input[type="text"].small_input {
+  margin: 0;
+  padding: 0 7px;
+}
+
+.testingMode {
+  padding-top: 0;
+  .block_padding {
+    @padding-sides: 30px;
+    padding-left: @padding-sides;
+    padding-right: @padding-sides;
+    width: auto;
+  }
+
+  .content {
+    padding: 0;
+    height: 100vh;
+    background-color: #f8f8f8;
+  }
+}
+
+.help-block {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 18px;
+}
+
+.disabled_radio {
+  pointer-events: none;
+}
+
+.form {
+  &-block {
+    margin-bottom: 0;
+    width: 100%;
+  }
+  &-submit {
+    display: block;
+    margin: 20px 0;
+    .f-r;
+    font-size: 22px;
+    line-height: 24px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    width: 100%;
+    border: none;
+    color: #fff;
+    transition: background-color .15s;
+    text-decoration: none;
+    box-shadow: 0 1px 0 #275fad;
+    //border-radius: 2px;
+    outline: none;
+    background-color: #568fde;
+    transform: translateY(0);
+    &:hover {
+      background-color: #6cacff;
+      color: #fff;
+      text-decoration: none;
+    }
+    &:active {
+      box-shadow: 0 0 0 #275fad;
+      transform: translateY(1px);
+    }
+  }
+  &-collapse {
+    &-title {
+      .f-r;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 20px;
+      margin: -15px -30px;
+      padding: 15px 30px;
+      background-color: #fff;
+      box-shadow: 0 -1px #e6e6e6, 0 1px #e6e6e6;
+      position: relative;
+      z-index: 1;
+    }
+    &-questions {
+      padding-bottom: 15px;
+      padding-top: 15px;
+      margin: 0 -15px;
+      font-size: 18px;
+      line-height: 22px;
+      box-shadow: 0 1px #e6e6e6, 0 -1px #e6e6e6;
+      background-color: rgb(249, 249, 249);
+    }
+  }
+  &-title {
+    .f-r;
+    font-size: 20px;
+    line-height: 20px;
+    margin: 0 0;
+    padding: 0 15px 15px;
+  }
+}
+
+.block_padding {
+  &.checkbox, &.radio {
+    margin-bottom: 5px;
+  }
+  @padding-sides: 0;
+  padding-left: @padding-sides;
+  padding-right: @padding-sides;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.form-horizontal {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+  position: relative;
+  background-color: #fdfdfd;
+  box-shadow: 0 0 12px 0 rgba(179, 179, 179, 0.6);
+  &:before {
+    @height: 35px;
+    content: '';
+    display: block;
+    width: 100%;
+    height: @height;
+    position: absolute;
+    top: -@height;
+    left: 0;
+    background-color: #fdfdfd;
+  }
+}
+
+.form-group {
+  margin-bottom: 0;
+}
+
+.form-control {
+  resize: vertical;
+}
+
+.control-label {
+  .f-r;
+  margin-bottom: 6px;
+  padding-top: 0;
+  text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.radio {
+  @radio-size: 15px;
+  padding-top: 0;
+  label {
+    .f-r;
+    position: relative;
+    font-size: 16px;
+    line-height: 26px;
+    padding-left: 25px;
+    width: 100%;
+    padding-top: 3px;
+    margin-bottom: 2px;
+  }
+  &_circle {
+    position: absolute;
+    top: 10px;
+    left: 1px;
+    display: block;
+    width: @radio-size;
+    height: @radio-size;
+    border: 1px solid #444444;
+    border-radius: 50%;
+    animation-name: radio-defocus;
+    animation-duration: .2s;
+    animation-fill-mode: forwards;
+    transition: all .3s;
+    box-shadow: 0 0 0 1px #444444;
+  }
+}
+
+.checkbox {
+  padding-top: 0;
+  label {
+    .f-r;
+    position: relative;
+    font-size: 16px;
+    line-height: 26px;
+    padding-left: 25px;
+    width: 100%;
+    padding-top: 3px;
+    margin-bottom: 2px;
+  }
+  &_square {
+    position: absolute;
+    top: 9px;
+    left: 1px;
+    display: block;
+    width: 16px;
+    height: 16px;
+    border: 0;
+    //border-radius: 2px;
+    box-shadow: inset 0 0 0 1px #444444;
+    transition: all 0.3s;
+    overflow: hidden;
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 2px;
+      left: 3px;
+      width: 15px;
+      height: 6px;
+      border-left: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(-45deg) scale(0);
+      transition: transform 0.1s;
+    }
+  }
+}
+
+input[type=checkbox], input[type=radio] {
+  display: none;
+}
+
+input[type=checkbox]:checked + .checkbox_square {
+  background-color: #444444;
+
+  &:before {
+    transform: rotate(-45deg) scale(1);
+  }
+}
+
+input[type=radio]:checked + .radio_circle {
+  animation-name: radio-focus;
+  animation-duration: .3s;
+  border-width: 5px;
+}
+
+.testing {
+  &_title {
+    margin-top: -25px;
+    margin-left: -15px;
+    margin-right: -15px;
+    .f-r;
+    text-align: left;
+    font-size: 36px;
+    line-height: 44px;
+    color: #222;
+    text-shadow: 0 1px 4px rgba(33, 33, 33, 0.27);
+  }
+  &_header {
+    position: relative;
+    height: 140px;
+    background-color: #444444;
+  }
+  &_logo {
+    @height: 59px;
+    @width: 140px;
+    position: absolute;
+    display: block;
+    height: @height;
+    width: @width;
+    top: ~'calc(50% - 35px / 2 - @{height} / 2)';
+    left: ~'calc(50% - @{width} / 2)';
+
+  }
+}
+
+@media (max-width: 767px) {
+  .testingMode {
+    .form-horizontal {
+      margin: 0 auto;
+      min-width: 320px;
+      width: ~'calc(100% - 40px)';
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .testingMode {
+    .testing {
+      &_header {
+        height: 90px;
+      }
+      &_logo {
+        @height: 50px;
+        top: ~'calc(50% - @{height} / 2)';
+      }
+    }
+    .form-horizontal {
+      width: 100%;
+      &:before {
+        display: none;
+      }
+    }
+
+    .block_padding {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    .testing_title {
+      font-size: 28px;
+      line-height: 32px;
+      margin-top: 0;
+    }
+  }
+}
+
+@keyframes radio-focus {
+  0% {
+    border: 0;
+  }
+  70% {
+    border: 4px solid #fff;
+  }
+  100% {
+    border: 4px solid #fff;
+    background-color: #444444;
+  }
+}
+
+@keyframes radio-defocus {
+  0% {
+    border-width: 4px;
+  }
+  100% {
+    border-width: 0;
+  }
+}

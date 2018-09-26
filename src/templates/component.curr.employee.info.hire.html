@@ -1,0 +1,318 @@
+<div class="info_container" style="overflow: hidden">
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-12">
+
+            <h3 class="curr_empl_name ">
+                {{$ctrl.data[0].surname_ua}} {{$ctrl.data[0].name_ua}} {{$ctrl.data[0].middle_name_ua}}
+            </h3>
+            <span class="info_header_title">Прийняття на роботу   </span>
+
+
+        </div>
+
+
+    </div>
+    <div class="no-padding page_wrapper col-xs-12 newUserPage" style="margin-top: -40px;">
+        <div class="container-fluid page page_boxed col-xs-9 newUserPage">
+
+            <div class="col-xs-12" action="" id="newEmpForm" name="newEmpForm">
+
+
+                <div class="fPart" ng-repeat="new in questions track by $index" ng-if="new.order==$ctrl.page">
+                    <!--ng-if="new.order>=$ctrl.fieldFrom&& new.order<=$ctrl.fieldTo">-->
+
+                    <div class="newEmpInputField">
+                        <label class="newUserLable"> {{ new.name }} <span style="color: red;" ng-if="new.require==true"
+                                                                          title="обов'язкове поле">*</span></label>
+                        <input type="text" class="newEmpName"
+                               ng-model="$ctrl.newEmp[new.value]" ng-if="new.type=='text'">
+                        <input type="text" class="newEmpName"
+                               ng-model="$ctrl.newEmp[new.value]" ng-if="new.type=='textC'"
+                               onkeyup="this.value = this.value.replace(/[A-Za-z0-9]/g, '')">
+                        <input type="text" class="newEmpName"
+                               ng-model="$ctrl.newEmp[new.value]" ng-if="new.type=='textCr'"
+                               onkeyup="this.value = this.value.replace(/[A-Za-z0-9іІЄє]/g, '')">
+                        <input type="text" class="newEmpName"
+                               ng-model="$ctrl.newEmp[new.value]" ng-if="new.type=='textE'"
+                               onkeyup="this.value = this.value.replace(/[А-Яа-яЁё0-9]/g, '')">
+                        <input type="text" class="newEmpName"
+                               ng-model="$ctrl.newEmp[new.value]" ng-if="new.type=='textTel'"
+                               ng-blur="ctrl.checkPhone(ctrl.newUser[new.value])">
+                        <input type="text" class="newEmpName"
+                               ng-model="$ctrl.newEmp[new.value]" ng-if="new.type=='textPas'"
+                               ng-blur="ctrl.checkPass(ctrl.newUser[new.value])">
+                        <input type="number" class="newEmpName"
+                               ng-model="$ctrl.newEmp[new.value]" ng-if="new.type=='textN'"
+                               onkeyup="this.value = this.value.slice(0,10)">
+
+                        <input type="date" class="newEmpName dateInput"
+                               ng-change="$ctrl.showTime($ctrl.newEmp[new.value])"
+                               ng-model="$ctrl.newEmp[new.value]" ng-if="new.type=='date'">
+                        <!--education-->
+
+
+                        <textarea name="" class="newEmpTextarea customScroll" cols="30" rows="2"
+                                  ng-if="new.type=='textarea'"
+                                  ng-model="$ctrl.newEmp[new.value]">{{$ctrl.newEmp[new.value]}}</textarea>
+
+
+                        <!--when select is needed-->
+
+
+                        <select class="newEmpName selectField" ng-if="new.type=='branch'"
+                                ng-model="$ctrl.newEmp[new.value]">
+                            <option value="" selected disabled>Виберіть філіал</option>
+
+                            <option ng-repeat="branch in $ctrl.branches  track by $index"
+                                    value="{{ branch }}">{{ branch }}
+                            </option>
+                        </select>
+
+                        <select class="newEmpName selectField" ng-if="new.type=='city'"
+                                ng-model="$ctrl.newEmp[new.value]">
+                            <option value="" selected disabled>Виберіть місто</option>
+
+                            <option ng-repeat="city in $ctrl.cities  track by $index"
+                                    value="{{ city }}">{{ city }}
+                            </option>
+                        </select>
+                        <select class="newEmpName selectField" ng-if="new.type=='position'"
+                                ng-model="$ctrl.newEmp[new.value]">
+                            <option value="" selected disabled>Виберіть посаду</option>
+
+                            <option ng-repeat="position in $ctrl.positions  track by $index" value="{{ position }}">
+                                {{ position }}
+                            </option>
+                        </select>
+
+                        <select class="newEmpName selectField" ng-if="new.type=='selectSchedule'"
+                                ng-model="$ctrl.newEmp[new.value]">
+                            <option value="" selected disabled>Виберіть графік роботи</option>
+                            <option ng-repeat="field in $ctrl.schedule track by $index" value="{{ field }}">{{ field }}
+                            </option>
+                        </select>
+
+                        <select class="newEmpName selectField" ng-if="new.type=='selectSubDept'"
+                                ng-model="$ctrl.newEmp.unit">
+                            <option value="" selected disabled>Виберіть підрозділ</option>
+
+                            <option value="" ng-repeat="subDept in $ctrl.units  track by $index" ng-value="subDept">
+                                {{ subDept }}
+                            </option>
+                        </select>
+                        <select class="newEmpName selectField" ng-init="$ctrl.getAccrualCode()"
+                                ng-if="new.type=='selectAcc'"
+                                ng-model="$ctrl.newEmp[new.value]">
+                            <option value="" selected disabled>Виберіть тип нарахувань</option>
+                            <option ng-repeat="field in $ctrl.AccrualCode track by $index" value="{{ field.code }}">{{
+                                field.name }}
+                            </option>
+                        </select>
+                        <select class="newEmpName selectField" ng-if="new.type=='selectLevel'"
+                                ng-model="$ctrl.newEmp[new.value]">
+                            <option value="" selected disabled>Виберіть організаційний рівень</option>
+
+                            <option value="1">
+                                Топ-менеджмент
+                            </option>
+                            <option value="2">
+                                Менеджмент середнього рівня
+                            </option>
+                            <option value="3">
+                                Лінійні працівники
+                            </option>
+
+                        </select>
+                        <select class="newEmpName selectField" ng-if="new.type=='selectDept'"
+                                ng-model="$ctrl.selectedDept"
+                                ng-change="$ctrl.selectDept()">
+                            <option value="" selected disabled>Виберіть департамент</option>
+
+                            <option ng-repeat="dept in $ctrl.departments track by $index" value="{{ dept }}">{{ dept }}
+                            </option>
+                        </select>
+
+
+                        <select class="newEmpName selectField" name="" ng-if=" new.type=='selectG'" ng-model="$ctrl.newEmp.gender">
+                            <option value="" selected disabled>Виберіть стать</option>
+
+                            <option value="Чоловіча">Чоловіча</option>
+                            <option value="Жіноча">Жіноча</option>
+                        </select>
+                        <select class="newEmpName selectField" name="" ng-if=" new.type=='selectM'" ng-model="$ctrl.newEmp.marital_status">
+                            <option value="" selected disabled>Виберіть сімейний стан</option>
+
+                            <option value="одружений(на)">Одружений(на)</option>
+                            <option value="неодружений(на)">Неодружений(на)</option>
+                            <option value="розлучений(на)">
+                                Розлучений(а)
+                            </option>
+                        </select>
+
+                        <select class="newEmpName selectField" ng-if="new.type==='permission'&&new.value==='phonebook'"
+                                ng-model="$ctrl.newEmp.phonebook">
+                            <option value="" selected disabled>Виберіть дію</option>
+                            <option value="a">Додати до телефонної книги</option>
+                            <option value="b"> Не додавати до телефонної книги</option>
+                        </select>
+                        <select class="newEmpName selectField" ng-if="new.type==='permission'&&new.value==='wifi'"
+                                ng-model="$ctrl.newEmp[new.value]">
+                            <option value="" selected disabled>Виберіть дію</option>
+                            <option value="a">Надати доступи (wifi, email, RDP)</option>
+                            <option value="b">Не надавати доступ</option>
+                        </select>
+                        <div class="dropdown  col-xs-12 col-lg-12 newEmpName no-padding"
+                             ng-init="$ctrl.getListManagers();"
+                             style="position: relative;height: 40px;" ng-if="new.type=='dropdownManager'">
+                            <button class=" col-xs-12 dropdown-toggle  text-left"
+                                    type="button"
+                                    data-toggle="dropdown"
+                                    style="width: 100%;height: 40px; border-radius: 0; background: none;"
+                                    ng-click="perSearch='';">
+                                <span
+                                        ng-bind="$ctrl.showManager?$ctrl.showManager:'Лінійний керівник'"
+                                ></span>
+
+
+                            </button>
+
+                            <ul class="dropdown-menu col-xs-12 customScroll"
+                                style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+                                <li class="dropdown-menu_search-input" style="position: sticky; top: 0;">
+                                    <input type="text"
+                                           style="width: 100%;"
+                                           autofocus placeholder="Введіть ім'я чи прізвище"
+                                           ng-model="perSearch"></li>
+                                <li class="polls_statistics_filters_li"
+
+                                    ng-click="$ctrl.newEmp.manager=person.id; $ctrl.showManager=person.surname+' '+person.name"
+                                    ng-repeat="person in $ctrl.listManagers | filter: perSearch"
+
+                                >
+                                    <span class="invisible"></span>
+                                    <span>{{ person.surname }} {{ person.name }}</span>
+                                </li>
+
+                            </ul>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <br>
+
+                <span ng-show="$ctrl.page==1">
+                   <label ng-click="$ctrl.addNewPhotoCandToEmp()">
+                <span class="save curr_empl_button" id="">Обрати фото профілю</span>
+                   </label>
+                </span>
+
+                <!--<span class="col-xs-4 no-padding" ng-show="$ctrl.page==1" ng-click="ctrl.addNewPhotoCandToEmp()">-->
+
+
+                    <!--<span class="save curr_empl_button" ng-bind="!data.file?'Обрати фото профілю':'Файл вибрано'"></span>-->
+                     <!--&lt;!&ndash;<form class="no-padding"&ndash;&gt;-->
+                           <!--&lt;!&ndash;novalidate&ndash;&gt;-->
+                           <!--&lt;!&ndash;enctype=multipart/form-data&ndash;&gt;-->
+                           <!--&lt;!&ndash;method="post"&ndash;&gt;-->
+                           <!--&lt;!&ndash;action='/photo'&ndash;&gt;-->
+                           <!--&lt;!&ndash;id="documentsForm2"&ndash;&gt;-->
+                           <!--&lt;!&ndash;name="form">&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<label class=" newUserLable no-padding">&ndash;&gt;-->
+                <!--&lt;!&ndash;<select name="type" style="display: none" id="" ng-model="data.doctype" ng-init="data.doctype='photo'"&ndash;&gt;-->
+                        <!--&lt;!&ndash;class="newEmpName">&ndash;&gt;-->
+
+
+                <!--&lt;!&ndash;</select>&ndash;&gt;-->
+            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+
+
+            <!--&lt;!&ndash;<input style="display: none;" type="number" name="id" id="formIdInput" value="{{ ctrl.newIndividualid }}">&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<label>&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="save curr_empl_button" ng-bind="!data.file?'Обрати фото профілю':'Файл вибрано'"></span>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<input&ndash;&gt;-->
+
+                        <!--&lt;!&ndash;id="fileName2"&ndash;&gt;-->
+                        <!--&lt;!&ndash;ng-class="{'':!data.fileName}"&ndash;&gt;-->
+                        <!--&lt;!&ndash;style="display: none"&ndash;&gt;-->
+                        <!--&lt;!&ndash;tabindex="2"&ndash;&gt;-->
+                        <!--&lt;!&ndash;accept="application/pdf, .jpg, .jpeg, .png"&ndash;&gt;-->
+                        <!--&lt;!&ndash;name="file"&ndash;&gt;-->
+                        <!--&lt;!&ndash;type="file"&ndash;&gt;-->
+                        <!--&lt;!&ndash;fileinput="file"&ndash;&gt;-->
+                        <!--&lt;!&ndash;filepreview="data.file"&ndash;&gt;-->
+                        <!--&lt;!&ndash;placeholder="Оберіть файл"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+
+
+        <!--&lt;!&ndash;</form>&ndash;&gt;-->
+
+                <!--</span>-->
+
+
+                <div class="progress progressBar">
+                    <div class="progress-bar progres_color" role="progressbar" aria-valuenow="3" aria-valuemin="0"
+                         aria-valuemax="5" style="width:{{$ctrl.progres}}">
+
+                    </div>
+                </div>
+                <h5 class="progresCount">{{$ctrl.page}}/{{$ctrl.pages}}</h5>
+                <div class="buttonsPanel col-xs-12 no-padding">
+
+                    <input type="button" class=" button_new_user newUserBack col-xs-4" value="назад" style="width: 40%;"
+                           ng-click="$ctrl.ChangePart(-1)" ng-if="$ctrl.page>1">
+                    <input type="button" class=" button_new_user newUserBack invisible" value=" " style="width: 40%;"
+                           ng-if="$ctrl.page==1"><!--invisible-->
+                    <input type="button" class="button_new_user col-xs-4" style="width: 40%;"
+                           ng-click="$ctrl.hireCandidate(ctrl.newUser)"
+                           ng-if="$ctrl.page===$ctrl.pages"
+                           value="зберегти">
+
+                    <input type="button" class=" button_new_user newUserBack newUserForvard col-xs-4" value="далі"
+                           ng-click="$ctrl.ChangePart(1)" ng-if="$ctrl.page<$ctrl.pages" style="width: 40%;">
+                </div>
+                <br><br><br>
+
+            </div>
+
+        </div>
+        <div class="no-padding page-wrapper smooth_width col-xs-3 manual" style="margin: 0;">
+            <h3>Інструкція</h3><br>
+            <ul style="list-style-type: none">
+
+
+                <li>Поля позначені <span style="color: red;">*</span> є обов'язковими для заповнення</li>
+                <li>для додавання дати використовуйте формат ДД ММ РРРР де ДД-число, ММ - номер місяця, РРРР-рік</li>
+                <li ng-if="$ctrl.page==2"><strong>ІПН повинен містити 10 цифр без пробілів</strong></li>
+                <li ng-if="$ctrl.page==2"><strong>серія та номер паспорта записуйте без пробілів
+                    <i>(АА123456)</i></strong></li>
+                <li ng-if="$ctrl.page==3"><strong>для вибору посади спочатку виберіть філіал, місто, підрозділ </strong>
+                </li>
+                <li ng-if="$ctrl.page==4"><strong>Для додавання ще однієї освіти натисніть кнопку "додати освіту" та
+                    заповніть необхідні поля</strong></li>
+                <li ng-if="$ctrl.page==5"><strong>Для додавання ще одного досвіду роботи, натисніть кнопку "додати
+                    роботу" та заповніть необхідні поля</strong></li>
+                <li ng-if="$ctrl.page==6"><strong>Для додавання ще одного члена сім'ї, натисніть кнопку "додати члена
+                    родини" та заповніть необхідні поля</strong></li>
+                <li ng-if="$ctrl.page==6"><strong> Для дитини поля "місце роботи/навчання" та "посада" є
+                    необов'язковими</strong></li>
+                <li ng-if="$ctrl.page==7"><strong> У разі назаповнення поля чи полів які є обов'язковими для заповнення,
+                    Вас буде перенаправлено на перший розділ з незаповненим полем </strong></li>
+            </ul>
+        <canvas id="canvasNew" width="768" height="768" hidden></canvas>
+
+            <span></span>
+            <span></span>
+
+        </div>
+    </div>
+
+
+    <br>
+    <br>
+</div>
+

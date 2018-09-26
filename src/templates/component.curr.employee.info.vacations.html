@@ -1,0 +1,1170 @@
+<div class="info_container">
+    <div class="spinner_container" ng-if="$ctrl.spinner==true">
+        <div class="spinner spinner_components">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <!-- vacation header-->
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-5">
+
+            <h3 class="curr_empl_name ">
+                {{$ctrl.data[0].surname_ua}} {{$ctrl.data[0].name_ua}} {{$ctrl.data[0].middle_name_ua}}
+            </h3>
+            <span class="info_header_title" ng-init="ctrl.showRejected=false">Відпустки</span>
+
+
+        </div>
+        <div class="vacations_header_right col-xs-8 no-padding">
+            <div class="info_person col-xs-12 info_body_button_panel_vacations vacations_header_exp">
+                <div class="">
+                <span>
+                    Стаж у компанії  з ({{vacations.start_work | date:'dd.MM.yyyy'}})
+                </span>
+                    <span class="vacations_header_exp_time"
+                          ng-if="vacations.exp.years!=0">
+                    {{vacations.exp.years}},
+                </span>
+                    <span class="vacations_header_exp_time"
+                          ng-if="vacations.exp.monthes!=0">
+                    {{vacations.exp.monthes}}</span>
+                </div>
+                <br>
+
+            </div>
+            <div class="col-xs-12 info_body_button_panel info_body_button_panel_vacations ">
+                <div class="dropdown  col-xs-5 col-lg-5 no-padding" ng-init="$ctrl.getListPeople()"
+                     style="position: relative;height: 40px;">
+                    <button class=" polls_statistics_filters dropdown-toggle rounded-buttons-header" type="button"
+                            data-toggle="dropdown"
+                            style="width: 100%;height: 40px; border-radius: 0"
+                            ng-click="perSearch=''">
+                        <span>Інший працівник</span>
+
+                    </button>
+                    <!--<div  class="dropdown-menu dropdown-menu_search-input" style="min-width:350px;position: sticky; top: 1px;width: 100%;">-->
+
+
+                    <!--</div>-->
+                    <!--<ul class="dropdown-menu col-xs-12 customScroll">-->
+                    <!---->
+                    <!--</ul>-->
+                    <ul class="dropdown-menu col-xs-12 customScroll"
+                        style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+                        <li class="dropdown-menu_search-input" style="position: sticky; top: 0;">
+                            <input type="text"
+                                   style="width: 100%;"
+                                   autofocus placeholder="Введіть ім'я чи прізвище"
+                                   ng-model="perSearch"></li>
+                        <li class="polls_statistics_filters_li"
+
+                            ng-click="$ctrl.changeWorker(person.id)"
+                            ng-repeat="person in $ctrl.listPeople | filter: perSearch"
+
+                        >
+                            <span class="invisible"></span>
+                            <span>{{person.surname}} {{person.name}}</span>
+                        </li>
+
+                    </ul>
+                </div>
+                <button ng-click="$ctrl.editCount=true; $ctrl.addVacationBut();$ctrl.addNewVac=false;$ctrl.editPeriodCount=false "
+                        ng-class="{'disabled':$ctrl.editCount==true}"
+                        class="info_button_add info_body_button_panel_vacations_edit no-padding"
+                        style="height: 40px;background-image: none">
+                    Додати період
+                </button>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- /vacation header-->
+
+
+    <!-- show hide panel-->
+    <div class="col-xs-12 vacation_showhide_panel"
+         ng-if="vacations.count.length>1&&vacations.count.length!=$ctrl.periodAvailable.years.length">
+
+        <button class="vacations_showhide_panel_button" ng-click="$ctrl.hideZeroPeriod=false"
+                ng-if="$ctrl.hideZeroPeriod==true&&vacations.count.length>1">
+            <i class="button_img"></i>
+            приховати
+        </button>
+        <button class="vacations_showhide_panel_button vacations_showhide_panel_button_rotate"
+
+                ng-click="$ctrl.hideZeroPeriod=true" ng-if="$ctrl.hideZeroPeriod!=true&&vacations.count.length>1">
+            <i
+                    class="button_img button_img_rotate"></i>
+            показати
+        </button>
+        <span ng-if="$ctrl.hideZeroPeriod!=true&&$ctrl.periodAvailable.zeroPeriods.length>=1" class="text-danger">є приховані періоди з залишком 0 днів</span>
+    </div>
+    <!-- /show hide panel-->
+
+
+    <!-- table with vacation rests-->
+    <table class="table animate-if vacations-table_rests" ng-if="vacations.count.length>0">
+        <tr>
+            <th class="vacations_table_titles vacations_table_titles_br  align-middle"><span>Період</span><br>
+            </th>
+            <td class="vacations_table_titles vacations_table_titles_br text-center  animate-hide"
+                ng-repeat="period in vacations.count track by $index "
+                ng-hide="period.balance<=0 && $ctrl.hideZeroPeriod!=true &&vacations.count.length>1&&period.year!=$ctrl.curYear">
+                {{period.year}}
+                <div class="no-padding vacations_table_head_buttons text-center">
+                    <button class=" vacation_periods_button vacation_periods_button_edit "
+                            ng-click="$ctrl.editCount=true;$ctrl.editPeriodCount=true;$ctrl.editPeriod(period);"
+                            title="редагувати період">
+                        <svg style="height: 20px;margin-top: 3px;" xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 17.288 17.292">
+                            <defs>
+                                <style>.ae {
+                                    fill: #bc10ab;
+                                }</style>
+                            </defs>
+                            <path class="ae"
+                                  d="M17.459,2a1.826,1.826,0,0,0-1.292.54l-.305.305L18.446,5.43l.305-.305A1.833,1.833,0,0,0,17.459,2ZM15.286,3.515a.378.378,0,0,0-.223.117L2.869,15.838A.383.383,0,0,0,2.763,16l-.752,2.819a.376.376,0,0,0,.458.458l2.819-.752a.383.383,0,0,0,.164-.106L17.659,6.229a.378.378,0,1,0-.529-.54L4.995,17.824,3.468,16.3,15.6,4.162a.376.376,0,0,0-.282-.646Z"
+                                  transform="translate(-1.999 -2)"></path>
+                        </svg>
+                    </button>
+                    <button class=" vacation_periods_button vacation_periods_button_delete "
+                            ng-click="$ctrl.confirmModal(period.id,'period')" title="видалити період"
+
+                            ng-class="{'disabled':period.used>0||period.year==$ctrl.curYear}">
+
+                        <svg style="height: 20px;margin-top: 3px;" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink"
+                             viewBox="0 0 50 50" version="1.1">
+                            <g id="surface1">
+                                <path style="fill: #b13d3a; "
+                                      d="M 21 0 C 19.355469 0 18 1.355469 18 3 L 18 5 L 10.1875 5 C 10.0625 4.976563 9.9375 4.976563 9.8125 5 L 8 5 C 7.96875 5 7.9375 5 7.90625 5 C 7.355469 5.027344 6.925781 5.496094 6.953125 6.046875 C 6.980469 6.597656 7.449219 7.027344 8 7 L 9.09375 7 L 12.6875 47.5 C 12.8125 48.898438 14.003906 50 15.40625 50 L 34.59375 50 C 35.996094 50 37.1875 48.898438 37.3125 47.5 L 40.90625 7 L 42 7 C 42.359375 7.003906 42.695313 6.816406 42.878906 6.503906 C 43.058594 6.191406 43.058594 5.808594 42.878906 5.496094 C 42.695313 5.183594 42.359375 4.996094 42 5 L 32 5 L 32 3 C 32 1.355469 30.644531 0 29 0 Z M 21 2 L 29 2 C 29.5625 2 30 2.4375 30 3 L 30 5 L 20 5 L 20 3 C 20 2.4375 20.4375 2 21 2 Z M 11.09375 7 L 38.90625 7 L 35.3125 47.34375 C 35.28125 47.691406 34.910156 48 34.59375 48 L 15.40625 48 C 15.089844 48 14.71875 47.691406 14.6875 47.34375 Z M 18.90625 9.96875 C 18.863281 9.976563 18.820313 9.988281 18.78125 10 C 18.316406 10.105469 17.988281 10.523438 18 11 L 18 44 C 17.996094 44.359375 18.183594 44.695313 18.496094 44.878906 C 18.808594 45.058594 19.191406 45.058594 19.503906 44.878906 C 19.816406 44.695313 20.003906 44.359375 20 44 L 20 11 C 20.011719 10.710938 19.894531 10.433594 19.6875 10.238281 C 19.476563 10.039063 19.191406 9.941406 18.90625 9.96875 Z M 24.90625 9.96875 C 24.863281 9.976563 24.820313 9.988281 24.78125 10 C 24.316406 10.105469 23.988281 10.523438 24 11 L 24 44 C 23.996094 44.359375 24.183594 44.695313 24.496094 44.878906 C 24.808594 45.058594 25.191406 45.058594 25.503906 44.878906 C 25.816406 44.695313 26.003906 44.359375 26 44 L 26 11 C 26.011719 10.710938 25.894531 10.433594 25.6875 10.238281 C 25.476563 10.039063 25.191406 9.941406 24.90625 9.96875 Z M 30.90625 9.96875 C 30.863281 9.976563 30.820313 9.988281 30.78125 10 C 30.316406 10.105469 29.988281 10.523438 30 11 L 30 44 C 29.996094 44.359375 30.183594 44.695313 30.496094 44.878906 C 30.808594 45.058594 31.191406 45.058594 31.503906 44.878906 C 31.816406 44.695313 32.003906 44.359375 32 44 L 32 11 C 32.011719 10.710938 31.894531 10.433594 31.6875 10.238281 C 31.476563 10.039063 31.191406 9.941406 30.90625 9.96875 Z "></path>
+                            </g>
+                        </svg>
+                    </button>
+                </div>
+            </td>
+            <th class=" vacations_table_titles text-center">Разом</th>
+        </tr>
+        <tr>
+            <th class="vacations_table_titles vacations_table_titles_br">Нараховано</th>
+            <td class="animate-hide vacations_table_head vacations_table_titles_br"
+                ng-repeat="period in vacations.count track by $index "
+                ng-hide="period.balance<=0 && $ctrl.hideZeroPeriod!=true&&vacations.count.length>1&&period.period!=$ctrl.curYear">
+                {{period.count}}
+            </td>
+            <td class="vacations_table_content">{{vacations.total.count}}</td>
+
+        </tr>
+        <tr>
+            <th class="vacations_table_titles vacations_table_titles_br">Використано</th>
+            <td class="animate-hide vacations_table_head vacations_table_titles_br"
+                ng-repeat="period in vacations.count track by $index "
+                ng-hide="period.balance<=0 && $ctrl.hideZeroPeriod!=true&&vacations.count.length>1&&period.period!=$ctrl.curYear">
+                {{period.used}}
+            </td>
+            <td class="vacations_table_content">{{vacations.total.used}}</td>
+        </tr>
+        <tr>
+            <th class="vacations_table_titles vacations_table_titles_br">Залишок</th>
+            <td class="animate-hide vacations_table_head vacations_table_titles_br"
+                ng-repeat="period in vacations.count track by $index "
+                ng-hide="period.balance<=0 && $ctrl.hideZeroPeriod!=true&&vacations.count.length>1&&period.year!=$ctrl.curYear">
+                {{period.balance}}
+            </td>
+            <td class="vacations_table_content">{{vacations.total.balance}}</td>
+
+        </tr>
+
+    </table>
+    <!-- /table with vacation rests-->
+    <div class="col-xs-6"></div>
+
+
+    <!--buttons-->
+    <div class="col-xs-6 info_body_button_panel info_body_button_panel_vacations float-right">
+        <button ng-click="$ctrl.editCount=true; $ctrl.addVacationBut();$ctrl.addNewVac=false;$ctrl.editPeriodCount=false "
+                ng-class="{'disabled':$ctrl.editCount==true||$ctrl.addNewVac==true}"
+                class="info_button_add info_body_button_panel_vacations_edit no-padding invisible"
+                style="height: 40px;background-image: none">
+            Додати період
+        </button>
+        <button ng-click="$ctrl.addNewVac=true; $ctrl.addVacationBut();$ctrl.editCount=false;$ctrl.setTemplPeriods();$ctrl.photoLoaded=false"
+                class="col-xs-2 info_button_add col-xs-3 no-padding"
+                ng-if="vacations.count.length>0 "
+                style="margin: 0"
+                ng-class="{'disabled':$ctrl.editCount==true||$ctrl.addNewVac==true}">
+            Додати відпустку
+        </button>
+
+
+    </div>
+
+
+    <!--edit periods-->
+    <div class="vacations_add_new col-xs-12 no-padding animate-if " ng-if="$ctrl.editCount"
+         style="margin-bottom: 10px;">
+        <div class="col-xs-12 vacations_add_list_container_title no-padding text-center"
+        >
+            <span ng-bind="!$ctrl.editExisPeriod?'Створення нового періоду':'Редагування періоду'"></span>
+        </div>
+        <div class="col-xs-12 no-padding vacations_add_new_container animate-if">
+            <div class="col-xs-12 vacations_add_new_header  ">
+                <span class="col-xs-3 vacations_vacation_list_titles text-center no-padding">Кількість днів: </span>
+                <span class="col-xs-3 vacations_vacation_list_titles text-center no-padding">Використано днів:</span>
+                <span class="col-xs-3 vacations_vacation_list_titles text-center no-padding">Період:</span>
+                <span class="col-xs-3 vacations_vacation_list_titles text-center no-padding">Дії: </span>
+            </div>
+
+            <div class="col-xs-12  info_body info_body_row animate-if no-padding vacations_vacation_add">
+                <div class="col-xs-12 vacations_add_new_body">
+                    <select ng-model="$ctrl.newPeriod.count"
+                            class="col-xs-3 vacations_add_new_input  no-padding text-center"
+                            ng-change="$ctrl.newPeriod.count<$ctrl.newPeriod.used?$ctrl.newPeriod.used=$ctrl.newPeriod.count:true;$ctrl.logData($ctrl.newPeriod.count)">
+                        <option ng-value="$index" class="vacations_vacation_list_select" ng-hide="$index==0"
+                                ng-repeat="n in [].constructor(31) track by $index ">
+                            {{$index}}
+                        </option>
+
+                    </select>
+
+
+                    <select ng-model="$ctrl.newPeriod.used"
+                            class="col-xs-3 vacations_add_new_input  no-padding text-center">
+                        <option ng-value="$index" class="vacations_vacation_list_select"
+                                ng-repeat="n in [].constructor($ctrl.newPeriod.count) track by $index ">
+                            {{$index}}
+                        </option>
+                        <option ng-value="$ctrl.newPeriod.count"
+                                ng-if="$ctrl.newPeriod.count>=1"><span
+                                style="margin: 0 auto;">{{$ctrl.newPeriod.count}}</span>
+                        </option>
+                    </select>
+
+
+                    <select ng-disabled="$ctrl.editPeriodCount==true"
+                            ng-model="$ctrl.newPeriod.year"
+                            class="col-xs-3 vacations_add_new_input  no-padding text-center"
+                    >
+                        <option ng-value="$ctrl.curYear-$index" ng-repeat="n in [].constructor(10) track by $index "
+
+                                ng-class="{'disabled':$ctrl.periodAvailable.all.indexOf($ctrl.curYear-$index)>=0 }"
+                                ng-hide="$ctrl.periodAvailable.all.indexOf($ctrl.curYear-$index)>=0">
+                            {{$ctrl.curYear-$index}}
+                        </option>
+                        <option value="" disabled>
+                            ----------
+                        </option>
+                        <option ng-value="$ctrl.curYear+1">{{$ctrl.curYear+1}}</option>
+                    </select>
+
+
+                    <!--<input type="number" class=" info_person_input_number col-xs-8 col-xs-offset-2 vacations_number"-->
+                    <!--placeholder="період"-->
+
+                    <!--ng-class="{'text-danger ': $ctrl.newPeriod.period>1000&&-->
+                    <!--($ctrl.periodAvailable.all.indexOf($ctrl.newPeriod.period)>=0-->
+                    <!--|| $ctrl.newPeriod.period<=2000-->
+                    <!--||$ctrl.newPeriod.period>2222-->
+                    <!--||$ctrl.newPeriod.period>=$ctrl.curYear )}"-->
+                    <!--ng-if="$ctrl.editCount==true&&$ctrl.editPeriodCount!=true">-->
+
+
+                    <!--button panel-->
+                    <div class="col-xs-3  info_body_button_panel info_body_button_panel_vacations no-margin ">
+                        <button ng-click=" $ctrl.changeCount($ctrl.newPeriod);$ctrl.editPeriodCount=false  "
+                                class=" polls_active_button col-xs-4"
+
+                                ng-if="$ctrl.editCount==true&&!$ctrl.editExisPeriod"
+                                ng-class="{'disabled ':
+                    $ctrl.periodAvailable.all.indexOf($ctrl.newPeriod.year)>=0
+                    ||$ctrl.newPeriod.count<$ctrl.newPeriod.used
+                    ||$ctrl.newPeriod.used<0
+                    ||$ctrl.newPeriod.count<=0
+                    ||!$ctrl.newPeriod.year
+                    ||!$ctrl.newPeriod.count
+                    ||$ctrl.newPeriod.year<2000
+                    ||$ctrl.newPeriod.year>2222
+
+                    }"
+                                title="Зберегти"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 viewBox="0 0 50 50" version="1.1">
+                                <g id="surface1">
+                                    <path style="fill: #45bf92; "
+                                          d="M 5 2 C 3.347656 2 2 3.347656 2 5 L 2 45 C 2 46.652344 3.347656 48 5 48 L 45 48 C 46.652344 48 48 46.652344 48 45 L 48 12 C 48 11.734375 47.90625 11.46875 47.71875 11.28125 L 38.71875 2.28125 C 38.53125 2.09375 38.265625 2 38 2 Z M 12 4 L 35 4 C 36.101563 4 37 4.898438 37 6 L 37 17 C 37 18.101563 36.101563 19 35 19 L 12 19 C 10.898438 19 10 18.101563 10 17 L 10 6 C 10 4.898438 10.898438 4 12 4 Z M 30 6 C 29.445313 6 29 6.445313 29 7 L 29 16 C 29 16.554688 29.445313 17 30 17 L 33 17 C 33.554688 17 34 16.554688 34 16 L 34 7 C 34 6.445313 33.554688 6 33 6 Z M 12.8125 26.03125 L 37.1875 26.03125 C 38.71875 26.03125 39.96875 27.28125 39.96875 28.8125 L 39.96875 46 L 10.03125 46 L 10.03125 28.8125 C 10.03125 27.28125 11.28125 26.03125 12.8125 26.03125 Z M 6 41 L 8 41 L 8 43 L 6 43 Z M 42 41 L 44 41 L 44 43 L 42 43 Z "></path>
+                                </g>
+                            </svg>
+                        </button>
+
+
+                        <button ng-click=" $ctrl.saveEditedPeriod();$ctrl.editPeriodCount=false "
+                                class=" polls_active_button"
+
+                                ng-if="$ctrl.editCount==true&&$ctrl.editExisPeriod"
+                                title="Зберегти"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 viewBox="0 0 50 50" version="1.1">
+                                <g id="surface1">
+                                    <path style="fill: #45bf92; "
+                                          d="M 5 2 C 3.347656 2 2 3.347656 2 5 L 2 45 C 2 46.652344 3.347656 48 5 48 L 45 48 C 46.652344 48 48 46.652344 48 45 L 48 12 C 48 11.734375 47.90625 11.46875 47.71875 11.28125 L 38.71875 2.28125 C 38.53125 2.09375 38.265625 2 38 2 Z M 12 4 L 35 4 C 36.101563 4 37 4.898438 37 6 L 37 17 C 37 18.101563 36.101563 19 35 19 L 12 19 C 10.898438 19 10 18.101563 10 17 L 10 6 C 10 4.898438 10.898438 4 12 4 Z M 30 6 C 29.445313 6 29 6.445313 29 7 L 29 16 C 29 16.554688 29.445313 17 30 17 L 33 17 C 33.554688 17 34 16.554688 34 16 L 34 7 C 34 6.445313 33.554688 6 33 6 Z M 12.8125 26.03125 L 37.1875 26.03125 C 38.71875 26.03125 39.96875 27.28125 39.96875 28.8125 L 39.96875 46 L 10.03125 46 L 10.03125 28.8125 C 10.03125 27.28125 11.28125 26.03125 12.8125 26.03125 Z M 6 41 L 8 41 L 8 43 L 6 43 Z M 42 41 L 44 41 L 44 43 L 42 43 Z "></path>
+                                </g>
+                            </svg>
+                        </button>
+
+                        <button ng-click="$ctrl.editCount=false;$ctrl.editPeriodCount=false; $ctrl.cancelEdition();"
+                                class=" polls_active_button col-xs-4"
+
+                                ng-if="$ctrl.editCount==true"
+                                title="Скасувати">
+
+
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.424 17.424">
+                                <defs>
+                                    <style>.ad {
+                                        fill: #b13d3a;
+                                        stroke: #b13d3a;
+                                        stroke-width: 0.3px;
+                                    }</style>
+                                </defs>
+                                <path class="ad"
+                                      d="M6.934,6.281l-.653.653,7.847,7.847L6.281,22.629l.653.653,7.847-7.847,4.344,4.344,3.5,3.5.653-.653-7.847-7.847,7.847-7.847-.653-.653-7.847,7.847Z"
+                                      transform="translate(-6.069 -6.069)"></path>
+                            </svg>
+                        </button>
+                        <!--</div>-->
+                        <!--/button panel-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--add new vacation-->
+
+    <div class="vacations_add_new col-xs-12 no-padding animate-if "
+         ng-if="$ctrl.addNewVac==true"
+         style="margin-bottom: 10px;">
+
+
+        <div class="col-xs-12 vacations_add_list_container_title no-padding text-center"
+        >
+            <span>Створення нової відпустки</span>
+        </div>
+
+        <div class="col-xs-12 no-padding vacations_add_new_container animate-if" ng-if="$ctrl.addNewVac==true">
+            <div class="col-xs-12 vacations_add_new_header  ">
+            <span class="col-xs-2 vacations_vacation_list_titles text-center no-padding">
+                Дата початку:
+            </span>
+                <span class="col-xs-2 vacations_vacation_list_titles text-center no-padding">
+                Кількість днів:
+            </span>
+                <span class="col-xs-2 vacations_vacation_list_titles text-center no-padding">
+                Дата закінчення:
+            </span>
+                <span class="col-xs-2 vacations_vacation_list_titles text-center no-padding">
+                Період:
+            </span>
+                <span class="col-xs-1 vacations_vacation_list_titles text-center no-padding">
+                Заява:
+            </span>
+                <span class="col-xs-3 vacations_vacation_list_titles text-center no-padding">
+                Дії:
+            </span>
+
+
+            </div>
+            <div class="col-xs-12  info_body info_body_row animate-if no-padding vacations_vacation_add"
+                 ng-if="$ctrl.addNewVac==true">
+
+                <div class="col-xs-12 vacations_add_new_body ">
+                    <input type="date"
+                           class=" col-xs-2 vacations_add_new_input vacations_add_new_input_date dateInput"
+                           ng-model="$ctrl.newVacation.start_date"
+                           ng-change="setVacationDuration()">
+
+                    <select name=""
+                            class="col-xs-2 vacations_add_new_input  no-padding text-center"
+                            ng-class="{'text-danger ':  $ctrl.newVacation.count <= 0||$ctrl.newVacation.count>$ctrl.restDays}"
+                            ng-change="setVacationDuration()" ng-model="$ctrl.newVacation.count">
+
+                        <option ng-value="$index+1" ng-repeat="n in $ctrl.newVacation.rest track by $index ">
+                            {{$index+1}}
+                        </option>
+                    </select>
+
+
+                    <input type="date"
+                           class="col-xs-2 vacations_add_new_input vacations_add_new_input_date dateInput "
+
+                           ng-model="$ctrl.newVacation.end_date"
+                           ng-class="{'text-danger ':  $ctrl.newVacation.count <= 0}"
+                           ng-change="$ctrl.checkConflictDates()">
+
+                    <select name="" id="" ng-model="$ctrl.newVacation.year"
+                            class="col-xs-2 vacations_add_new_input  no-padding text-center"
+                            ng-change="$ctrl.getAvailableRestDays($ctrl.newVacation.year)"
+                            ng-class="{'text-danger ':  $ctrl.periodAvailable.years.indexOf($ctrl.newVacation.year)>0 }">
+
+                        <option ng-value="year" ng-repeat="year in $ctrl.periodAvailable.years track by $index"
+                                ng-class="{'text-danger ':  $ctrl.periodAvailable.years.indexOf(year)>0 }">
+                            {{year}}
+                        </option>
+                    </select>
+
+                    <div class="col-xs-1 info_body_row_vacations_headers"
+                         style="height: 50px;">
+                        <label class="col-xs-12 vacations_vacation_add_file_label no-padding ">
+
+                <span class="col-xs-12 vacations_vacation_add_file_label_span"
+                      style="padding: 6px" title="додати заяву"
+                      ng-class="{'vacations_vacation_add_file_label_span_success':$ctrl.photoLoaded}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="15033 8627 65 71" height="100%">
+                      <g id="surface1" transform="translate(15018 8618)">
+                          <path id="Path_235" fill="black" data-name="Path 235"
+                                d="M15,9V71H49.637A15.987,15.987,0,1,0,65,48.051V23.586L50.414,9Zm2,2H49V25H63V48.051A16,16,0,0,0,48,64a15.817,15.817,0,0,0,.813,5H17Zm34,1.414L61.586,23H51ZM64,50A14,14,0,1,1,50,64,13.987,13.987,0,0,1,64,50Zm-1,7v6H57v2h6v6h2V65h6V63H65V57Z"/>
+                      </g>
+                    </svg>
+                </span>
+
+
+                            <input type="file" id="fileInput1" accept=".jpg,.jpeg,.png,.pdf" ng-model="$ctrl.photo"
+                                   style="display: none;" onload="$ctrl.photoLoaded=true;"
+                                   base-sixty-four-input ng-class="{'icon-new_document':$ctrl.photoLoaded}"
+                                   ng-change="$ctrl.checkFileSize('fileInput1')">
+
+
+                        </label>
+                    </div>
+
+
+                    <div class="col-xs-3 info_body_button_panel info_body_button_panel_vacations">
+
+                        <button class="polls_active_button col-xs-4"
+                                ng-click="$ctrl.addNewVacation()"
+                                ng-class="{'disabled':$ctrl.newVacation.count<=0||$ctrl.newVacation.count>$ctrl.restDays||$ctrl.fileSize!=true||$ctrl.stopSave==true }"
+                                title="Зберегти"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 15.052">
+                                <defs>
+                                    <style>.aConf {
+                                        fill: #45bf92;
+                                    }</style>
+                                </defs>
+                                <path class="aConf"
+                                      d="M23.16,12.1,10.993,24.266l-4.95-4.948L4.6,20.813l6.391,6.341L24.6,13.543Z"
+                                      transform="translate(-4.602 -12.102)"/>
+                            </svg>
+                        </button>
+                        <button class="polls_active_button col-xs-4"
+                                ng-click="$ctrl.addNewVac=false; $ctrl.newVacation={}"
+                                title="Скасувати"
+
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.424 17.424">
+                                <defs>
+                                    <style>.ad {
+                                        fill: #b13d3a;
+                                        stroke: #b13d3a;
+                                        stroke-width: 0.3px;
+                                    }</style>
+                                </defs>
+                                <path class="ad"
+                                      d="M6.934,6.281l-.653.653,7.847,7.847L6.281,22.629l.653.653,7.847-7.847,4.344,4.344,3.5,3.5.653-.653-7.847-7.847,7.847-7.847-.653-.653-7.847,7.847Z"
+                                      transform="translate(-6.069 -6.069)"></path>
+                            </svg>
+                        </button>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--pending vacations-->
+    <div class="vacations_add_new col-xs-12 no-padding animate-if "
+         ng-if="vacations.pending.length>0" style="margin-bottom: 20px;">
+        <div class="col-xs-12 vacations_add_list_container_title no-padding "
+             ng-click="$ctrl.hidePending=!$ctrl.hidePending">
+            <span>Заявки на відпустку без підтвердження</span>
+        </div>
+
+        <div class="col-xs-12 no-padding vacations_add_new_container animate-if"
+             style=""
+             ng-if="!$ctrl.hidePending">
+            <div class="col-xs-12 vacations_add_new_header  "
+                 ng-if="vacations.pending.length>0&&!$ctrl.hidePending"
+                 style="margin-bottom: 10px;">
+
+            <span class="col-xs-2 vacations_vacation_list_titles text-center no-padding">
+                Дата початку:
+            </span>
+                <span class="col-xs-2 vacations_vacation_list_titles text-center no-padding">
+                Кількість днів:
+            </span>
+                <span class="col-xs-2 vacations_vacation_list_titles text-center no-padding">
+                Дата закінчення:
+            </span>
+                <span class="col-xs-2 vacations_vacation_list_titles text-center no-padding">
+                Період:
+            </span>
+                <span class="col-xs-1 vacations_vacation_list_titles text-center no-padding">
+                Коментарі:
+            </span>
+                <span class="col-xs-3 vacations_vacation_list_titles text-center no-padding">
+                Дії
+            </span>
+
+
+            </div>
+
+
+            <div ng-repeat="vacation in vacations.pending track by $index "
+                 class="col-xs-12 vacations_add_new_body "
+                 ng-if="!$ctrl.hidePending">
+
+
+                <div class="col-xs-12 no-padding " style="min-height: 45px;">
+
+
+                    <input type="date"
+                           class="col-xs-2 vacations_add_new_input vacations_add_new_input_date dateInput"
+                           value="{{$ctrl.vacationToEdit.start_date}}"
+                           ng-if="$ctrl.editionP[$index]"
+                           ng-model="$ctrl.vacationToEdit.start_date"
+
+                    >
+                    <span class="col-xs-2 vacations_add_new_input" ng-if="$ctrl.editionP[$index]!=true">{{vacation.start_date| date:'dd.MM.yyyy'}}</span>
+
+                    <select class="col-xs-2 vacations_add_new_input vacations_add_new_input_select no-padding text-center"
+                            ng-model="$ctrl.vacationToEdit.count"
+                            ng-if="$ctrl.editionP[$index]==true"
+                            ng-change="$ctrl.editVacationDuration()">
+                        <option ng-value="$index+1"
+                                ng-repeat="x in [].constructor($ctrl.vacationToEdit.availableDays) track by $index">
+                            {{$index+1}}
+                        </option>
+                    </select>
+                    <span class="col-xs-2 vacations_add_new_input " ng-if="$ctrl.editionP[$index]!=true">
+                            {{vacation.count}}
+                    </span>
+
+
+                    <input type="date" class="col-xs-2 vacations_add_new_input vacations_add_new_input_date"
+                           ng-if="$ctrl.editionP[$index]"
+                           value="{{$ctrl.vacationToEdit.end_date}}"
+                           ng-model="$ctrl.vacationToEdit.end_date">
+                    <span class="col-xs-2 vacations_add_new_input"
+                          ng-if="$ctrl.editionP[$index]!=true">
+                        {{vacation.end_date| date:'dd.MM.yyyy'}}
+                    </span>
+
+
+                    <span class="col-xs-2 vacations_add_new_input"
+                          ng-class="{'text-muted':$ctrl.editionP[$index]===true}">
+                        {{vacation.year}}
+
+                    </span>
+
+                    <div class="col-xs-1 text-center no-padding"
+                         align="center">
+
+                        <button class="col-xs-12 vacations_add_new_input vacations_add_new_button_eye   text-center"
+                                ng-click="!vacation.comments?null:$ctrl.showCommentsP[$index]=!$ctrl.showCommentsP[$index]"
+                                title="переглянути коментарі"
+                                ng-hide="vacation.comments.length<1||!vacation.comments.length">
+                        </button>
+                        <button class="col-xs-12 vacations_add_new_input vacations_add_new_button_line   text-center"
+
+                                title="Коментарі відсутні"
+                                ng-show="vacation.comments.length<1||!vacation.comments.length">
+                        </button>
+                        <!--<span ng-click="!vacation.comments?null:$ctrl.showCommentsP[$index]=!$ctrl.showCommentsP[$index]"-->
+                        <!--class="text-center"-->
+                        <!--style="width: 100%;"-->
+                        <!--ng-bind="!vacation.comments?'Відсутній':!$ctrl.showCommentsP[$index]?'Показати':'Приховати'"></span>-->
+                        <span ng-show="$ctrl.showCommentsP[$index]"
+                              ng-click="$ctrl.showCommentsP[$index]=!$ctrl.showCommentsP[$index]"
+
+                              class=" vacations_add_new_comments bg-info animate-if"
+
+                        >{{vacation.comments}} </span>
+
+                    </div>
+
+                    <div class="col-xs-3  info_body_button_panel info_body_button_panel_vacations no-margin "
+                         style="justify-content: space-between!important">
+                        <button class="polls_active_button col-xs-4"
+                                ng-click="$ctrl.addNewVac=false;$ctrl.editPendingVacations($index,vacation)"
+                                ng-if="!$ctrl.editionP[$index]"
+                                ng-class="{'disabled':vacation.editable===true}"
+                                title="Редагувати"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.288 17.292">
+                                <defs>
+                                    <style>.ae {
+                                        fill: #bc10ab;
+                                    }</style>
+                                </defs>
+                                <path class="ae"
+                                      d="M17.459,2a1.826,1.826,0,0,0-1.292.54l-.305.305L18.446,5.43l.305-.305A1.833,1.833,0,0,0,17.459,2ZM15.286,3.515a.378.378,0,0,0-.223.117L2.869,15.838A.383.383,0,0,0,2.763,16l-.752,2.819a.376.376,0,0,0,.458.458l2.819-.752a.383.383,0,0,0,.164-.106L17.659,6.229a.378.378,0,1,0-.529-.54L4.995,17.824,3.468,16.3,15.6,4.162a.376.376,0,0,0-.282-.646Z"
+                                      transform="translate(-1.999 -2)"></path>
+                            </svg>
+                        </button>
+
+
+                        <button class=" polls_active_button col-xs-4"
+                                ng-click="$ctrl.updateVacation($index,'pending')"
+                                ng-if="$ctrl.editionP[$index]"
+                                title="Зберегти"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 viewBox="0 0 50 50" version="1.1">
+                                <g id="surface1">
+                                    <path style="fill: #45bf92; "
+                                          d="M 5 2 C 3.347656 2 2 3.347656 2 5 L 2 45 C 2 46.652344 3.347656 48 5 48 L 45 48 C 46.652344 48 48 46.652344 48 45 L 48 12 C 48 11.734375 47.90625 11.46875 47.71875 11.28125 L 38.71875 2.28125 C 38.53125 2.09375 38.265625 2 38 2 Z M 12 4 L 35 4 C 36.101563 4 37 4.898438 37 6 L 37 17 C 37 18.101563 36.101563 19 35 19 L 12 19 C 10.898438 19 10 18.101563 10 17 L 10 6 C 10 4.898438 10.898438 4 12 4 Z M 30 6 C 29.445313 6 29 6.445313 29 7 L 29 16 C 29 16.554688 29.445313 17 30 17 L 33 17 C 33.554688 17 34 16.554688 34 16 L 34 7 C 34 6.445313 33.554688 6 33 6 Z M 12.8125 26.03125 L 37.1875 26.03125 C 38.71875 26.03125 39.96875 27.28125 39.96875 28.8125 L 39.96875 46 L 10.03125 46 L 10.03125 28.8125 C 10.03125 27.28125 11.28125 26.03125 12.8125 26.03125 Z M 6 41 L 8 41 L 8 43 L 6 43 Z M 42 41 L 44 41 L 44 43 L 42 43 Z "></path>
+                                </g>
+                            </svg>
+                        </button>
+                        <button class=" polls_active_button col-xs-4"
+                                ng-click="$ctrl.confirmPendingVacation(vacation.id,'confirmation',vacation)"
+                                ng-if="!$ctrl.editionP[$index]"
+                                title="Підтвердити">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 15.052">
+                                <defs>
+                                    <style>.aConf {
+                                        fill: #45bf92;
+                                    }</style>
+                                </defs>
+                                <path class="aConf"
+                                      d="M23.16,12.1,10.993,24.266l-4.95-4.948L4.6,20.813l6.391,6.341L24.6,13.543Z"
+                                      transform="translate(-4.602 -12.102)"/>
+                            </svg>
+                        </button>
+
+                        <button class="polls_active_button tripple_button col-xs-4"
+                                ng-click="$ctrl.confirmModal(vacation.id,'pending')"
+                                ng-if="!$ctrl.editionP[$index]"
+                                ng-class="{'disabled':vacation.editable===true}"
+                                title="Відхилити"
+
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.424 17.424">
+                                <defs>
+                                    <style>.ad {
+                                        fill: #b13d3a;
+                                        stroke: #b13d3a;
+                                        stroke-width: 0.3px;
+                                    }</style>
+                                </defs>
+                                <path class="ad"
+                                      d="M6.934,6.281l-.653.653,7.847,7.847L6.281,22.629l.653.653,7.847-7.847,4.344,4.344,3.5,3.5.653-.653-7.847-7.847,7.847-7.847-.653-.653-7.847,7.847Z"
+                                      transform="translate(-6.069 -6.069)"></path>
+                            </svg>
+                        </button>
+
+
+                        <button class=" polls_active_button col-xs-4"
+                                ng-click=" $ctrl.cancelEdition(vacation, $index);$ctrl.editionP[$index]=false"
+
+
+                                ng-if="$ctrl.editionP[$index]"
+                                title="Скасувати">
+
+
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.424 17.424">
+                                <defs>
+                                    <style>.ad {
+                                        fill: #b13d3a;
+                                        stroke: #b13d3a;
+                                        stroke-width: 0.3px;
+                                    }</style>
+                                </defs>
+                                <path class="ad"
+                                      d="M6.934,6.281l-.653.653,7.847,7.847L6.281,22.629l.653.653,7.847-7.847,4.344,4.344,3.5,3.5.653-.653-7.847-7.847,7.847-7.847-.653-.653-7.847,7.847Z"
+                                      transform="translate(-6.069 -6.069)"></path>
+                            </svg>
+                        </button>
+
+                        <!--</button>-->
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--confirmed vacations-->
+
+
+    <div class="vacations_add_new col-xs-12 no-padding animate-if "
+         ng-if="vacations.period.length>0||$ctrl.addNewVac==true"
+         style="margin-bottom: 10px;">
+        <div class="col-xs-12 vacations_add_list_container_title no-padding"
+             ng-click='$ctrl.hideConfirmed=!$ctrl.hideConfirmed'>
+            <span>Підтверджені відпустки</span>
+        </div>
+        <div class="col-xs-12 no-padding vacations_add_new_container animate-if"
+             style=""
+             ng-if="!$ctrl.hideConfirmed">
+            <div class="col-xs-12 vacations_add_new_header  "
+                 ng-if="!$ctrl.hideConfirmed"
+                 style="margin-bottom: 10px;">
+                <span class="col-xs-2 vacations_vacation_list_titles">
+                    Дата початку:
+                </span>
+                <span class="col-xs-2 vacations_vacation_list_titles text-center no-padding">
+                    кількість днів:
+                </span>
+                <span class="col-xs-2 vacations_vacation_list_titles text-center no-padding">
+                    Дата закінчення:
+                </span>
+                <span class="col-xs-2 vacations_vacation_list_titles text-center no-padding">
+                    Період:
+                </span>
+                <span class="col-xs-1 vacations_vacation_list_titles text-center no-padding">
+                    Заява:
+                </span>
+                <span class="col-xs-3 vacations_vacation_list_titles text-center no-padding">
+                    Дії:
+                </span>
+
+            </div>
+            <div ng-repeat="vacation in vacations.period track by $index "
+                 ng-if="vacation.status!='sent'" class="col-xs-12 vacations_add_new_body ">
+                <div class="col-xs-12 no-padding " style="min-height: 45px;">
+                    <input type="date"
+                           class=" col-xs-2 vacations_add_new_input vacations_add_new_input_date dateInput"
+                           value="{{$ctrl.vacationToEdit.start_date}}"
+                           ng-if="$ctrl.edition[$index]"
+                           ng-model="$ctrl.vacationToEdit.start_date">
+                    <span class=" col-xs-2 vacations_add_new_input"
+                          ng-if="$ctrl.edition[$index]!=true">
+                        {{vacation.start_date| date:'dd.MM.yyyy'}}
+                    </span>
+                    <select class="col-xs-2 vacations_add_new_input vacations_add_new_input_select no-padding text-center"
+                            ng-model="$ctrl.vacationToEdit.count"
+                            ng-if="$ctrl.edition[$index]==true"
+                            ng-change="$ctrl.editVacationDuration()">
+                        <option ng-value="$index+1"
+                                ng-repeat="x in [].constructor($ctrl.vacationToEdit.availableDays) track by $index">
+                            {{$index+1}}
+                        </option>
+                    </select>
+                    <span class="col-xs-2 vacations_add_new_input" ng-if="$ctrl.edition[$index]!=true">
+                        {{vacation.count}}
+                    </span>
+
+                    <input type="date"
+                           class="col-xs-2 vacations_add_new_input vacations_add_new_input_date dateInput"
+                           ng-if="$ctrl.edition[$index]"
+                           value="{{$ctrl.vacationToEdit.end_date}}"
+                           ng-model="$ctrl.vacationToEdit.end_date">
+                    <span class="col-xs-2 vacations_add_new_input"
+                          ng-if="$ctrl.edition[$index]!=true">
+                        {{vacation.end_date| date:'dd.MM.yyyy'}}
+                    </span>
+                    <span class="col-xs-2 vacations_add_new_input"
+                          ng-class="{'text-muted':$ctrl.edition[$index]===true}"
+                    >
+                          {{vacation.year}}
+                    </span>
+
+
+                    <div class="col-xs-1 info_body_row_vacations_headers"
+                         style="height: 50px;">
+
+                        <button class="vacation_periods_button vacation_periods_button_showDoc vacations_vacation_list_buttons"
+                                ng-if="vacation.downloaded==true"
+                                style="width: 100%;"
+                                ng-click="$ctrl.showDocument(vacation)"
+                                title="Переглянути заяву">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="14958 8627 68.39 73.889">
+                                <defs>
+                                    <style>
+                                        .cls-1, .cls-3 {
+                                            fill: none;
+                                        }
+
+                                        .cls-1 {
+                                            stroke: #000;
+                                        }
+
+                                        .cls-2 {
+                                            stroke: none;
+                                        }
+                                    </style>
+                                </defs>
+                                <g id="surface2" transform="translate(14943 8618)">
+                                    <path id="Path_235" data-name="Path 235" fill="black"
+                                          d="M15,9V71H49.637A15.987,15.987,0,1,0,65,48.051V23.586L50.414,9Zm2,2H49V25H63V48.051A16,16,0,0,0,48,64a15.817,15.817,0,0,0,.813,5H17Zm34,1.414L61.586,23H51ZM64,50A14,14,0,1,1,50,64,13.987,13.987,0,0,1,64,50Z"/>
+                                    <g id="Rectangle_258" data-name="Rectangle 258" class="cls-1"
+                                       transform="translate(74.904 72.99) rotate(45)">
+                                        <rect class="cls-2" width="12" height="2"/>
+                                        <rect class="cls-3" x="0.5" y="0.5" width="11" height="1"/>
+                                    </g>
+                                </g>
+                            </svg>
+
+
+                        </button>
+
+
+                        <label class="col-xs-12 vacations_vacation_add_file_label no-padding"
+                               ng-if="vacation.downloaded==false">
+                        <span class="col-xs-12 vacations_vacation_add_file_label_span" title="додати заяву"
+                              style="padding:6px;"
+                              ng-class="{'vacations_vacation_add_file_label_span_success':$ctrl.photo.base64.length>3&&$ctrl.edition[$index]}">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="15033 8627 65 71" width="100%">
+                                <g id="surface1" transform="translate(15018 8618)">
+                                    <path id="Path_235" fill="black" data-name="Path 235"
+                                          d="M15,9V71H49.637A15.987,15.987,0,1,0,65,48.051V23.586L50.414,9Zm2,2H49V25H63V48.051A16,16,0,0,0,48,64a15.817,15.817,0,0,0,.813,5H17Zm34,1.414L61.586,23H51ZM64,50A14,14,0,1,1,50,64,13.987,13.987,0,0,1,64,50Zm-1,7v6H57v2h6v6h2V65h6V63H65V57Z"/>
+                                </g>
+                            </svg>
+                        </span>
+
+
+                            <input type="file" id="fileInput2" accept=".jpg,.jpeg,.png,.pdf"
+                                   ng-model="$ctrl.photo"
+                                   style="display: none;"
+                                   onload="$ctrl.addNewVac=false; $ctrl.vacationPhoto[$index]=true;  $ctrl.editVacations($index,vacation)"
+                                   base-sixty-four-input ng-class="{'icon-new_document':$ctrl.photoLoaded}"
+                                   ng-change="$ctrl.checkFileSize('fileInput2')">
+                        </label>
+
+                    </div>
+
+
+                    <div class="col-xs-3 info_body_button_panel info_body_button_panel_vacations">
+                        <button class="polls_active_button col-xs-4"
+                                ng-click="$ctrl.addNewVac=false;$ctrl.editVacations($index,vacation)"
+                                ng-if="!$ctrl.edition[$index]"
+                                ng-class="{'disabled':vacation.editable===true}"
+                                title="Редагувати"
+
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.288 17.292">
+                                <defs>
+                                    <style>.ae {
+                                        fill: #bc10ab;
+                                    }</style>
+                                </defs>
+                                <path class="ae"
+                                      d="M17.459,2a1.826,1.826,0,0,0-1.292.54l-.305.305L18.446,5.43l.305-.305A1.833,1.833,0,0,0,17.459,2ZM15.286,3.515a.378.378,0,0,0-.223.117L2.869,15.838A.383.383,0,0,0,2.763,16l-.752,2.819a.376.376,0,0,0,.458.458l2.819-.752a.383.383,0,0,0,.164-.106L17.659,6.229a.378.378,0,1,0-.529-.54L4.995,17.824,3.468,16.3,15.6,4.162a.376.376,0,0,0-.282-.646Z"
+                                      transform="translate(-1.999 -2)"></path>
+                            </svg>
+                        </button>
+
+
+                        <button class="polls_active_button col-xs-4"
+                                ng-click="$ctrl.updateVacation($index)"
+                                ng-if="$ctrl.edition[$index]"
+                                title="Зберегти"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 15.052">
+                                <defs>
+                                    <style>.aConf {
+                                        fill: #45bf92;
+                                    }</style>
+                                </defs>
+                                <path class="aConf"
+                                      d="M23.16,12.1,10.993,24.266l-4.95-4.948L4.6,20.813l6.391,6.341L24.6,13.543Z"
+                                      transform="translate(-4.602 -12.102)"/>
+                            </svg>
+                        </button>
+
+
+                        <button class="polls_active_button col-xs-4"
+                                ng-click="$ctrl.confirmModal(vacation.id,'vacation')"
+                                ng-if="!$ctrl.edition[$index]"
+                                ng-class="{'disabled':vacation.editable===true}"
+                                title="Видалити"
+
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 viewBox="0 0 50 50" version="1.1">
+                                <g id="surface1">
+                                    <path style="fill: #b13d3a; "
+                                          d="M 21 0 C 19.355469 0 18 1.355469 18 3 L 18 5 L 10.1875 5 C 10.0625 4.976563 9.9375 4.976563 9.8125 5 L 8 5 C 7.96875 5 7.9375 5 7.90625 5 C 7.355469 5.027344 6.925781 5.496094 6.953125 6.046875 C 6.980469 6.597656 7.449219 7.027344 8 7 L 9.09375 7 L 12.6875 47.5 C 12.8125 48.898438 14.003906 50 15.40625 50 L 34.59375 50 C 35.996094 50 37.1875 48.898438 37.3125 47.5 L 40.90625 7 L 42 7 C 42.359375 7.003906 42.695313 6.816406 42.878906 6.503906 C 43.058594 6.191406 43.058594 5.808594 42.878906 5.496094 C 42.695313 5.183594 42.359375 4.996094 42 5 L 32 5 L 32 3 C 32 1.355469 30.644531 0 29 0 Z M 21 2 L 29 2 C 29.5625 2 30 2.4375 30 3 L 30 5 L 20 5 L 20 3 C 20 2.4375 20.4375 2 21 2 Z M 11.09375 7 L 38.90625 7 L 35.3125 47.34375 C 35.28125 47.691406 34.910156 48 34.59375 48 L 15.40625 48 C 15.089844 48 14.71875 47.691406 14.6875 47.34375 Z M 18.90625 9.96875 C 18.863281 9.976563 18.820313 9.988281 18.78125 10 C 18.316406 10.105469 17.988281 10.523438 18 11 L 18 44 C 17.996094 44.359375 18.183594 44.695313 18.496094 44.878906 C 18.808594 45.058594 19.191406 45.058594 19.503906 44.878906 C 19.816406 44.695313 20.003906 44.359375 20 44 L 20 11 C 20.011719 10.710938 19.894531 10.433594 19.6875 10.238281 C 19.476563 10.039063 19.191406 9.941406 18.90625 9.96875 Z M 24.90625 9.96875 C 24.863281 9.976563 24.820313 9.988281 24.78125 10 C 24.316406 10.105469 23.988281 10.523438 24 11 L 24 44 C 23.996094 44.359375 24.183594 44.695313 24.496094 44.878906 C 24.808594 45.058594 25.191406 45.058594 25.503906 44.878906 C 25.816406 44.695313 26.003906 44.359375 26 44 L 26 11 C 26.011719 10.710938 25.894531 10.433594 25.6875 10.238281 C 25.476563 10.039063 25.191406 9.941406 24.90625 9.96875 Z M 30.90625 9.96875 C 30.863281 9.976563 30.820313 9.988281 30.78125 10 C 30.316406 10.105469 29.988281 10.523438 30 11 L 30 44 C 29.996094 44.359375 30.183594 44.695313 30.496094 44.878906 C 30.808594 45.058594 31.191406 45.058594 31.503906 44.878906 C 31.816406 44.695313 32.003906 44.359375 32 44 L 32 11 C 32.011719 10.710938 31.894531 10.433594 31.6875 10.238281 C 31.476563 10.039063 31.191406 9.941406 30.90625 9.96875 Z "></path>
+                                </g>
+                            </svg>
+
+
+                        </button>
+
+
+                        <label ng-if="$ctrl.edition[$index]"
+                               class=" col-xs-4 text-center"
+                               style="height: 50px;padding-top: 12px;"
+                               title="Оновити заяву"
+                        >
+                            <!--<span class="col-xs-12 " ng-if="$ctrl.photoLoaded[$index]!=true" style="padding-left: 3px;">Оновити заяву</span>-->
+                            <!--<span class="col-xs-12" ng-if="$ctrl.photoLoaded[$index]==true">Заяву оновлено</span>-->
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 viewBox="0 0 50 50" version="1.1"
+                                 style="height: 25px;">
+                                <g id="surface1">
+                                    <path style="fill:#457bbf "
+                                          d="M 25 5 C 14.351563 5 5.632813 13.378906 5.054688 23.890625 C 5.007813 24.609375 5.347656 25.296875 5.949219 25.695313 C 6.550781 26.089844 7.320313 26.132813 7.960938 25.804688 C 8.601563 25.476563 9.019531 24.828125 9.046875 24.109375 C 9.511719 15.675781 16.441406 9 25 9 C 29.585938 9 33.699219 10.925781 36.609375 14 L 34 14 C 33.277344 13.988281 32.609375 14.367188 32.246094 14.992188 C 31.878906 15.613281 31.878906 16.386719 32.246094 17.007813 C 32.609375 17.632813 33.277344 18.011719 34 18 L 40.261719 18 C 40.488281 18.039063 40.71875 18.039063 40.949219 18 L 44 18 L 44 8 C 44.007813 7.460938 43.796875 6.941406 43.414063 6.558594 C 43.03125 6.175781 42.511719 5.964844 41.96875 5.972656 C 40.867188 5.988281 39.984375 6.894531 40 8 L 40 11.777344 C 36.332031 7.621094 30.964844 5 25 5 Z M 43.03125 23.972656 C 41.925781 23.925781 40.996094 24.785156 40.953125 25.890625 C 40.488281 34.324219 33.558594 41 25 41 C 20.414063 41 16.304688 39.074219 13.390625 36 L 16 36 C 16.722656 36.011719 17.390625 35.632813 17.753906 35.007813 C 18.121094 34.386719 18.121094 33.613281 17.753906 32.992188 C 17.390625 32.367188 16.722656 31.988281 16 32 L 9.71875 32 C 9.507813 31.96875 9.296875 31.96875 9.085938 32 L 6 32 L 6 42 C 5.988281 42.722656 6.367188 43.390625 6.992188 43.753906 C 7.613281 44.121094 8.386719 44.121094 9.007813 43.753906 C 9.632813 43.390625 10.011719 42.722656 10 42 L 10 38.222656 C 13.667969 42.378906 19.035156 45 25 45 C 35.648438 45 44.367188 36.621094 44.945313 26.109375 C 44.984375 25.570313 44.800781 25.039063 44.441406 24.636719 C 44.078125 24.234375 43.570313 23.996094 43.03125 23.972656 Z "></path>
+                                </g>
+                            </svg>
+
+                            <input type="file" id="fileInput3" accept=".jpg,.jpeg,.png,.pdf"
+                                   ng-model="$ctrl.photo"
+                                   style="display: none;" onload="$ctrl.photoLoaded[$index]=true"
+                                   ng-change="$ctrl.checkFileSize('fileInput3')"
+                                   base-sixty-four-input ng-class="{'icon-new_document':$ctrl.photoLoaded}">
+
+
+                        </label>
+                        <button class=" polls_active_button col-xs-4"
+                                ng-click=" $ctrl.cancelEdition(vacation, $index);$ctrl.edition[$index]=false"
+
+                                ng-if="$ctrl.edition[$index]"
+                                title="Скасувати"
+
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.424 17.424">
+                                <defs>
+                                    <style>.ad {
+                                        fill: #b13d3a;
+                                        stroke: #b13d3a;
+                                        stroke-width: 0.3px;
+                                    }</style>
+                                </defs>
+                                <path class="ad"
+                                      d="M6.934,6.281l-.653.653,7.847,7.847L6.281,22.629l.653.653,7.847-7.847,4.344,4.344,3.5,3.5.653-.653-7.847-7.847,7.847-7.847-.653-.653-7.847,7.847Z"
+                                      transform="translate(-6.069 -6.069)"></path>
+                            </svg>
+                        </button>
+
+                        <!--</button>-->
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--rejected vacations-->
+
+
+    <div class="vacations_add_new col-xs-12 no-padding animate-if "
+         ng-if="vacations.rejected.length>0" style="margin-bottom: 0px;">
+        <div class="col-xs-12 vacations_add_list_container_title no-padding "
+             ng-click="ctrl.showRejected=!ctrl.showRejected"
+
+        >
+            <span ng-bind="!ctrl.showRejected?'Показати відхилені заявки':'Приховати відхилені заявки'">
+
+            </span>
+        </div>
+
+    </div>
+
+
+    <div class="col-xs-12 no-padding vacations_add_new_container animate-if"
+         style=""
+         ng-if="ctrl.showRejected">
+        <div class="col-xs-12 vacations_add_new_header  "
+
+             style="margin-bottom: 10px;">
+
+
+
+            <span class="col-xs-2 vacations_vacation_list_titles">
+            Дата початку:
+        </span>
+            <span class="col-xs-2 vacations_vacation_list_titles">
+            Кількість днів:
+        </span>
+            <span class="col-xs-2 vacations_vacation_list_titles">
+            Дата закінчення:
+        </span>
+            <span class="col-xs-2 vacations_vacation_list_titles">
+            Період:
+        </span>
+            <span class="col-xs-1 vacations_vacation_list_titles">
+            Коментарі:
+        </span>
+            <span class="col-xs-3 vacations_vacation_list_titles">
+            Дії:
+        </span>
+        </div>
+        <div ng-repeat="vacation in vacations.rejected track by $index "
+             class="col-xs-12 vacations_add_new_body  animate-if"
+        >
+            <div class="col-xs-12 no-padding " style="min-height: 45px;">
+                <input type="date"
+                       class="col-xs-2 vacations_add_new_input vacations_add_new_input_date dateInput"
+                       value="{{$ctrl.vacationToEdit.start_date}}"
+                       ng-if="$ctrl.editionR[$index]"
+                       ng-model="$ctrl.vacationToEdit.start_date">
+                <span class=" col-xs-2 vacations_add_new_input" ng-if="$ctrl.editionR[$index]!=true">
+                        {{vacation.start_date| date:'dd.MM.yyyy'}}
+                </span>
+
+
+                <select class="col-xs-2 vacations_add_new_input vacations_add_new_input_select no-padding text-center"
+                        ng-model="$ctrl.vacationToEdit.count"
+                        ng-if="$ctrl.editionR[$index]==true"
+                        ng-change="$ctrl.editVacationDuration()">
+                    <option ng-value="$index+1"
+                            ng-repeat="x in [].constructor($ctrl.vacationToEdit.availableDays) track by $index">
+                        {{$index+1}}
+                    </option>
+                </select>
+                <span class=" col-xs-2 vacations_add_new_input" ng-if="$ctrl.editionR[$index]!=true">
+                        {{vacation.count}}
+                </span>
+
+
+                <input type="date"
+                       class="col-xs-2 vacations_add_new_input vacations_add_new_input_date dateInput"
+                       ng-if="$ctrl.editionR[$index]"
+                       value="{{$ctrl.vacationToEdit.end_date}}"
+                       ng-model="$ctrl.vacationToEdit.end_date">
+                <span class="col-xs-2 vacations_add_new_input" ng-if="$ctrl.editionR[$index]!=true">
+                    {{vacation.end_date| date:'dd.MM.yyyy'}}
+                </span>
+
+                <span class=" col-xs-2 vacations_add_new_input"
+                      ng-class="{'text-muted':$ctrl.editionR[$index]===true}">
+                            {{vacation.year}}
+                </span>
+
+                <div class="col-xs-1 text-center no-padding"
+                     align="center">
+
+                    <button class="col-xs-12 vacations_add_new_input vacations_add_new_button_eye text-center"
+                            ng-click="!vacation.comments?null:$ctrl.showCommentsR[$index]=!$ctrl.showCommentsR[$index]"
+                            title="переглянути коментарі"
+                            ng-hide="vacation.comments.length<1||!vacation.comments.length">
+                    </button>
+                     <button class="col-xs-12 vacations_add_new_input vacations_add_new_button_line   text-center"
+
+                                title="Коментарі відсутні"
+                                ng-show="vacation.comments.length<1||!vacation.comments.length">
+                        </button>
+                    <!--<span ng-click="!vacation.comments?null:$ctrl.showCommentsP[$index]=!$ctrl.showCommentsP[$index]"-->
+                    <!--class="text-center"-->
+                    <!--style="width: 100%;"-->
+                    <!--ng-bind="!vacation.comments?'Відсутній':!$ctrl.showCommentsP[$index]?'Показати':'Приховати'"></span>-->
+                    <span  ng-show="$ctrl.showCommentsR[$index]"
+                          ng-click="$ctrl.showCommentsR[$index]=!$ctrl.showCommentsR[$index]"
+                         style=""
+                              class="vacations_add_new_comments bg-info animate-if"
+
+                    >{{vacation.comments}} </span>
+
+                </div>
+
+                <div class="col-xs-3 info_body_button_panel info_body_button_panel_vacations no-margin text-center">
+
+                    <button class="polls_active_button col-xs-4"
+                            ng-click="$ctrl.addNewVac=false;$ctrl.editRejectVacations($index,vacation)"
+                            ng-if="!$ctrl.editionR[$index]"
+                            ng-class="{'disabled':vacation.editable===true}"
+                            title="Редагувати"
+
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.288 17.292">
+                            <defs>
+                                <style>.ae {
+                                    fill: #bc10ab;
+                                }</style>
+                            </defs>
+                            <path class="ae"
+                                  d="M17.459,2a1.826,1.826,0,0,0-1.292.54l-.305.305L18.446,5.43l.305-.305A1.833,1.833,0,0,0,17.459,2ZM15.286,3.515a.378.378,0,0,0-.223.117L2.869,15.838A.383.383,0,0,0,2.763,16l-.752,2.819a.376.376,0,0,0,.458.458l2.819-.752a.383.383,0,0,0,.164-.106L17.659,6.229a.378.378,0,1,0-.529-.54L4.995,17.824,3.468,16.3,15.6,4.162a.376.376,0,0,0-.282-.646Z"
+                                  transform="translate(-1.999 -2)"></path>
+                        </svg>
+                    </button>
+
+
+                    <button class="polls_active_button col-xs-4"
+                            ng-click="$ctrl.updateVacation($index,'pending')"
+                            ng-if="$ctrl.editionR[$index]"
+                            title="Зберегти"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 15.052">
+                            <defs>
+                                <style>.aConf {
+                                    fill: #45bf92;
+                                }</style>
+                            </defs>
+                            <path class="aConf"
+                                  d="M23.16,12.1,10.993,24.266l-4.95-4.948L4.6,20.813l6.391,6.341L24.6,13.543Z"
+                                  transform="translate(-4.602 -12.102)"/>
+                        </svg>
+                    </button>
+                    <button class="polls_active_button col-xs-4"
+                            ng-click="$ctrl.confirmPendingVacation(vacation.id,'confirmation',vacation)"
+                            ng-if="!$ctrl.editionR[$index]"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 15.052">
+                            <defs>
+                                <style>.aConf {
+                                    fill: #45bf92;
+                                }</style>
+                            </defs>
+                            <path class="aConf"
+                                  d="M23.16,12.1,10.993,24.266l-4.95-4.948L4.6,20.813l6.391,6.341L24.6,13.543Z"
+                                  transform="translate(-4.602 -12.102)"/>
+                        </svg>
+                    </button>
+
+
+                    <button class=" polls_active_button col-xs-4"
+                            ng-click=" $ctrl.cancelEdition(vacation, $index);$ctrl.editionR[$index]=false"
+
+                            ng-if="$ctrl.editionR[$index]"
+                            title="Скасувати"
+
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.424 17.424">
+                            <defs>
+                                <style>.ad {
+                                    fill: #b13d3a;
+                                    stroke: #b13d3a;
+                                    stroke-width: 0.3px;
+                                }</style>
+                            </defs>
+                            <path class="ad"
+                                  d="M6.934,6.281l-.653.653,7.847,7.847L6.281,22.629l.653.653,7.847-7.847,4.344,4.344,3.5,3.5.653-.653-7.847-7.847,7.847-7.847-.653-.653-7.847,7.847Z"
+                                  transform="translate(-6.069 -6.069)"></path>
+                        </svg>
+                    </button>
+
+                    <!--</button>-->
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <br>
+        <br>
+    </div>
+
+</div>

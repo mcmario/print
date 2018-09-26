@@ -1,0 +1,263 @@
+<div id="modal_edit_photo" style="padding: 20px 20px 0 20px;">
+    <span class="title-text">Додати фото профілю</span>
+    <div class=" col-xs-12 animate-if no-padding" style="position:relative;     margin-top: 20px;">
+        <!--<canvas id="canvas"  style="border: 2px solid blue; display: none;"></canvas>-->
+
+        <label class="col-xs-5 no-padding" style=" max-width: 200px">
+            <span class="save curr_empl_button col-xs-4 text-center">Оберіть файл</span>
+            <input type="file" id="newFileNewEmp" onchange='getURl()' class="hidden">
+        </label>
+
+        <div class="col-xs-7" id="btn_panel" style="display: none">
+            <button class="col-xs-2 btnS text-center " title="зменшити" onclick="zoom(2)">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50"
+
+                     version="1.1">
+                    <g id="surface1">
+                        <path style="fill:#31609c "
+                              d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z M 20 12 L 20 19 L 13 19 L 13 21 L 20 21 L 20 28 L 22 28 L 22 21 L 29 21 L 29 19 L 22 19 L 22 12 Z "></path>
+                    </g>
+                </svg>
+            </button>
+            <button class="col-xs-2 btnS text-center " title="збільшити" onclick="zoom(0)">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                     viewBox="0 0 50 50" version="1.1">
+                    <g id="surface1">
+                        <path style="fill:#31609c "
+                              d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z M 13 19 L 13 21 L 29 21 L 29 19 Z "></path>
+                    </g>
+                </svg>
+            </button>
+            <button class="col-xs-2 btnS text-center " onclick="fit()" title="максимальний розмір">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48"
+                     version="1.1">
+                    <g id="surface1">
+                        <path style=" fill:#31609c;" d="M 42 42 L 31 42 L 42 31 Z "></path>
+                        <path style=" fill:#31609c;"
+                              d="M 39.550781 41.402344 C 39.039063 41.402344 38.527344 41.210938 38.136719 40.816406 L 28.316406 31 L 31.144531 28.171875 L 40.960938 37.992188 C 41.742188 38.769531 41.742188 40.039063 40.960938 40.816406 C 40.574219 41.210938 40.0625 41.402344 39.550781 41.402344 Z "></path>
+                        <path style=" fill:#31609c;" d="M 17 42 L 6 42 L 6 31 Z "></path>
+                        <path style=" fill:#31609c;"
+                              d="M 8.449219 41.550781 C 7.9375 41.550781 7.425781 41.355469 7.035156 40.964844 C 6.253906 40.183594 6.253906 38.917969 7.035156 38.136719 L 16.171875 28.3125 L 19 31.140625 L 9.863281 40.964844 C 9.472656 41.355469 8.960938 41.550781 8.449219 41.550781 Z "></path>
+                        <path style=" fill:#31609c;" d="M 42 6 L 31 6 L 42 17 Z "></path>
+                        <path style=" fill:#31609c;"
+                              d="M 39.550781 6.59375 C 39.039063 6.59375 38.527344 6.789063 38.136719 7.179688 L 28.171875 17 L 31.144531 19.828125 L 40.964844 10.007813 C 41.746094 9.226563 41.746094 7.960938 40.964844 7.179688 C 40.574219 6.789063 40.0625 6.59375 39.550781 6.59375 Z "></path>
+                        <path style=" fill:#31609c;" d="M 17 6 L 6 6 L 6 17 Z "></path>
+                        <path style=" fill:#31609c;"
+                              d="M 8.652344 6.589844 C 8.140625 6.589844 7.628906 6.785156 7.238281 7.175781 C 6.457031 7.957031 6.457031 9.222656 7.238281 10.003906 L 17 19.828125 L 19.828125 17 L 10.066406 7.175781 C 9.675781 6.785156 9.164063 6.589844 8.652344 6.589844 Z "></path>
+                    </g>
+                </svg>
+            </button>
+            <button class=" col-xs-2 btnS " title="зберегти" onclick="confirm()" ng-click="closeThisDialog(0)" id="saveBtn"
+            >
+
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50"
+                     version="1.1">
+                    <g id="surface1">
+                        <path style="fill: #45bf92; "
+                              d="M 5 2 C 3.347656 2 2 3.347656 2 5 L 2 45 C 2 46.652344 3.347656 48 5 48 L 45 48 C 46.652344 48 48 46.652344 48 45 L 48 12 C 48 11.734375 47.90625 11.46875 47.71875 11.28125 L 38.71875 2.28125 C 38.53125 2.09375 38.265625 2 38 2 Z M 12 4 L 35 4 C 36.101563 4 37 4.898438 37 6 L 37 17 C 37 18.101563 36.101563 19 35 19 L 12 19 C 10.898438 19 10 18.101563 10 17 L 10 6 C 10 4.898438 10.898438 4 12 4 Z M 30 6 C 29.445313 6 29 6.445313 29 7 L 29 16 C 29 16.554688 29.445313 17 30 17 L 33 17 C 33.554688 17 34 16.554688 34 16 L 34 7 C 34 6.445313 33.554688 6 33 6 Z M 12.8125 26.03125 L 37.1875 26.03125 C 38.71875 26.03125 39.96875 27.28125 39.96875 28.8125 L 39.96875 46 L 10.03125 46 L 10.03125 28.8125 C 10.03125 27.28125 11.28125 26.03125 12.8125 26.03125 Z M 6 41 L 8 41 L 8 43 L 6 43 Z M 42 41 L 44 41 L 44 43 L 42 43 Z "></path>
+                    </g>
+                </svg>
+            </button>
+
+
+        </div>
+
+    </div>
+
+    <div class="cont" id='contNew' onmousemove='getMousePosition(event)' onclick="fixPosition(event)" wheel="zoomW(2)"
+    >
+        <!--style="position: absolute; top: 117px;overflow: hidden; left: 10px;">-->
+        <img id="sourceNew"
+        ><!--style="max-width: 700px;-->
+
+        <!--max-height: 700px;">-->
+
+        <div id="frameNew"
+
+             style="top: 0; left: 0;position: absolute; width: 50px;height: 50px;background: none;  display: none; box-shadow: #909090cf 0px 0px 0px 700px"
+        >
+
+        </div>
+
+
+    </div>
+
+
+    <!--<span id="new" class="hidden">zzz</span>-->
+    <!---->
+    <!--<div class="col-xs-12" style="">-->
+    <!---->
+
+
+    <!--</div>-->
+    <!--<canvas id="canvasNew" width="768" height="768" style="display: none;"></canvas>-->
+
+</div>
+
+
+<script>
+
+
+    let prop = false;
+    let stopMove = false;
+    let L = 0,
+        T = 0,
+        W = 80,
+        H = 80;
+    let width = 100,
+        height = 100;
+    let ImgW = 0
+    let ImgH = 0
+
+
+    function getE(id) {
+        return document.getElementById(id)
+    }
+
+    function getProp() {
+        ImgW = parseInt(document.getElementById("sourceNew").offsetWidth)
+        ImgH = parseInt(document.getElementById("sourceNew").offsetHeight)
+        fit()
+
+
+        return prop = getE('sourceNew').naturalWidth / parseInt(getE("sourceNew").offsetWidth)
+
+    }
+
+    function getURl() {
+        var files = document.getElementById('newFileNewEmp').files;
+        if (files.length > 0) {
+
+
+            getBase64(files[0])
+        }
+    }
+function confirm(){
+    document.getElementById('canvasNew').setAttribute('id','canvasNewL')
+    }
+    function getBase64(file) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            var src = reader.result
+            getE('sourceNew').style.display = 'none'
+            getE('sourceNew').src = src
+
+            setTimeout(function () {
+                getE('sourceNew').style.display = 'block'
+                getE('btn_panel').style.display = 'flex'
+
+                let x = getE('sourceNew').offsetWidth
+                getE('modal_edit_photo').parentElement.style.width = x + 'px'
+
+                getProp()
+
+            }, 300);
+            // console.log(getE('sourceNew').offsetWidth);
+            prop = ''
+            return 'ok'
+
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+            return 'no'
+        };
+        return 'ok'
+    }
+
+    function fixPosition(event) {
+        var xpos = event.clientX;
+        var ypos = event.clientY
+        stopMove = !stopMove
+
+        // getE('saveBtn').classList.toggle("disabled")
+
+        // stopMove ? getE('saveBtn').setAttribute("disabled", false) : getE('saveBtn').setAttribute("disabled", true)
+
+    }
+
+    let format = 1
+
+    function setFormat() {
+        format = 1
+    }
+
+    function fit() {
+        if (parseInt(document.getElementById("sourceNew").offsetWidth) > parseInt(document.getElementById("sourceNew").offsetHeight)) {
+            width = parseInt(document.getElementById("sourceNew").offsetHeight)
+        } else width = parseInt(document.getElementById("sourceNew").offsetWidth)
+        getE('frameNew').style.width = width + 'px'
+        getE('frameNew').style.height = width * format + 'px'
+        stopMove = false
+    }
+
+    function zoom(x) {
+        if (x == 2) {
+            if (parseInt(width) + 20 < parseInt(document.getElementById("sourceNew").offsetWidth) &&
+                parseInt(width) + 20 < parseInt(document.getElementById("sourceNew").offsetHeight)) {
+                width += 20
+            }
+        } else {
+            width > 30 ? width -= 20 : null;
+        }
+        getE('frameNew').style.width = width + 'px'
+        getE('frameNew').style.height = width + 'px'
+        stopMove = false
+
+
+    }
+
+    function getMousePosition(event) {
+
+        // !prop ? prop = getProp() : null
+        !stopMove ? getE('saveBtn').setAttribute("disabled", true) : getE('saveBtn').removeAttribute("disabled")
+        if (!stopMove) {
+
+            let xpos = event.clientX;
+            let ypos = event.clientY;
+            let top = parseInt(getE('sourceNew').getBoundingClientRect().top);
+            let left = parseInt(getE('sourceNew').getBoundingClientRect().left);
+            let frW = parseInt(getE('frameNew').offsetWidth) * 0.5;
+            let frH = frW * format
+            let mTop = ypos - top;
+            let mLeft = xpos - left;
+            getE('frameNew').style.display = 'block';
+            mTop > ImgH - frW ? getE('frameNew').style.top = ImgH : null;
+            mTop > frW ? getE('frameNew').style.top = mTop - frW + 'px' : getE('frameNew').style.top = 0;
+            mLeft > frW ? getE('frameNew').style.left = mLeft - frW + 'px' : getE('frameNew').style.left = 0;
+            mTop > ImgH - frW ? getE('frameNew').style.top = ImgH - frW * 2 + 'px' : null;
+            mLeft > ImgW - frW ? getE('frameNew').style.left = ImgW - frW * 2 + 'px' : null;
+            let fL = parseInt(getE('frameNew').style.left);
+            let fT = parseInt(getE('frameNew').style.top);
+            draw(fL * prop, fT * prop, frW * 2 * prop, frW * 2 * prop)
+        }
+        else {
+
+        }
+    }
+
+    function draw(x, y, w, h) {
+        // let canvas = getE('canvasNew')
+        let canvas=document.getElementById('canvasNew')
+        var ctx = canvas.getContext('2d');
+        let img = document.getElementById('sourceNew');
+        // Рисуем фрагмент
+        ctx.fillStyle = '#ffffff'
+        ctx.fillRect(0, 0, 768, 768)
+        ctx.mozImageSmoothingEnabled = false;
+        ctx.webkitImageSmoothingEnabled = false;
+        ctx.msImageSmoothingEnabled = false;
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(img, x, y, w, h, 0, 0, 768, 768);
+
+        //  /
+
+    }
+
+    getE('frameNew').addEventListener('wheel', function (e) {
+        e.deltaY < 0 ? zoom(2) : zoom(0)
+    });
+</script>
+
+

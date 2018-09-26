@@ -1,0 +1,72 @@
+<!--<header-component>-->
+
+<!--</header-component>-->
+
+
+<sidebar>
+
+</sidebar>
+
+<div class="content no-padding" style="overflow:hidden;"
+     ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}">
+    <component-control-menu-administrating
+
+    >
+    </component-control-menu-administrating>
+
+
+    <div class="no-padding page_wrapper smooth_width col-xs-12 customScroll"
+         style="overflow: auto"
+         ng-class="{'col-lg-8': displayNotes(), 'col-lg-12': !displayNotes()}">
+
+
+        <div class="container-fluid page ">
+
+
+            <component-admin-city-branch
+                    ng-if=" ctrl.adminPane ==1"
+                    data="ctrl.data"
+                    form-info="ctrl.formInfo">
+            </component-admin-city-branch>
+
+            <component-admin-workers
+                    ng-if=" ctrl.adminPane ==2"
+                    data="ctrl.data"
+                    form-info="ctrl.formInfo">
+            </component-admin-workers>
+
+            <component-admin-vacations
+                    ng-if=" ctrl.adminPane ==3"
+                    data="ctrl.data"
+                    form-info="ctrl.formInfo">
+            </component-admin-vacations>
+
+            <component-admin-vacations-rests
+                    ng-if=" ctrl.adminPane ==4"
+                    data="ctrl.data"
+                    form-info="ctrl.formInfo">
+            </component-admin-vacations-rests>
+            <component-admin-exp
+                    ng-if=" ctrl.adminPane ==5"
+                    data="ctrl.data"
+                    form-info="ctrl.formInfo">
+            </component-admin-exp>
+            <component-admin-vacations-pending
+                    ng-if=" ctrl.adminPane ==6"
+                   >
+            </component-admin-vacations-pending>
+             <component-admin-children
+                    ng-if=" ctrl.adminPane ==7"
+                    data="ctrl.data"
+                    form-info="ctrl.formInfo">
+            </component-admin-children>
+
+        </div>
+    </div>
+    <div ng-if="displayNotes()" class="col-md-4 no-padding position-absolute"
+
+         ng-class="{'width_0': !displayNotes()}">
+        <notes-component>
+        </notes-component>
+    </div>
+</div>

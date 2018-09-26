@@ -1,0 +1,319 @@
+<div class="info_container eduEdition" >
+    <div class="spinner_container" ng-if="$ctrl.spinner==true">
+        <div class="spinner spinner_components">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-9">
+            <h3 class="curr_empl_name ">
+                {{$ctrl.data[0].surname_ua}} {{$ctrl.data[0].name_ua}} {{$ctrl.data[0].middle_name_ua}}
+            </h3>
+            <span class="info_header_title">Освіта</span>
+
+
+        </div>
+        <div class="col-xs-3 info_body_button_panel info_body_button_panel_add_new no-padding">
+            <button ng-click="$ctrl.addEduModal() "
+                    class="animate-if info_button_add col-xs-3 no-padding">
+                Додати освіту
+            </button>
+
+
+        </div>
+
+    </div>
+
+    <h4 class="curr_empl_name col-xs-12 "
+        ng-if="!education.length">
+        відсутні дані</h4>
+
+
+    <div class="col-xs-12 vacations_add_new_container animate-if"
+         style="padding: 10px 10px 10px 0;"
+         ng-repeat="edu in education track by $index "
+
+
+    ><form name="eduInfo" class=" no-padding ">
+
+        <div class="col-xs-11 col-lg-11 no-padding " >
+
+            <div class="col-xs-12 no-padding" ng-if="edu.education_type.length||$ctrl.edition[$index]||edu.form_of_training">
+                <span class="col-xs-3 vacations_vacation_list_titles text-left">Тип освіти:</span>
+                <span class="col-xs-8 text-left"
+                      ng-if="!$ctrl.edition[$index]">{{edu.education_type}}, {{edu.form_of_training}}</span>
+                <select name=""  class="col-xs-5 col-md-4 col-lg-4 vacations_add_new_input vacations_add_new_input_sel_edu"
+                        ng-init="$ctrl.getEduTypes()"
+                        ng-if="$ctrl.edition[$index]"
+                ng-model="$ctrl.editedEducation.education_type">
+                    <option  disabled>виберіть тип освіти</option>
+                    <option ng-value="type.name" ng-repeat="type in $ctrl.eduTypes track by $index">{{type.name}}
+                    </option>
+                </select>
+                <select name="" class="col-xs-4 col-md-4 col-lg-3 vacations_add_new_input vacations_add_new_input_sel_edu"
+                        ng-model="$ctrl.editedEducation.form_of_training"
+
+                        ng-if="$ctrl.edition[$index]">
+                    <option type="text" value=""  disabled>Форма навчання</option>
+                    <option value="Денна">Денна</option>
+                    <option value="Заочна">Заочна</option>
+                    <option value="Інше">Інше</option>
+                </select>
+
+            </div>
+
+
+            <div class="col-xs-12 no-padding"
+
+            ng-if="edu.institution_name||$ctrl.edition[$index]">
+                <span class="col-xs-3 vacations_vacation_list_titles">Назва НЗ:</span>
+                <span class="col-xs-9"  ng-if="!$ctrl.edition[$index]">{{edu.institution_name}}</span>
+                <input type="text" ng-if="$ctrl.edition[$index]" class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "
+                       ng-model="$ctrl.editedEducation.institution_name"
+                       ng-value="edu.institution_name">
+
+            </div>
+            <div class="col-xs-12 no-padding"
+                 ng-if="edu.date_of_graduation||$ctrl.edition[$index]">
+                <span class="col-xs-3 vacations_vacation_list_titles">Дата закінчення:</span>
+                <span class="col-xs-9"  ng-if="!$ctrl.edition[$index]">{{edu.date_of_graduation}}</span>
+                <input type="text" ng-if="$ctrl.edition[$index]" class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "
+                       ng-model="$ctrl.editedEducation.date_of_graduation"
+                       ng-value="edu.date_of_graduation">
+
+            </div>
+            <div class="col-xs-12 no-padding"
+                 ng-if="edu.faculty||$ctrl.edition[$index]">
+                <span class="col-xs-3 vacations_vacation_list_titles">Факультет:</span>
+                <span class="col-xs-9"  ng-if="!$ctrl.edition[$index]">{{edu.faculty}}</span>
+                <input type="text" ng-if="$ctrl.edition[$index]" class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "
+                       ng-model="$ctrl.editedEducation.faculty"
+                       ng-value="edu.faculty">
+
+            </div>
+            <div class="col-xs-12 no-padding"
+                 ng-if="edu.main_specialty||$ctrl.edition[$index]">
+                <span class="col-xs-3 vacations_vacation_list_titles">Спеціальність:</span>
+                <span class="col-xs-9"  ng-if="!$ctrl.edition[$index]">{{edu.main_specialty}}</span>
+                <input type="text" ng-if="$ctrl.edition[$index]" class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "
+                       ng-model="$ctrl.editedEducation.main_specialty"
+                       ng-value="edu.main_specialty">
+
+            </div>
+            <div class="col-xs-12 no-padding"
+                 ng-if="edu.diploma||$ctrl.edition[$index]">
+                <span class="col-xs-3 vacations_vacation_list_titles">Документ:</span>
+                <span class="col-xs-9"  ng-if="!$ctrl.edition[$index]">{{edu.diploma}}</span>
+                <input type="text" ng-if="$ctrl.edition[$index]" class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "
+                       ng-model="$ctrl.editedEducation.diploma"
+                       ng-value="edu.diploma">
+
+            </div>
+            <div class="col-xs-12 no-padding"
+                 ng-if="edu.years_of_experience||$ctrl.edition[$index]">
+                <span class="col-xs-3 vacations_vacation_list_titles">Досвід за спеціальністю:</span>
+                <span class="col-xs-9"  ng-if="!$ctrl.edition[$index]">{{edu.years_of_experience}} (роки\ів)</span>
+                <input type="text" ng-if="$ctrl.edition[$index]" class="col-xs-9 col-md-8 col-lg-7 vacations_add_new_input "
+                       ng-model="$ctrl.editedEducation.years_of_experience"
+                       ng-value="edu.years_of_experience">
+
+            </div>
+
+        </div>
+        <div class="col-xs-1 info_body_button_panel"
+        ng-class="{'edu':!$ctrl.edition[$index]}">
+            <button class="info_body_button_panel_edit editBtn"
+
+                    ng-click="$ctrl.editEducation($index, edu)"
+                    ng-if="!$ctrl.edition[$index]"
+            title="редагувати">
+
+
+            </button>
+            <button class="info_body_button_panel_cancel cancelBtn"
+                    ng-click="$ctrl.edition[$index]=false; $ctrl.$onInit()"
+                    ng-if="$ctrl.edition[$index]"
+            title="скасувати"
+            >
+
+
+            </button>
+
+            <button class="info_body_button_panel_delete deleteBtn"
+                    ng-click="$ctrl.deleteEducation(edu,'education')"
+                    ng-if="!$ctrl.edition[$index]"
+                    title="видалити"
+            >
+
+            </button>
+
+            <button class="info_body_button_panel_save saveBtn"
+                    ng-click="$ctrl.saveEditedEducation('education')"
+                    ng-if="$ctrl.edition[$index] "
+            title="зберегти">
+
+            </button>
+        </div>
+    </form>
+    </div>
+
+
+    <!--<div ng-repeat="edu in education track by $index " class="col-xs-12 ">-->
+        <!--<div class="col-xs-9 no-padding info_body">-->
+            <!--<form name="eduInfo" class=" no-padding ">-->
+
+
+                <!--<div class="col-xs-12 info_body_row  no-padding"-->
+                     <!--nf-if="edu.type_education.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                <!--<span class="col-xs-4 ">-->
+                    <!--Тип освіти:-->
+                <!--</span>-->
+                    <!--<span ng-if="edu.education_type.length>1&&!$ctrl.edition[$index]">-->
+                        <!--{{edu.education_type}}, {{edu.form_of_training}}-->
+                    <!--</span>-->
+                    <!--&lt;!&ndash;<input type="text"&ndash;&gt;-->
+                    <!--&lt;!&ndash;class="col-xs-5"&ndash;&gt;-->
+                    <!--&lt;!&ndash;ng-model="$ctrl.editedEducation.education_type"&ndash;&gt;-->
+                    <!--&lt;!&ndash;ng-value="edu.education_type"&ndash;&gt;-->
+                    <!--&lt;!&ndash;ng-if="$ctrl.edition[$index]">&ndash;&gt;-->
+                    <!--<select class="newEmpName"-->
+                            <!--ng-if="$ctrl.edition[$index]"-->
+                            <!--ng-model="$ctrl.editedEducation.form_of_training"-->
+                    <!--&gt;-->
+                        <!--<option type="text" value="" selected disabled>Форма навчання</option>-->
+                        <!--<option value="Денна">Денна</option>-->
+                        <!--<option value="Заочна">Заочна</option>-->
+                        <!--<option value="Інше">Інше</option>-->
+
+                    <!--</select>-->
+
+
+                    <!--<input type="text"-->
+                           <!--class="col-xs-2"-->
+                           <!--ng-model="$ctrl.editedEducation.form_of_training"-->
+                           <!--ng-value="edu.form_of_training"-->
+                           <!--ng-if="$ctrl.edition[$index]">-->
+                <!--</div>-->
+
+                <!--<div class="col-xs-12 no-padding info_body_row"-->
+                     <!--nf-if="edu.name_institute.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                <!--<span class="col-xs-4 ">-->
+                    <!--Назва НЗ:-->
+                <!--</span>-->
+                    <!--<span ng-if="edu.institution_name.length>1&&!$ctrl.edition[$index]">-->
+                        <!--{{edu.institution_name}}-->
+                    <!--</span>-->
+                    <!--<input type="text"-->
+                           <!--class="col-xs-7"-->
+                           <!--ng-if="$ctrl.edition[$index]"-->
+                           <!--ng-model="$ctrl.editedEducation.institution_name"-->
+                           <!--ng-value="edu.institution_name">-->
+
+
+                <!--</div>-->
+                <!--<div class="col-xs-12  no-padding info_body_row"-->
+                     <!--nf-if="edu.date.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                    <!--<span class="col-xs-4 ">Дата закінчення:</span>-->
+                    <!--<span ng-if="edu.date_of_graduation.length>1&&!$ctrl.edition[$index]">-->
+                        <!--{{edu.date_of_graduation}}-->
+                    <!--</span>-->
+                    <!--<input type="text"-->
+                           <!--class="col-xs-7"-->
+                           <!--ng-if="$ctrl.edition[$index]"-->
+                           <!--ng-model="$ctrl.editedEducation.date_of_graduation"-->
+                           <!--ng-value="edu.date_of_graduation">-->
+
+
+                <!--</div>-->
+
+                <!--<div class="col-xs-12  no-padding info_body_row"-->
+                     <!--nf-if="edu.faculty.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                    <!--<span class="col-xs-4 ">Факультет:</span>-->
+                    <!--<span ng-if="edu.faculty.length>1&&!$ctrl.edition[$index]">{{edu.faculty}}</span>-->
+                    <!--<input type="text"-->
+                           <!--class="col-xs-7"-->
+                           <!--ng-model="$ctrl.editedEducation.faculty"-->
+                           <!--ng-value="edu.faculty"-->
+                           <!--ng-if="$ctrl.edition[$index]">-->
+
+                <!--</div>-->
+                <!--<div class="col-xs-12  no-padding info_body_row"-->
+                     <!--ng-if="edu.main_specialty.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                    <!--<span class="col-xs-4 ">Спеціальність:</span>-->
+                    <!--<span ng-if="edu.main_specialty.length>1&&!$ctrl.edition[$index]">-->
+                        <!--{{edu.main_specialty}}-->
+                    <!--</span>-->
+                    <!--<input type="text"-->
+                           <!--class="col-xs-7"-->
+                           <!--ng-model="$ctrl.editedEducation.main_specialty"-->
+                           <!--ng-value="edu.main_specialty"-->
+                           <!--ng-if="$ctrl.edition[$index]">-->
+
+                <!--</div>-->
+
+                <!--<div class="col-xs-12  no-padding info_body_row"-->
+
+                     <!--nf-if="edu.diplom.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                    <!--<span class="col-xs-4 ">Документ:</span>-->
+                    <!--<span ng-if="edu.diploma.length>1&&!$ctrl.edition[$index]">-->
+                        <!--{{edu.diploma}}-->
+                    <!--</span>-->
+                    <!--<input type="text"-->
+                           <!--class="col-xs-7"-->
+                           <!--ng-model="$ctrl.editedEducation.diploma"-->
+                           <!--ng-value="edu.diploma"-->
+                           <!--ng-if="$ctrl.edition[$index]">-->
+
+                <!--</div>-->
+                <!--<div class="col-xs-12  no-padding info_body_row    "-->
+                     <!--nf-if="edu.main_specialty_year.length>1&&!$ctrl.edition[$index]||$ctrl.edition[$index]">-->
+                    <!--<span class="col-xs-4 ">Досвід за спеціальністю:</span>-->
+                    <!--<span ng-if="edu.years_of_experience.length>0&&!$ctrl.edition[$index]">-->
+                        <!--{{edu.years_of_experience}} (роки)-->
+                    <!--</span>-->
+                    <!--<input type="text"-->
+                           <!--class="col-xs-7"-->
+                           <!--ng-model="$ctrl.editedEducation.years_of_experience"-->
+                           <!--ng-value="edu.years_of_experience"-->
+                           <!--ng-if="$ctrl.edition[$index]">-->
+
+                <!--</div>-->
+
+            <!--</form>-->
+
+        <!--</div>-->
+        <!--<div class="col-xs-3 info_body_button_panel">-->
+            <!--<button class="info_body_button_panel_edit "-->
+
+                    <!--ng-click="$ctrl.editEducation($index, edu)"-->
+                    <!--ng-if="!$ctrl.edition[$index]">-->
+
+                <!--Редагувати-->
+            <!--</button>-->
+            <!--<button class="info_body_button_panel_cancel "-->
+                    <!--ng-click="$ctrl.edition[$index]=false; $ctrl.$onInit()"-->
+                    <!--ng-if="$ctrl.edition[$index]">-->
+                <!--Скасувати-->
+
+            <!--</button>-->
+
+            <!--<button class="info_body_button_panel_delete "-->
+                    <!--ng-click="$ctrl.deleteEducation(edu,'education')"-->
+                    <!--ng-if="!$ctrl.edition[$index]"-->
+            <!--&gt;-->
+                <!--Видалити-->
+            <!--</button>-->
+
+            <!--<button class="info_body_button_panel_save"-->
+                    <!--ng-click="$ctrl.saveEditedEducation('education')"-->
+                    <!--ng-if="$ctrl.edition[$index] && eduInfo.$dirty">-->
+                <!--Зберегти-->
+            <!--</button>-->
+        <!--</div>-->
+        <!--<br>-->
+        <!--<div class="row cox-xs-12"><input type="text" class="invisible"></div>-->
+
+    <!--</div>-->
+</div>

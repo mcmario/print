@@ -1,0 +1,162 @@
+<div class="spinner_container" ng-if="$ctrl.spinner==true">
+
+    <div class="spinner" style="left: 5%;">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</div>
+
+<div class="info_container">
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-10 col-md-8">
+            <h3 class="curr_empl_name ">
+                {{$ctrl.data[0].surname_ua}} {{$ctrl.data[0].name_ua}} {{$ctrl.data[0].middle_name_ua}}
+            </h3>
+            <span class="info_header_title">Документи</span>
+
+
+        </div>
+        <div class="col-xs-2 col-md-3 info_body_button_panel">
+            <button ng-click="$ctrl.uploadNewDocument(false)"
+                    class="animate-if info_button_add col-xs-3 no-padding">
+                Новий документ
+            </button>
+            <button ng-click="$ctrl.uploadNewPhoto(false)"
+                    class="animate-if info_button_add col-xs-3 no-padding">
+            фото профілю</button>
+
+
+        </div>
+
+    </div>
+<h4 class="curr_empl_name col-xs-12 "
+            ng-if="!documents.length">
+            відсутні дані</h4>
+    <div class="row">
+        <div ng-repeat="item in documents track by $index " ng-if="item.status==='active'">
+
+
+            <div class="col-sm-6">
+
+                <div class="current_employee_document_container" ng-if="item.name!=='фотографія'">
+
+                    <i image-color="red" class="current_employee_document-icon"
+                       style="background-image: url({{item.src}});background-size: contain"
+                       ng-click="$ctrl.showDocument(item)" ng-if="item.file_type.indexOf('pdf')<0">
+                        <i class="current_employee_document-icon current_employee_document-icon-notActive"
+                           ng-if="item.status!='active'">неактивний</i>
+                    </i>
+
+                    <i image-color="red" class="current_employee_document-icon" ng-click="$ctrl.showDocument(item)"
+                       ng-if="item.file_type.indexOf('pdf')>=0">
+                        <i class="current_employee_document-icon current_employee_document-icon-notActive"
+                           ng-if="item.status!='active'">неактивний</i>
+                    </i>
+                    <button class="button current_employee_document_button_update cur_empl_button_doc"
+                            ng-class="{'cur_empl_button_doc':displayNotes()}"
+                            ng-click="$ctrl.changeDocStatus(item)"><i
+                            class="buttons-icon icon-update_document"></i>Деактивувати
+                    </button>
+                    <br>
+
+                    <h5 class="current_employee_document_title"><small ng-if="item.type_">({{item.type_}}) </small> {{item.name}}
+                    </h5>
+                    <span >додано: <i ng-if="!item.created"> не вказано </i>{{item.created}} </span>
+
+                    <!--<a ng-repeat="(key, link) in item.links" class="current_employee_document_link" ng-class="{'active': $first}"-->
+                    <!--href="{{link.url}}">{{link.create_date}}<span ng-if="!$last">, </span></a>-->
+                </div>
+                <div class="current_employee_document_container" ng-if="item.name=='фотографія'">
+
+                    <i image-color="red" class="current_employee_document-icon"
+                       style="background-image: url('/get_photo/{{item.fk_person}}');background-size: contain"
+                       ng-click="$ctrl.showDocument(item)" ng-if="item.file_type.split('.')[-1]!=='pdf'">
+                        <i class="current_employee_document-icon current_employee_document-icon-notActive"
+                           ng-if="item.status!='active'">неактивний</i>
+                    </i>
+
+                    <i image-color="red" class="current_employee_document-icon" ng-click="$ctrl.showDocument(item)"
+                       ng-if="item.file_type.split('.')[-1]=='pdf'">
+                        <i class="current_employee_document-icon current_employee_document-icon-notActive"
+                           ng-if="item.status!='active'">неактивний</i>
+                    </i>
+                    <button class="button current_employee_document_button_update cur_empl_button_doc "
+                            title="Деактивувати"
+                            ng-click="$ctrl.changeDocStatus(item)"><i
+                            class="buttons-icon icon-update_document"></i>Деактивувати
+                    </button>
+
+                    <h5 class="current_employee_document_title"><small ng-if="item.type_">({{item.type_}}) </small> {{item.name}}
+                    </h5>
+                    <span >додано : <i ng-if="!item.created"> не вказано </i>{{item.created | date:'dd-MM-yyyy'}} </span>
+
+                    <!--<a ng-repeat="(key, link) in item.links" class="current_employee_document_link" ng-class="{'active': $first}"-->
+                    <!--href="{{link.url}}">{{link.create_date}}<span ng-if="!$last">, </span></a>-->
+                </div>
+            </div>
+        </div>
+
+        <h3 class="curr_empl_name col-xs-12 animate-if" ng-if="$ctrl.disactivePanel==true" >Неактуальні документи</h3>
+        <div ng-repeat="item in documents track by $index " ng-if="item.status!=='active'">
+            <div class="col-sm-6">
+
+
+                <div class="current_employee_document_container" ng-if="item.name!=='фотографія'">
+
+                    <i image-color="red" class="current_employee_document-icon"
+
+                       style="background-image: url({{item.src}});background-size: contain"
+                       ng-click="$ctrl.showDocument(item)" ng-if="item.file_type.indexOf('pdf')<0">
+                        <i class="current_employee_document-icon current_employee_document-icon-notActive"
+                           ng-if="item.status!='active'">неактивний</i>
+                    </i>
+
+                    <i image-color="red" class="current_employee_document-icon" ng-click="$ctrl.showDocument(item)"
+                       ng-if="item.file_type.indexOf('pdf')>=0">
+                        <i class="current_employee_document-icon current_employee_document-icon-notActive"
+                           ng-if="item.status!='active'">неактивний</i>
+                    </i>
+                    <button class="button current_employee_document_button_update cur_empl_button_doc"
+                           title="Відновити"
+                            ng-click="$ctrl.changeDocStatus(item)"><i
+                            class="buttons-icon icon-update_document "></i>Відновити
+                    </button>
+
+                    <h5 class="current_employee_document_title"><small ng-if="item.type_">({{item.type_}})  </small>{{item.name}}
+                    </h5>
+                    <span >додано : <i ng-if="!item.created"> не вказано </i>{{item.created}} </span>
+                    <!--<p class="current_employee_document_subtitle">Список версій:</p>-->
+
+                    <!--<a ng-repeat="(key, link) in item.links" class="current_employee_document_link" ng-class="{'active': $first}"-->
+                    <!--href="{{link.url}}">{{link.create_date}}<span ng-if="!$last">, </span></a>-->
+                </div>
+                <div class="current_employee_document_container" ng-if="item.name=='фотографія'">
+
+                    <i image-color="red" class="current_employee_document-icon"
+                       style="background-image: url({{item.src}});background-size: contain"
+                       ng-click="$ctrl.showDocument(item)">
+                        <i class="current_employee_document-icon current_employee_document-icon-notActive"
+                           ng-if="item.status!='active'">неактивний</i>
+                    </i>
+
+
+                    <button class="button current_employee_document_button_update cur_empl_button_doc"
+                            ng-click="$ctrl.changeDocStatus(item)"><i
+                            class="buttons-icon icon-update_document"></i>Відновити
+                    </button>
+                    <br>
+
+                    <h5 class="current_employee_document_title"><small ng-if="item.type_">({{item.type_}}) </small> {{item.name}}
+                    </h5>
+                    <span >додано : <i ng-if="!item.created"> не вказано </i>{{item.created}} </span>
+                    <!--<p class="current_employee_document_subtitle"></p>-->
+
+                    <!--<a ng-repeat="(key, link) in item.links" class="current_employee_document_link" ng-class="{'active': $first}"-->
+                    <!--href="{{link.url}}">{{link.create_date}}<span ng-if="!$last">, </span></a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

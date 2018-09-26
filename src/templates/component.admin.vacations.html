@@ -1,0 +1,128 @@
+<div class="info_container cities_widget branch-widget">
+
+
+    <div class="spinner_container" ng-if="$ctrl.spinner==true">
+        <div class="spinner spinner_components">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+
+
+    <div class="spinner_container"
+         ng-if="$ctrl.spinner2==true">
+
+        <span class="spinner_message" style="left: 25%;">триває перевірка, це може зайняти тривалий час</span><br>
+        <div class="spinner spinner_components ">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+            <br>
+
+        </div>
+    </div>
+
+
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-11">
+
+            <span class="info_header_title">Адміністрування: Відпустки</span>
+
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12">
+        <div class="col-xs-12 statistic_header_departments">
+            <div class="col-xs-5 data_container">
+                <span class="col-xs-4 text-center">Період з</span>
+                <input class="col-xs-8 dateInput " type="date" ng-model="ctrl.startPeriod">
+            </div>
+            <div class="col-xs-5 data_container">
+                <span class="col-xs-4 text-center">Період до</span>
+                <input class="col-xs-8 dateInput" type="date" ng-model="ctrl.endPeriod">
+            </div>
+           <button class="col-xs-1 polls_statistics_filters_clear" title='сформувати звіт'>
+
+            <svg style="height: 30px; margin-left: 15px;" ng-click="ctrl.getVacationsByPeriod()"
+                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24.559">
+                <defs>
+                    <style>
+                        .cls-1admin {
+                            fill: #457bbf;
+
+                        }
+                    </style>
+                </defs>
+                <path id="Path_550" data-name="Path 550" class="cls-1admin"
+                      d="M13.509,3a9.509,9.509,0,1,0,5.559,17.218l7.359,7.342L28,25.986,20.728,18.7A9.508,9.508,0,0,0,13.509,3Zm0,1.119a8.39,8.39,0,1,1-8.39,8.39A8.381,8.381,0,0,1,13.509,4.119Z"
+                      transform="translate(-4 -3)"/>
+            </svg>
+
+
+        </button>
+
+        </div>
+
+        <div class="col-xs-12 no-padding statistic_body" ng-if="ctrl.vacationsByPeriod.length>0">
+
+            <div class="col-xs-12 statistic_body_period_month no-padding">
+                <div class="col-xs-2 div_bordered ">
+                    <span class=" text-center   ">Прізвище, ім'я</span>
+                </div>
+                <div class="col-xs-2 div_bordered ">
+                    <span class=" text-center  "> Департамент</span>
+                </div>
+                <div class="col-xs-2 div_bordered ">
+                    <span class=" text-center  "> Посада</span>
+                </div>
+                <div class="col-xs-2 div_bordered ">
+                    <span class=" text-center  "> Дата початку</span>
+                </div>
+                <div class="col-xs-2 div_bordered ">
+                    <span class=" text-center  "> Дата закінчення</span>
+                </div>
+                <div class="col-xs-2 div_bordered ">
+                    <span class="text-center"> За період</span>
+                </div>
+            </div>
+            <div class="col-xs-12 statistic_body_period_month no-padding" ng-repeat="person in ctrl.vacationsByPeriod">
+                <div class="col-xs-2 div_bordered ">
+                    <span class="text-center statistic_body_period_head-quarter">{{person.name}} {{person.surname}}</span>
+                </div>
+                <div class="col-xs-2 div_bordered ">
+                    <span class="text-center">{{person.department}}</span>
+                </div>
+                <div class="col-xs-2 div_bordered ">
+                    <span class="text-center">{{person.position}}</span>
+                </div>
+                <div class="col-xs-2 div_bordered ">
+                    <span class="text-center">{{person.start_date | date: 'dd.MM.yyyy'}}</span>
+                </div>
+                <div class="col-xs-2 div_bordered ">
+                    <span class="text-center">{{person.end_date | date:' dd.MM.yyyy'}}</span>
+                </div>
+                <div class="col-xs-2 div_bordered ">
+                    <span class="text-center">{{person.year}}</span>
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <h2 ng-if="ctrl.vacationsByPeriod.length==0">В період з {{ctrl.startPeriod |date:'dd-MM-yyyy'}} по {{ctrl.endPeriod|date:'dd-MM-yyyy'}} немає запланованих відпусток</h2>
+
+    </div>
+    <br><br><br><br><br>
+
+
+</div>
+
+
+<br>
+<br>
+</div>
+

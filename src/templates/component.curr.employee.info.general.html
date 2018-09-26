@@ -1,0 +1,366 @@
+<div class="info_container" xmlns="http://www.w3.org/1999/html" style="padding-right: 0px;">
+    <div class="spinner_container" ng-if="spinner==true">
+        <div class="spinner spinner_components">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+
+
+            <span class="curr_empl_name col-xs-4  col-lg-3" ng-if="!$ctrl.data[0].type_">
+                {{$ctrl.data[0].surname_ua}} {{$ctrl.data[0].name_ua}} {{$ctrl.data[0].middle_name_ua}}
+            </span>
+            <span class="curr_empl_name col-xs-4  col-lg-3" ng-if="$ctrl.data[0].type_">
+                {{$ctrl.data[0].surname}} {{$ctrl.data[0].name}} {{$ctrl.data[0].middle_name}}
+            </span>
+            <div class="col-xs-8 col-lg-9 button_panel-personal">
+
+                <button ng-click="$ctrl.editPermissions()"
+                        ng-if="$ctrl.dissmissed!=true&&$ctrl.data[0].personStatus==='worker'"
+                        class="button-person button_adaptive_font">
+                    надання дозволів
+                </button>
+                <button ng-click="$ctrl.call($ctrl.data[0].person.mobile_phone)"
+                        ng-class="{'disabled':!$ctrl.data[0].person.mobile_phone}"
+                        class="   button-person button_adaptive_font">
+                    мобільний дзвінок
+                </button>
+
+                <button ng-click="$ctrl.call($ctrl.data[0].ip_phone)"
+                        class="  button-person button_adaptive_font"
+                        ng-class="{'disabled':$ctrl.data[0].ip_phone.length<1}"
+                        ng-if="$ctrl.dissmissed!=true&&$ctrl.data[0].personStatus==='worker'"
+                >
+                    робочий дзвінок
+                </button>
+
+                <button class="button-person button_adaptive_font"
+                        ng-class="{'disabled':!$ctrl.data[0].email}"
+                        ng-click="$ctrl.getQr($ctrl.data[0].email)"
+                        ng-if="$ctrl.dissmissed!=true&&$ctrl.data[0].personStatus==='worker'"
+                >
+                    сканувати
+                </button>
+                <button class="button-person button-person-dismiss button_adaptive_font"
+                        ng-click="$ctrl.getVacDismissed($ctrl.data[0].person.id)"
+
+                        ng-if="$ctrl.dissmissed!=true&&$ctrl.data[0].personStatus==='worker'"
+                >
+                    звільнити
+                </button>
+
+                <button ng-click="$ctrl.changeStatus('reserve')"
+                        class="  button-person button_adaptive_font"
+                        style="padding-top: 0"
+                        ng-if="$ctrl.data[0].personStatus==='worker'&&$ctrl.dissmissed===true">
+                    перевести в кандидати
+                </button>
+
+
+                <button ng-click="$ctrl.changeStatus('reserve')"
+                        class=" button-person button_adaptive_font"
+                        ng-if="$ctrl.data[0].type_=='rejected'||$ctrl.data[0].type_=='ready'"
+                >
+                    перевести в резерв
+                </button>
+                <button ng-click="$ctrl.changeStatus('ready')"
+                        class=" button-person button_adaptive_font"
+                        ng-if="$ctrl.data[0].type_=='reserve'||$ctrl.data[0].type_=='rejected'"
+                >
+                    перевести в активні
+                </button>
+
+                <button class=" button-person button_adaptive_font"
+                        ng-click="$ctrl.changeStatus('rejected')"
+                        ng-if="$ctrl.data[0].type_=='reserve'||$ctrl.data[0].type_=='ready'">
+                    відхилити
+                </button>
+
+                <button class="button-person   button_adaptive_font "
+                        ng-click="$ctrl.changePane('hire')"
+                        style="padding-top: 0"
+                        ng-if="$ctrl.data[0].type_=='reserve'||$ctrl.data[0].type_=='ready'||$ctrl.dissmissed===true ">
+
+                    перевести в працівники
+                </button>
+
+
+            </div>
+
+
+        </div>
+    </div>
+    <div class="row curr_empl_short_info_block col-xs-12 col-lg-12 no-padding customScroll">
+
+
+        <div class="component_list_people_person-info-container">
+            <button style="position: absolute; top: 30px; right: 30px; "
+                    class="component_list_people_person_action response response-prof"
+                    title="функціональні обов'язки"
+                    ng-if="$ctrl.data[0].status==='active'"
+
+
+                    ng-click="$ctrl.showDuties($ctrl.data[0].duties,$ctrl.data[0].person.id)">
+            </button>
+            <button style="position: absolute; top: 110px; right: 30px; "
+                    class="component_list_people_person_action response response-prof response-prof_transfer"
+                    title="Кадрове переміщення"
+                    ng-if="$ctrl.data[0].status==='active'"
+                    ng-click="$ctrl.transferEmployee($ctrl.data[0].person.id)">
+            </button>
+            <button style="position: absolute; top: 70px; right: 30px; "
+                    class="component_list_people_person_action manager manager-prof manager-prof"
+                    title="Лінійний керівник"
+                    ng-if="$ctrl.data[0].status==='active'"
+
+
+                    ng-click="$ctrl.showManager($ctrl.data[0].person.id, $ctrl.data[0].manager,$ctrl.data[0].confirmation_level)">
+            </button>
+
+            <div class="component_list_people_person_cell current_employee no-padding left"
+            >
+                <!-- person photo-->
+                <div
+                        class="component_list_people_person_image_wrapper current_employee col-xs-11 img-cont no-padding">
+                    <!--<img class="component_list_people_person_image instead_ofBroken_alt"-->
+                    <!--src='https://phonebook.busmarket.ua/user/thumbnail/{{$ctrl.data[0].email}}' ng-if=" $ctrl.data[0].status=='active'||$ctrl.data[0].status=='dismissed'" />-->
+                    <img class="component_list_people_person_image instead_ofBroken_alt  "
+                         src='/get_photo/{{$ctrl.data[0].person.id}}' alt="base 64"/>
+
+                </div>
+            </div>
+
+
+            <div class="col-sm-9 right" ng-if="$ctrl.data[0].status=='active'||$ctrl.data[0].status=='dismissed'"
+            >
+
+                <div class="col-sm-6 component_list_people_person_cell current_employee" style="padding-left: 20px;">
+                    <p class="person-icon person-icon-person"><strong>{{$ctrl.data[0].department.name}}</strong>,
+                        <strong>{{$ctrl.data[0].position.name}}</strong>
+                    </p>
+                    <p class="person-icon person-icon-city"><strong
+                            ng-bind="$ctrl.data[0].mainorg?$ctrl.data[0].mainorg:'дані відсутні'"></strong>
+                        <strong ng-if="$ctrl.data[0].additionalorg">/{{$ctrl.data[0].additionalorg}} </strong>
+                    </p>
+                    <p class="person-icon person-icon-dateIn">
+                        Дата прийому: <strong>{{$ctrl.data[0].started_to_work| date:'dd.MM.yyyy'}}</strong>
+                        <strong ng-if="!$ctrl.data[0].started_to_work">не вказано</strong>
+
+                    </p>
+                    <p class="person-icon person-icon-dateOut" ng-if="$ctrl.data[0].status=='dismissed'">
+                        Дата звільнення: <strong>{{$ctrl.data[0].finished_to_work| date:'dd.MM.yyyy'}}</strong>
+                        <strong ng-if="$ctrl.data[0].finished_to_work<1">не вказано</strong>
+                    </p>
+                    <p class="person-icon person-icon-bday" ng-if="$ctrl.data[0].status=='active'">
+                        Дата народження: <strong>{{$ctrl.data[0].person.birthday| date:'dd.MM.yyyy'}}</strong>
+                    </p>
+
+                </div>
+                <div class="col-sm-6 component_list_people_person_cell current_employee">
+                    <p class="person-icon person-icon-mobile"><strong
+                            ng-bind="$ctrl.data[0].person.mobile_phone ? $ctrl.data[0].person.mobile_phone : 'не вказано'"></strong>
+
+                    </p>
+                    <p class="person-icon person-icon-ip" ng-if="$ctrl.data[0].status!='dismissed'"><strong
+                            ng-bind="$ctrl.data[0].ip_phone.length>0 ? $ctrl.data[0].ip_phone : 'не вказано'"></strong>
+                    </p>
+                    <p class="person-icon person-icon-skype">
+                        <a ng-if="1"
+                           href="skype:{{$ctrl.data[0].skype}}?chat"
+                           ng-bind="$ctrl.data[0].skype"></a>
+                        <strong ng-if="$ctrl.data[0].skype ==='None'||!$ctrl.data[0].skype">не
+                            вказано</strong>
+                    </p>
+                    <p class="person-icon person-icon-email"><a ng-if="$ctrl.data[0].email.length"
+                                                                href="mailto:{{$ctrl.data[0].email}}">{{$ctrl.data[0].email}}</a>
+                        <strong ng-if="!$ctrl.data[0].email.length">не вказано</strong>
+                    </p>
+                    <p class="person-icon person-icon-bday" ng-if="$ctrl.data[0].status=='dismissed'">
+                        Дата народження: <strong>{{$ctrl.data[0].date| date:'dd.MM.yyyy'}}</strong>
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="col-sm-6 right"
+                 ng-if="$ctrl.data[0].type_">
+
+                <div class="col-sm-6 component_list_people_person_cell current_employee"
+                     style="padding-left: 20px;">
+                    <p class="person-icon person-icon-person" ng-if="$ctrl.data[0].position.length>1">
+                        <strong>{{$ctrl.data[0].position}}</strong>
+                        <strong ng-if="!$ctrl.data[0].position">не вказано</strong>
+                    </p>
+                    <p class="person-icon person-icon-city">
+                        <strong>{{$ctrl.data[0].city}}</strong>
+                        <strong ng-if="!$ctrl.data[0].city">не вказано</strong>
+                    </p>
+
+                    <p class="person-icon person-icon-bday">
+                        <strong>{{$ctrl.data[0].person.birthday| date:'dd.MM.yyyy'}}</strong>
+                    </p>
+
+                </div>
+                <div class="col-sm-6 component_list_people_person_cell current_employee">
+                    <p class="person-icon person-icon-mobile"><strong
+                            ng-bind="$ctrl.data[0].person.mobile_phone.length > 0 ? $ctrl.data[0].person.mobile_phone : 'не вказано'"></strong>
+
+                    </p>
+                    <p class="person-icon person-icon-ip"><strong
+                            ng-bind="$ctrl.data[0].person.home_phone.length>0 ? $ctrl.data[0].person.home_phone : 'не вказано'"></strong>
+                    </p>
+                    <p class="person-icon person-icon-skype">
+                        <a ng-if="1"
+                           href="skype:{{$ctrl.data[0].skype}}?chat"
+                           ng-bind="$ctrl.data[0].skype"></a>
+                        <strong ng-if="$ctrl.data[0].skype ==='None'||!$ctrl.data[0].skype">не
+                            вказано</strong>
+                    </p>
+                    <p class="person-icon person-icon-email"><a ng-if="$ctrl.data[0].email.length"
+                                                                href="mailto:{{$ctrl.data[0].email}}">{{$ctrl.data[0].email}}</a>
+                        <strong ng-if="!$ctrl.data[0].email.length">не вказано</strong>
+                    </p>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!--buttons panel-->
+        <div class="col-xs-3"></div>
+
+        <div class="col-xs-12 general_info_widgets-showInfo">
+
+
+            <div class="general_info_widgets-showInfo-panel" ng-click="showFullInfo=!showFullInfo">
+                <div class="col-xs-12 align-middle" ng-if="!showFullInfo">
+                <span class="">показати повну інформацію
+                </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" height="25px">
+                        <defs>
+                            <style>
+                                .cls-1 {
+                                    fill: #457bbf;
+                                }
+
+                                .cls-2 {
+                                    fill: none;
+                                }
+                            </style>
+                        </defs>
+                        <g id="Group_3423" data-name="Group 3423" transform="translate(1000 570) rotate(180)">
+                            <g id="surface1" transform="translate(996.98 572.787) rotate(180)">
+                                <path id="Path_321" data-name="Path 321" class="cls-1"
+                                      d="M20.145,12.969a.822.822,0,0,0-.571.252l-7.595,7.593L4.384,13.221a.817.817,0,1,0-1.156,1.155L11.4,22.547a.817.817,0,0,0,1.156,0l8.173-8.171a.818.818,0,0,0-.584-1.408Z"/>
+                            </g>
+                            <rect id="Rectangle_512" data-name="Rectangle 512" class="cls-2" width="30" height="30"
+                                  transform="translate(970 540)"/>
+                        </g>
+                    </svg>
+
+
+                </div>
+
+                <div class="col-xs-12 align-middle general_info_widgets-allinfo" ng-if="showFullInfo"
+                     n>
+                <span class="">приховати повну інформацію
+                </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" height="25px">
+                        <defs>
+                            <style>
+                                .cls-1 {
+                                    fill: #457bbf;
+                                }
+
+                                .cls-2 {
+                                    fill: none;
+                                }
+                            </style>
+                        </defs>
+                        <g id="Group_3423" data-name="Group 3423" transform="translate(-970 -540)">
+                            <g id="surface1" transform="translate(996.98 572.787) rotate(180)">
+                                <path id="Path_321" data-name="Path 321" class="cls-1"
+                                      d="M20.145,12.969a.822.822,0,0,0-.571.252l-7.595,7.593L4.384,13.221a.817.817,0,1,0-1.156,1.155L11.4,22.547a.817.817,0,0,0,1.156,0l8.173-8.171a.818.818,0,0,0-.584-1.408Z"/>
+                            </g>
+                            <rect id="Rectangle_512" data-name="Rectangle 512" class="cls-2" width="30" height="30"
+                                  transform="translate(970 540)"/>
+                        </g>
+                    </svg>
+
+                </div>
+
+
+            </div>
+
+            <curr-employee-info-all
+                    class="col-xs-12 animate-if general_info_widgets-component"
+                    ng-class="{'col-lg-12': displayNotes(), 'col-lg-12': !displayNotes()}"
+                    ng-if="showFullInfo"
+                    data="$ctrl.data"
+                    form-info="ctrl.formInfo"
+            >
+            </curr-employee-info-all>
+
+
+        </div>
+
+
+        <div class="col-xs-6 no-padding">
+            <curr-employee-info-general-documents
+                    class="col-xs-12  general_info_widgets-component compLeft"
+            >
+            </curr-employee-info-general-documents>
+            <curr-employee-info-general-education
+                    class="col-xs-12  general_info_widgets-component  compLeft"
+
+                    ng-if="1"
+                    data="ctrl.data"
+
+
+            >
+            </curr-employee-info-general-education>
+            <curr-employee-info-general-family
+                    class="col-xs-12  general_info_widgets-component compLeft"
+                    ng-if="1"
+                    data="ctrl.data"
+
+
+            >
+            </curr-employee-info-general-family>
+
+        </div>
+        <div class="col-xs-6 no-padding ">
+            <curr-employee-info-general-vacations
+                    class="col-xs-12 general_info_widgets-component compRight"
+                    ng-if="$ctrl.data[0].personStatus==='worker'&&$ctrl.data[0].status=='active'"
+                    data="ctrl.data"
+
+
+            >
+            </curr-employee-info-general-vacations>
+
+            <curr-employee-info-general-workexp
+                    class="col-xs-12  general_info_widgets-component compRight"
+                    ng-if="1"
+                    data="ctrl.data"
+
+
+            >
+            </curr-employee-info-general-workexp>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>

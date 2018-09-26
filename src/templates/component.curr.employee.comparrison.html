@@ -1,0 +1,64 @@
+<!--<div ng-if="!$ctrl.dissmissed"></div>-->
+<div class="row">
+  <div class="col-xs-12">
+    <current-employee-person data="$ctrl.data[0]">
+
+    </current-employee-person>
+    <button form="form" ng-if="formInfo.$dirty" type="submit"
+            class="curr_empl_button button curr_empl_button_top_right save animate-if button_adaptive_font"><i
+            class="buttons-icon icon-save"></i>Зберегти зміни
+    </button>
+  </div>
+</div>
+<form id="form_collision" name="formInfo" ng-submit="" class="" novalidate>
+  <div class="comparison_row">
+    <div id="comparrison_column1" class="comparrison_field"></div>
+    <div id="comparrison_column2" class="comparrison_field"></div>
+    <div id="comparrison_column3" class="comparrison_field"></div>
+  </div>
+  <div class="comparison_row" ng-repeat="key in ctrl.userTemp">
+    <div class="comparrison_field">
+        <span class="comparison_lable">Табельний номер</span>
+      <div class="comparison_inputs">
+
+
+        <input class="comparison_radio" type="radio" id="card_number1" name="card_number" >
+        <label class="comparison_radio_lable" for="card_number1">
+          <input class="comparison_input" type="text" ng-model="yyy" value="card_number">
+        </label>
+
+
+      </div>
+    </div>
+    <div class="comparrison_field">
+      <span class="comparison_lable">Табельний номер</span>
+      <div class="comparison_inputs">
+        <!--<input class="comparison_radio" type="radio" name="sname" value="xxx">-->
+
+        <input class="comparison_radio" type="radio" id="card_number2" name="card_number" checked>
+        <label class="comparison_radio_lable" for="card_number2">
+          <input class="comparison_input" type="text" ng-model="yyy" value="card_number">
+        </label>
+
+
+      </div>
+    </div>
+    <div class="comparrison_field">
+      <span class="comparison_lable">Табельний номер</span>
+      <div class="comparison_inputs_cont">
+
+        <input class="comparison_radio" type="radio" id="card_number3" name="card_number">
+        <label class="comparison_radio_lable" for="card_number3">
+          <input class="comparison_input" type="text" ng-model="yyy" value="card_number">
+        </label>
+
+
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+</form>

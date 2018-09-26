@@ -1,0 +1,16 @@
+<div class="search" ng-init="$ctrl.getType($ctrl.type)">
+  <label class="search_input_label">
+    <input ng-model="$ctrl.name"
+           class="search_input animate-if" placeholder="Назва нотатки">
+  </label>
+
+  <div ng-if="list && $ctrl.type.value !== 'else'" class="search_list_wrapper"
+       ng-show="$ctrl.person =='' || $ctrl.person !== $ctrl.displayName">
+    <ul class="search_list">
+      <li class="search_list_item" ng-repeat="person in list | filter:$ctrl.person"
+          ng-click="$ctrl.choosePerson(person)">
+        {{person.displayName}}
+      </li>
+    </ul>
+  </div>
+</div>

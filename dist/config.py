@@ -5,7 +5,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'banes_sekret_key')
 
 USERNAME = os.environ.get('MYSQL_ROOT_USER', 'root')
 DB_NAME = os.environ.get('MYSQL_DB_NAME', 'print')
-PASSWORD = os.environ.get('MYSQL_ROOT_PASSWORD', 'mario1986')
+PASSWORD = os.environ.get('MYSQL_ROOT_PASSWORD', '123456')
 PORT = os.environ.get('MYSQL_PORT_3306_TCP_PORT', 3306)
 SERVER = os.environ.get('MYSQL_PORT_3306_TCP_ADDR', '127.0.0.1')
 

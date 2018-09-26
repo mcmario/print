@@ -1,0 +1,51 @@
+<div
+    class="toggle_between_component"
+    ng-class="{'toggle_between_component_hide': showPoll}">
+  <div class="row">
+
+    <div class="col-xs-12">
+      <current-employee-person user-data="$ctrl.userData"></current-employee-person>
+      <h1 class="title polls_title">Список опитувань</h1>
+    </div>
+  </div>
+
+  <div class="row main_list">
+    <div class="main_list_item" ng-repeat="item in data">
+      <div class="container-fluid">
+        <div class="col-sm-7 main_list_item_cell poll_name">
+          {{item.name}}
+        </div>
+        <div
+            class="col-sm-3 main_list_item_cell poll_status"
+            ng-class="{'poll_status_warning': !item.status}"
+            ng-bind="item.status ? 'пройдено': 'не пройдено'"></div>
+        <!--<div
+            class="col-sm-2 main_list_item_cell"
+            ng-if="item.status">
+          <span class="poll_button" ng-click="$ctrl.viewPoll(item.uuid)">Переглянути</span>
+        </div>-->
+        <div class="col-sm-2 main_list_item_cell main_list_item_action_wrapper">
+          <a
+              tooltip title="Перейти" data-toggle="tooltip" data-placement="top"
+              ng-click="$ctrl.viewPoll(item.uuid)"
+              class="main_list_item_action detail">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div
+        class="toggle_between_component"
+        ng-class="{'toggle_between_component_hide': !showPoll}">
+      <curr-employee-polls-view
+          ng-if="showPoll"
+          poll-id="pollId"
+          user-data="$ctrl.userData">
+      </curr-employee-polls-view>
+    </div>
+  </div>
+</div>

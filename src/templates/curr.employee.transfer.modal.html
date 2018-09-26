@@ -1,0 +1,269 @@
+<div class="doc_preview_modal employee_transfer" style="width: auto"
+ng-init="ctrl.oldPosition=ngDialogData.position.name+' ( '+ngDialogData.department.name+')'">
+    <div class="doc_preview_info">
+        <span class="rest-header">Перевід працівника</span>
+    </div>
+
+
+    <!--department-->
+    <div class="col-xs12 no-padding "
+    ng-if="!showConfFire"
+
+    >
+    <span class="col-xs-12 ">Департамент</span>
+    <div class="dropdown  col-xs-12 col-lg-12 newEmpName no-padding"
+         style="position: relative;height: 40px;">
+        <button class=" col-xs-12 dropdown-toggle  text-left dropdown_button"
+                ng-init="ctrl.showDep=ngDialogData.department.name"
+                type="button"
+                data-toggle="dropdown"
+                ng-click="depSearch=''">
+                                <span
+                                        ng-bind="ctrl.showDep?ctrl.showDep:'Оберіть департамент'"
+                                ></span>
+            <!--<span>{{ dep }}</span>-->
+
+        </button>
+
+        <ul class="dropdown-menu col-xs-12 customScroll"
+            style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+            <li class="dropdown-menu_search-input" style="position: sticky; top: 0;">
+                <input type="text"
+                       style="width: 100%;"
+                       autofocus placeholder="Введіть назву департаменту"
+                       ng-model="depSearch"></li>
+            <li class="polls_statistics_filters_li"
+
+                ng-click="ngDialogData.department.name=dep; ctrl.showDep=dep"
+                ng-repeat="dep in departments track by $index| filter: depSearch"
+
+            >
+                <span class="invisible"></span>
+                <span>{{ dep }}</span>
+            </li>
+
+        </ul>
+    </div>
+
+    <!--position-->
+        <span class="col-xs-12">Посада</span>
+
+    <div class="dropdown  col-xs-12 col-lg-12 newEmpName no-padding"
+         style="position: relative;height: auto;min-height: 40px;"
+         ng-init="ctrl.showPosition=ngDialogData.position.name">
+        <button class=" col-xs-12 dropdown-toggle  text-left dropdown_button"
+                type="button"
+                data-toggle="dropdown"
+                ng-click="posSearch='';">
+                                <span
+                                        ng-bind="ctrl.showPosition?ctrl.showPosition:' Оберіть посаду'"
+                                ></span>
+            <!--<span>{{ ctrl.showPosition}}</span>-->
+
+        </button>
+
+        <ul class="dropdown-menu col-xs-12 customScroll"
+            style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+            <li class="dropdown-menu_search-input" style="position: sticky; top: 0;">
+                <input type="text"
+                       style="width: 100%;"
+                       autofocus placeholder="Введіть назву посади"
+                       ng-model="posSearch"></li>
+            <li class="polls_statistics_filters_li"
+
+                ng-click="ngDialogData.position.name=position; ctrl.showPosition=position"
+                ng-repeat="position in positions | filter: posSearch track by $index "
+
+            >
+                <span class="invisible"></span>
+                <span style="overflow: hidden">{{position}}</span>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <!--employee level+-->
+        <span class="col-xs-12">Організаційний рівень </span>
+
+    <div class="dropdown  col-xs-12 col-lg-12 newEmpName no-padding"
+         style="position: relative;height: auto;min-height: 40px;"
+         ng-init="ngDialogData.confirmation_level=='3'?ctrl.level='Лінійні працівники':
+          ngDialogData.confirmation_level=='2'?ctrl.level='Менеджмент середнього рівня':
+          ngDialogData.confirmation_level=='1'?ctrl.level='Топ-менеджмент':null">
+        <button class=" col-xs-12 dropdown-toggle  text-left dropdown_button"
+                type="button"
+                data-toggle="dropdown"
+        >
+                                <span
+                                        ng-bind="ctrl.level?ctrl.level:' Оберіть організаційний рівень'"
+                                ></span>
+        </button>
+        <ul class="dropdown-menu col-xs-12 customScroll"
+            style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+
+            <li class="polls_statistics_filters_li"
+                ng-click="ngDialogData.confirmation_level=1; ctrl.level='Топ-менеджмент'"
+            >
+                <span class="invisible"></span>
+                <span style="overflow: hidden">Топ-менеджмент</span>
+            </li>
+            <li class="polls_statistics_filters_li"
+                ng-click="ngDialogData.confirmation_level=2; ctrl.level='Менеджмент середнього рівня'"
+            >
+                <span class="invisible"></span>
+                <span style="overflow: hidden">Менеджмент середнього рівня</span>
+            </li>
+            <li class="polls_statistics_filters_li"
+                ng-click="ngDialogData.confirmation_level=3; ctrl.level='Лінійні працівники'"
+            >
+                <span class="invisible"></span>
+                <span style="overflow: hidden">Лінійні працівники</span>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <!--manager+-->
+        <span class="col-xs-12">Лінійний керівник </span>
+
+    <div class="dropdown  col-xs-12 col-lg-12 newEmpName no-padding"
+         style="position: relative; height: auto;min-height: 40px;"
+         ng-init="ctrl.showManager=ngDialogData.manager_surname+' '+ngDialogData.manager_name"
+    >
+        <button class=" col-xs-12 dropdown-toggle  text-left dropdown_button"
+                type="button"
+                data-toggle="dropdown"
+                ng-click="perSearch=''">
+                                <span
+                                        ng-bind="ngDialogData.manager_surname?ctrl.showManager:'Оберіть керівника'"
+
+                                ></span>
+
+
+        </button>
+
+        <ul class="dropdown-menu col-xs-12 customScroll"
+            style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+            <li class="dropdown-menu_search-input" style="position: sticky; top: 0;">
+                <input type="text"
+                       style="width: 100%;"
+                       autofocus placeholder="Введіть ім'я чи прізвище"
+                       ng-model="perSearch"></li>
+            <li class="polls_statistics_filters_li"
+
+                ng-click="ngDialogData.manager=person.id ;
+                            ngDialogData.manager_surname=person.surname;
+                            ngDialogData.manager_name=person.name;
+                            ctrl.showManager=person.surname+' '+person.name"
+                ng-repeat="person in managers | filter: perSearch"
+
+            >
+                <span class="invisible"></span>
+                <span>{{ person.surname }} {{ person.name }}</span>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <!--Payment type+-->
+        <span class="col-xs-12">Тип нарахувань</span>
+
+    <div class="dropdown  col-xs-12 col-lg-12 newEmpName no-padding"
+         style="position: relative;height: auto;min-height: 40px;"
+    >
+        <button class=" col-xs-12 dropdown-toggle  text-left dropdown_button"
+                type="button"
+                data-toggle="dropdown"
+        >
+                                <span
+                                        ng-bind="ctrl.showAccruals?ctrl.showAccruals:' Оберіть тип нарахувань'"
+                                ></span>
+        </button>
+        <ul class="dropdown-menu col-xs-12 customScroll"
+            style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+
+            <li ng-repeat="field in accruals track by $index" class="polls_statistics_filters_li"
+                ng-click="ngDialogData.accrualsCode=field.code; ctrl.showAccruals=field.name"
+            >
+                <span class="invisible"></span>
+                <span style="overflow: hidden">{{field.name}}</span>
+            </li>
+
+        </ul>
+    </div>
+
+
+
+    <!--salary+-->
+        <span class="col-xs-12">Зарплата</span>
+
+    <input type="text" class="newEmpName" placeholder="Оклад" ng-model="ngDialogData.salary">
+    <!--schedule+-->
+        <span class="col-xs-12">Графік роботи</span>
+
+    <div class="dropdown  col-xs-12 col-lg-12 newEmpName no-padding"
+         style="position: relative;height: auto;min-height: 40px;"
+         ng-init="ctrl.showSchedule=ngDialogData.work_schedule"
+    >
+        <button class=" col-xs-12 dropdown-toggle  text-left dropdown_button"
+                type="button"
+                data-toggle="dropdown"
+        >
+                                <span
+                                        ng-bind="ctrl.showSchedule?ctrl.showSchedule:' Оберіть графік роботи'"
+                                ></span>
+        </button>
+        <ul class="dropdown-menu col-xs-12 customScroll"
+            style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+
+            <li ng-repeat="schedule in schedules track by $index" class="polls_statistics_filters_li"
+                ng-click="ngDialogData.work_schedule=schedule; ctrl.showSchedule=schedule"
+            >
+                <span class="invisible"></span>
+                <span style="overflow: hidden">{{schedule}}</span>
+            </li>
+
+        </ul>
+    </div>
+
+    <!--date of transfer+-->
+    <span class="col-xs-12">Дата переведення</span>
+
+    <input type="date" class="newEmpName dateInput"
+           ng-model="ngDialogData.dateTransfer"
+           ng-init="ngDialogData.dateTransfer"
+           style="    margin-bottom: 15px;">
+</div>
+
+    <h3 class="animate-if component_list_people_dept_title " ng-if="showConfFire===true">Ви дійсно хочете перевести
+        цього працівника <br> з посади: <u>{{ctrl.oldPosition}}</u> <br> на посаду: <u>{{ngDialogData.position.name}} ({{ngDialogData.department.name}})</u></h3>
+
+
+    <div class="doc_preview_panel">
+
+
+        <button class="doc_preview_button-print button_dismiss"
+                ng-show="!showConfFire"
+                ng-click="showConfFire=true"
+                ng-class="{'disabled':!ngDialogData.accrualsCode||ngDialogData.work_schedule.length<2||!ngDialogData.salary}
+"
+        > перевід працівника
+        </button>
+        <button ng-show="showConfFire==true"
+                class=" col-xs-5 doc_preview_button-print button_dismiss button_dismiss "
+                style="min-width: 150px;"
+                ng-click="showConfFire=false"> ні(змінити дані)
+        </button>
+        <button class=" col-xs-5 col-xs-offset-2 doc_preview_button-print button_dismiss_confirm"
+                ng-if="showConfFire==true"
+                ng-click="transferEmployee(ngDialogData)"
+
+        > Так, перевести
+        </button>
+
+    </div>
+
+</div>

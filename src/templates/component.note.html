@@ -1,0 +1,51 @@
+<div class="note_wrapper col-xs-12">
+
+    <div class="note_header col-xs-12" ng-if="!$ctrl.data.empty">
+        <div class="note_img col-xs-1">
+            <img class="note_author_thumbnail instead_ofBroken_alt" src='/get_photo/{{$ctrl.data.id_person}}' alt="person">
+        </div>
+        <div class="note_header_title col-xs-11" >
+            <div class="note_status note_person ">
+                <span class="note_author_name" ng-if="$ctrl.data.type_!=='else'">{{$ctrl.data.name_ua}}, {{$ctrl.data.surname}}</span>
+                <span class="note_author_name" ng-if="$ctrl.data.type_==='else'">загальна нотатка</span>
+
+            </div>
+            <div class="note_time"><span class="note_author_updated">{{$ctrl.data.created |amUtc | amCalendar:referenceTime:'dddd, MMMM Do YYYY, h:mm a'}}</span>
+            </div>
+        </div>
+
+        <div class="note_buttons_container">
+            <button ng-click="$ctrl.noteEdit=true" ng-show='!$ctrl.noteEdit' class="note_button note_button_edit">e</button>
+            <button class="note_button note_button_delete" ng-show='!$ctrl.noteEdit'
+                    ng-click="$ctrl.deletingNote($ctrl.data.id)">
+            </button>
+            <button class="note_button note_button_save" ng-show="$ctrl.noteEdit"
+                    ng-click="$ctrl.updateNote($ctrl.data);$ctrl.noteEdit=!$ctrl.noteEdit">
+            </button>
+            <button class="note_button note_button_cancel" ng-show="$ctrl.noteEdit"
+                    ng-click="$ctrl.noteEdit=false;$ctrl.cancelNoteChanges($ctrl.data,false)">
+            </button>
+        </div>
+    </div>
+    <div class="note_title col-xs-12">
+        <span class=" note_title_text col-xs-12" ng-show="!$ctrl.noteEdit" ng-bind="$ctrl.data['name']"></span>
+        <input type="text" class="col-xs-12" ng-if="$ctrl.noteEdit" ng-model="$ctrl.data['name']"
+               value="{{$ctrl.data['name']}}">
+
+    </div>
+
+    <div class="note_text col-xs-12" style="padding:0 15px 0 30px">
+        <span class="" ng-bind-html="$ctrl.data.text | lineBreak" ng-if="!$ctrl.noteEdit" style=""></span>
+        <textarea class="resizableTextArea customScroll" ng-if="$ctrl.noteEdit" name="" id="" style=" min-height: 50px; padding-left:10px;     margin-left: -16px; width: 104%;"
+                  onkeyup="this.style.height=this.scrollHeight+'px'"
+                  ng-model="$ctrl.data.text"
+                  ng-bind-html="$ctrl.data.text | lineBreak"> </textarea>
+    </div>
+
+
+</div>
+
+
+
+
+

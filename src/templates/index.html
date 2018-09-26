@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html lang="ua" ng-app="app">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 <head>
   <meta charset="UTF-8">
   <title>HR portal | BusMarket</title>
-  <link rel="stylesheet" href="static/css/final.min.css">
+  <!-- build:css static/css/final.min.css -->
+  <link rel="stylesheet" href="/static/css/libs.min.css">
+  <link rel="stylesheet" href="/static/css/app.css">
+  <!-- /build -->
+
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 </head>
+
 <body ng-controller="RootController as ctrl" ng-class="{'testingMode': testingMode}">
-<ng-view>
-</ng-view>
-<script src="static/js/scripts.min.js"></script>
+
+    <ng-view></ng-view>
+<!-- build:js static/js/scripts.min.js -->
+<script src="/static/js/libs.min.js"></script>
+<script src="/static/js/app.js"></script>
+<!-- /build -->
+
 </body>
+
 </html>

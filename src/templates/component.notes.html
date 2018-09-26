@@ -1,0 +1,12 @@
+<div class="hidden-xs hidden-sm hidden-md col-ld-11 page_wrapper component_notes_page_wrapper customScroll">
+
+  <!--<div class="col-xs-12 button_add_notes_side_container col-xs-12 ">-->
+    <!--<button class=" button_add_notes_side" ng-click="$ctrl.addNote()" ng-if="notes">створити нотатку</button>-->
+  <!--</div>-->
+  <br>
+  <div ng-if="notes" class="page container-fluid animate-if" style="padding-top: 0px;">
+    <div class="row" ng-repeat="note in notes track by $index">
+      <note-component class="col-xs-12" style="margin-right: 0; width: 98%;" data="note"></note-component>
+    </div>
+  </div>
+</div>

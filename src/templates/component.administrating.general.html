@@ -1,0 +1,211 @@
+<div class="col-xs-12">
+    <!--city-->
+    <div class="col-xs-12 " style="display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;">
+        <div class="col-xs-12  general_info_widgets-header">
+            <span class="general_info_widgets-title">Міста</span>
+            <span class="general_info_widgets-button col-xs-1 " ng-click="ctrl.newCityModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+                            <defs>
+                            <style>
+                                .cls-1 {
+                                    fill: #457bbf;
+                                }
+                            </style>
+                        </defs>
+                            <path id="Path_327" data-name="Path 327" class="cls-1"
+                                  d="M9.983,2.973a1.166,1.166,0,0,0-1.15,1.181V8.815H4.167a1.165,1.165,0,1,0,0,2.331H8.833v4.661a1.167,1.167,0,0,0,2.333,0V11.146h4.667a1.165,1.165,0,1,0,0-2.331H11.166V4.154A1.166,1.166,0,0,0,9.983,2.973Z"
+                                  transform="translate(-3 -2.972)"/>
+                        </svg>
+            </span>
+
+
+        </div>
+
+<div class="col-xs-12 no-padding" style="display: flex;justify-content: space-between;flex-wrap: wrap">
+        <div class="row general_info_widgets-container no-padding "
+             ng-class="{'widget_wide':displayNotes(),'widget_narrow':!displayNotes()}"
+
+             ng-repeat="city in citieslist track by $index " style="flex-direction: row"
+
+        >
+            <!--<div class="col-xs-12 general_info_widgets-container no-padding ">-->
+            <div class="col-xs-3 general_info_widgets-left">
+            <span>
+                Місто:
+            </span>
+                <span>
+                Область:
+            </span>
+
+            </div>
+            <div class="col-xs-9 general_info_widgets-right">
+            <span>
+                {{city.name}}
+            </span>
+                <span>
+                {{city.region.name}}
+            </span>
+
+
+            </div>
+            <div class="col-xs-9 general_info_widgets-right-topper">
+                <button class="action_button action_button_info" ng-click="ctrl.showInfo(city, $index)"
+                        title="детальна інформація"></button>
+
+                <button class="action_button action_button_delete" ng-click="ctrl.deleteCity(city.name, city.id)"
+                        title="видалити місто"></button>
+
+            </div>
+        </div>
+</div>
+    </div>
+</div>
+
+
+<!--branch-->
+
+
+<div class="col-xs-12">
+    <div class="col-xs-12">
+        <div class="col-xs-12 general_info_widgets-header">
+            <span class="general_info_widgets-title">Філіали</span>
+            <span class="general_info_widgets-button col-xs-1 " ng-click="ctrl.newBranchModal();">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+                        <defs>
+                            <style>
+                                .cls-1 {
+                                    fill: #457bbf;
+                                }
+                            </style>
+                        </defs>
+                        <path id="Path_327" data-name="Path 327" class="cls-1"
+                              d="M9.983,2.973a1.166,1.166,0,0,0-1.15,1.181V8.815H4.167a1.165,1.165,0,1,0,0,2.331H8.833v4.661a1.167,1.167,0,0,0,2.333,0V11.146h4.667a1.165,1.165,0,1,0,0-2.331H11.166V4.154A1.166,1.166,0,0,0,9.983,2.973Z"
+                              transform="translate(-3 -2.972)"/>
+                    </svg>
+            </span>
+
+
+        </div>
+
+
+
+        <div class="col-xs-4 general_info_widgets-container no-padding "
+             ng-class="{'col-xs-6':displayNotes(),'col-xs-4':!displayNotes()}"
+             ng-repeat="branch in branches track by $index " style="flex-direction: row">
+            <div class="col-xs-3 general_info_widgets-left">
+            <span>
+                Назва:
+            </span>
+                <span>
+                Місто:
+            </span>
+                <span>
+                Індекс:
+            </span>
+                <span>
+                Вулиця:
+            </span>
+            </div>
+            <div class="col-xs-9 general_info_widgets-right">
+    <span>
+                {{branch.name?branch.name:'не вказано'}} / {{branch.status=='active'?' активний':'деактивований'}}
+            </span>
+                <span>
+               {{branch.city.name}}
+            </span>
+                <span>
+                {{branch.zip_code?branch.zip_code:'не вказано'}}
+            </span>
+                <span>
+                {{branch.address_ua}}
+            </span>
+
+
+            </div>
+            <div class="col-xs-9 general_info_widgets-right-topper">
+                <button class="action_button action_button_info" ng-click="ctrl.showInfo(branch, $index)"
+                        title="детальна інформація"></button>
+
+                <button class="action_button action_button_delete" ng-click="ctrl.deleteBranch(branch.name, branch.id)"
+                        title="видалити місто"></button>
+                <button class="departmentActivation" ng-bind="branch.status==='active'?'Деактивувати':'Активувати'"
+                        ng-click="ctrl.depChangeStatus(branch, 'філіал')"></button>
+
+            </div>
+            <br>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+<!--Departments-->
+<div class="col-xs-12" style="display: flex;
+    flex-wrap: wrap;
+    justify-content:flex-start;">
+    <div class="col-xs-7  general_info_widgets-header" style="padding-right: 0;">
+        <span class="general_info_widgets-title">Департаменти</span>
+        <input class="col-xs-4 col-xs-offset-3" type="text" placeholder="Пошук по назві"
+               ng-model="ctrl.depListSearch">
+        <!--<span class="general_info_widgets-button col-xs-1 " ng-click="ctrl.newCityModal()">-->
+        <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">-->
+        <!--<defs>-->
+        <!--<style>-->
+        <!--.cls-1 {-->
+        <!--fill: #457bbf;-->
+        <!--}-->
+        <!--</style>-->
+        <!--</defs>-->
+        <!--<path id="Path_327" data-name="Path 327" class="cls-1"-->
+        <!--d="M9.983,2.973a1.166,1.166,0,0,0-1.15,1.181V8.815H4.167a1.165,1.165,0,1,0,0,2.331H8.833v4.661a1.167,1.167,0,0,0,2.333,0V11.146h4.667a1.165,1.165,0,1,0,0-2.331H11.166V4.154A1.166,1.166,0,0,0,9.983,2.973Z"-->
+        <!--transform="translate(-3 -2.972)"/>-->
+        <!--</svg>-->
+        <!--</span>-->
+
+
+    </div>
+    <div class="col-xs-5"></div>
+    <div class=" general_info_widgets-container no-padding "
+         ng-class="{'col-xs-6':displayNotes(),'col-xs-4':!displayNotes()}"
+         ng-repeat="dep in depList  | filter:ctrl.depListSearch track by $index" style="flex-direction: row"
+    >
+        <!--<div class="col-xs-12 general_info_widgets-container no-padding ">-->
+        <div class="col-xs-3 general_info_widgets-left">
+            <span>
+                Назва:
+            </span>
+            <span>
+                Статус:
+            </span>
+
+        </div>
+        <div class="col-xs-9 general_info_widgets-right">
+            <span>
+                {{dep.name}}
+            </span>
+            <span ng-bind="dep.status==='active'?'Активний':'Не активний'">
+
+            </span>
+
+
+        </div>
+        <div class="col-xs-9 general_info_widgets-right-topper">
+            <button class="departmentActivation" ng-bind="dep.status==='active'?'Деактивувати':'Активувати'"
+                    ng-click="ctrl.depChangeStatus(dep,'департамент')"></button>
+
+
+            <!--<button class="action_button action_button_info" ng-click="ctrl.showInfo(city, $index)"  title="детальна інформація" ></button>-->
+
+            <!--<button class="action_button action_button_delete" ng-click="ctrl.deleteCity(city.name, city.id)" title="видалити місто"></button>-->
+
+        </div>
+    </div>
+
+
+</div>

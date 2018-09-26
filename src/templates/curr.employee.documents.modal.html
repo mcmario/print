@@ -1,0 +1,107 @@
+<div class="doc_preview_modal" style="width: auto;">
+    <span class="title-text">Додати файл</span>
+    <div class=" col-xs-12 animate-if modal-main">
+        <form
+                class="no-padding"
+                novalidate
+                enctype=multipart/form-data
+                method="post"
+                action='/files'
+                id="documentsForm"
+                name="form">
+
+            <label class=" newUserLable no-padding">
+                <select name="type" id="" ng-model="data.doctype" ng-change="photoChange(data.doctype);getRedirect()"
+                        class="newEmpName">
+                    <option value="" selected disabled>Вкажіть тип документу</option>
+                    <option value="passport">паспорт</option>
+                    <!--<option value="photo">фото</option>-->
+                    <!--<option value="photo">фото</option>-->
+                    <option value="ipn">ІПН</option>
+                    <option value="education">документи про освіту</option>
+                    <option value="license">посвідчення водія</option>
+                    <option value="children">Свідоцтво про народження дитини</option>
+                    <option value="other">інше</option>
+
+
+                </select>
+            </label>
+            <label class=" newUserLable no-padding">
+                <input
+                        ng-class="{'readonly':!data.doctype||data.doctype=='photo'}"
+                        ng-readonly="data.doctype=='photo'"
+                        tabindex="1"
+                        required
+                        type="text"
+                        name="name"
+                        ng-model="data.fileName"
+                        class="form-control newEmpName"
+                        placeholder="Назва документу"/>
+            </label>
+
+            <input style="display: none;" type="text" name="id" value="{{ id }}">
+            <input style="display: none;" type="text" name="part" value="{{ part }}">
+            <input style="display: none;" type="text" id="docFormRedirect" name="redirect" value="">
+
+            <label ng-class="{'disabled':!data.fileName}">
+                <span ng-class="{'disabled':!data.fileName}" class="save curr_empl_button">Обрати файл</span>
+
+                <input
+
+                        id="fileName"
+                        ng-class="{'':!data.fileName}"
+                        style="display: none"
+                        tabindex="2"
+                        accept="application/pdf, .jpg, .jpeg, .png"
+                        name="file"
+                        type="file"
+                        fileinput="file"
+                        filepreview="data.file"
+                        onchange="angular.element(this).scope().checkFileSize('fileName')"
+                        placeholder="Оберіть файл"/>
+            </label>
+            <span ng-if="data.fileName">{{ data.fileName }}</span>
+            <span ng-if="!data.fileName" class="text-muted">Назва документу</span>
+
+        </form>
+        <div class="material-modal_button_container">
+            <button
+                    ng-if="isPdf"
+                    type="submit"
+                    form="documentsForm"
+                    style="width: 27%;"
+                    class="save curr_empl_button info_body_button_panel_vacations_save col-xs-6"
+                    ng-disabled="!data.fileName || !data.file||stopImgSave">
+
+                Відправити
+            </button>
+            <button style="width: 27%;"
+                    class="save curr_empl_button info_body_button_panel_vacations_save col-xs-6" ng-if="!isPdf"
+
+                    ng-click="saveDocCompr()"> Відправити
+            </button>
+
+
+            <img style="max-width: 100%;" src="{{ imgSRC }}" id="docSource" alt="">
+
+            <canvas id="canvasDoc" style="dorder:2px solid red" hidden></canvas>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+</script>
+
+
+<!--<label class="newUserLable">Спеціальність <span style="color: red;"-->
+
+<!--title="обов'язкове поле">*</span></label>-->
+<!--<input type="text" class="newEmpName"-->
+<!--ng-model="ctrl.newEduInfo.specialty">-->
+
+
+<!--<label class="newUserLable">рік закінчення <span style="color: red;"-->
+<!--title="обов'язкове поле">*</span></label>-->

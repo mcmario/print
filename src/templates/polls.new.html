@@ -1,0 +1,402 @@
+<!--<header-component></header-component>-->
+<div class="content col-xs-12 polls_head"
+     style="position:static;width: calc(100%-227px);"
+     id="newPoll_m-change_h"
+
+>
+
+    <div class="col-xs-8" style="display: flex; justify-content: flex-end; align-items: center; ">
+        <button ng-click="ctrl.showVariants=!ctrl.showVariants" ng-if="!ctrl.showVariants"
+                class="polls_fold">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <defs>
+                    <style>.ab {
+                        fill: none;
+                    }
+
+                    .bb {
+                        fill: #457bbf;
+                    }</style>
+                </defs>
+                <g transform="translate(24 24) rotate(180)">
+                    <path class="ab" d="M0,0H24V24H0Z"/>
+                    <path class="bb" d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,12L8,10h8Z"/>
+                </g>
+            </svg>
+            <!--<span class="polls_fold_unfold polls_fold_unfold_D"></span>-->
+
+        </button>
+        <button ng-click="ctrl.showVariants=!ctrl.showVariants" ng-if="ctrl.showVariants"
+                class="polls_fold">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <defs>
+                    <style>.ab {
+                        fill: none;
+                    }
+
+                    .bb {
+                        fill: #457bbf;
+                    }</style>
+                </defs>
+                <g transform="translate(0)">
+                    <path class="ab" d="M0,0H24V24H0Z"/>
+                    <path class="bb" d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,12L8,10h8Z"/>
+                </g>
+            </svg>
+        </button>
+        <button class="polls_add_new_button col-xs-12 button_adaptive_font"
+           ng-click="ctrl.addNewQuestion(); ctrl.status=false; ctrl.stop===true; ctrl.stopSave=true;ctrl.gotoAnchor('')"
+           ng-class="{'disabled':ctrl.stop || ctrl.newPoll.name.length<1||ctrl.newPoll.description.length<1||ctrl.newPoll.questions[ctrl.newPoll.questions.length-1].question.length<1 }"
+        >
+            Додати запитання
+            <!--<svg class='hide720' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"-->
+            <!--viewBox="0 0 26 26" version="1.1" style="height: 20px; float: right;margin-top: 4px;">-->
+            <!--<g id="surface1">-->
+            <!--<path fill="white"-->
+            <!--d="M 12 3 C 11.398438 3 11 3.398438 11 4 L 11 11 L 4 11 C 3.398438 11 3 11.398438 3 12 L 3 14 C 3 14.601563 3.398438 15 4 15 L 11 15 L 11 22 C 11 22.601563 11.398438 23 12 23 L 14 23 C 14.601563 23 15 22.601563 15 22 L 15 15 L 22 15 C 22.601563 15 23 14.601563 23 14 L 23 12 C 23 11.398438 22.601563 11 22 11 L 15 11 L 15 4 C 15 3.398438 14.601563 3 14 3 Z "></path>-->
+            <!--</g>-->
+            <!--</svg>-->
+        </button>
+        <button class="polls_add_new_button polls_add_new_button_save col-xs-12" ng-click="ctrl.saveNewPoll();ctrl.toTheTop()">
+                <!--ng-class="{'disabled':ctrl.stop || ctrl.newPoll.name.length<1||ctrl.newPoll.description.length<1||ctrl.newPoll.questions[ctrl.newPoll.questions.length-1].question.length<1|| ctrl.newPoll.questions.length<1||ctrl.stopSave===true}">-->
+            Зберегти
+        </button>
+        <button class="polls_add_new_button polls_add_new_button_publicate col-xs-12"
+                ng-click="ctrl.publicateNewPoll()"
+                ng-if="ctrl.status==true"
+                ng-class="{'disabled':ctrl.stop }"
+        >
+            Опублікувати
+        </button>
+    </div>
+    <div class="head_menu_button_container visible-lg col-lg-4">
+
+        <button class="head_menu_button  col-xs-6 text-success" ng-click="ctrl.addNote()">
+
+        <span>
+        створити нотатку
+
+        </span>
+        </button>
+
+
+        <button class="head_menu_button visible-lg col-lg-6 text-success" ng-click="ctrl.toggleNotes()">
+
+        <span  ng-bind="displayNotes()?'Приховати нотатки':'Показати нотатки'">
+
+
+        </span>
+        </button>
+    </div>
+</div>
+
+<sidebar></sidebar>
+<div class="spinner_container" ng-if="$scope.spinner">
+
+    <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</div>
+
+
+
+<div class="content poll_container no-padding" style="position: fixed;top: 60px; min-height:100vh"
+     ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}">
+
+
+    <div class=" smooth_width polls_active_body col-xs-12
+    customScroll no-padding"
+         id="newPoll_m-change"
+         style=" overflow: hidden;
+         position: static;
+    height: calc(100vh - 100px);
+    ">
+        <!--<div class="container-fluid page page_boxed">-->
+
+
+        <div class=" polls_body  customScroll"
+             ng-class="{'col-xs-11 col-xs-offset-1 col-lg-8 col-lg-offset-0': displayNotes(), 'col-xs-11 col-xs-offset-1 col-lg-8 col-lg-offset-2': !displayNotes()}"
+             style="    height: calc(100vh - 60px);overflow-y: auto;"
+              id="poll_questions_container"
+        >
+
+
+            <div class="polls_new_container col-xs-12" style="">
+
+                <div class="row polls_body col-xs-12 center-block ">
+
+                    <div class="polls_description">
+
+
+                    <textarea
+                            spellcheck="false"
+                            style="min-height: 45px;"
+
+
+                            rows="1"
+                            placeholder="Нaзва опитування"
+                            class="col-xs-12 resizableTextArea"
+                            id="polls_description_title"
+                            ng-keyup="ctrl.autoExpand($event)"
+                            ng-mouseover="ctrl.autoExpand($event)"
+                            ng-model=" ctrl.newPoll.name "
+
+                    >{{ctrl.newPoll.name}} </textarea>
+                        <textarea name=""
+
+                                  spellcheck="false"
+                                  style="min-height: 135px; height: auto;"
+                                  rows="1"
+                                  class=" col-xs-12 resizableTextArea"
+                                  id="polls_description_text"
+                                  placeholder="Опис опитування"
+                                  ng-keyup="ctrl.autoExpand($event)"
+                                  ng-mouseover="ctrl.autoExpand($event)"
+                                  ng-model="ctrl.newPoll.description"
+                                  ng-bind-html="ctrl.newPoll.description"
+                        ></textarea>
+                    </div>
+                    <div class="polls_questions row container-fluid customScroll"
+                         ng-repeat="question in ctrl.newPoll.questions">
+                        <div class="polls_question col-xs-12">
+
+                            <div class="row polls_question_container">
+                                <span class="col-xs-1">{{$index+1}}</span>
+                                <textarea name="" id="question{{$index}}"
+                                          spellcheck="false"
+                                          rows="1"
+                                          autofocus
+
+                                          class=" col-xs-8 polls_question_text customScroll resizableTextArea"
+                                          ng-model="question.question"
+                                          placeholder="Введіть запитання"
+                                          ng-keyup="ctrl.autoExpand($event); ctrl.stopSave=false"
+                                          ng-mouseover="ctrl.autoExpand($event)"
+                                          style="overflow:hidden"
+                                          ng-bind-html="question.question">
+
+                            </textarea>
+
+                                <div class="dropdown  polls_question_select no-padding
+                                 col-xs-2"
+                                ng-init="!question.type_?question.type_='text':null">
+                                    <button class="col-xs-12 dropdown-toggle" type="button" id="myDropdown"
+
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=""
+                                            type="button"
+                                            data-toggle="dropdown"
+
+                                            ng-bind="question.type_=='text'?'текст':question.type_=='radio'?'з варіантами':question.type_=='check'?'прапорці':'Текст'"
+                                            ng-class="{'polls_question_select_t':question.type_=='text','polls_question_select_r':question.type_=='radio','polls_question_select_c':question.type_=='check','polls_question_select_t':question.type_}"
+                                    >
+                                        <span class="caret"></span></button>
+                                    <ul class="dropdown-menu dropdown-menu_poll">
+                                        <li class="polls_question_option polls_question_option_hidden_small polls_question_select_t"
+                                            ng-click="ctrl.addVariant($index, question.type_); ctrl.changeType(); question.type_='text'">
+                                            текст
+                                        </li>
+                                        <li class="polls_question_option polls_question_option_hidden_small polls_question_select_r"
+                                            ng-click="ctrl.addVariant($index, question.type_); ctrl.changeType(); question.type_='radio'">
+                                            з варіантами
+                                        </li>
+                                        <li class="polls_question_option polls_question_option_hidden_small polls_question_select_c"
+                                            ng-click="ctrl.addVariant($index, question.type_); ctrl.changeType(); question.type_='check'">
+                                            прапорці
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+
+
+                                <button
+                                        class="col-xs-1 polls_question_delete no-padding"
+                                        ng-click="ctrl.deleteQuestion($index);ctrl.status=false">
+
+                                    <svg style="width: 30px; height: 30px;" xmlns="http://www.w3.org/2000/svg"
+                                         xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50"
+                                         version="1.1">
+                                        <g id="surface1" fill="#b9504d">
+                                            <path style=" "
+                                                  d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z "></path>
+                                        </g>
+                                    </svg>
+                                </button>
+
+
+                                <div class="polls_question_variants col-xs-12 no-padding center-block"
+                                     ng-if="question.type_==='radio'|| question.type_==='check' "
+                                     ng-mouseover="ctrl.textAreaAutoResize()">
+
+                                    <div class="col-xs-12 no-padding polls_question_variant_container"
+                                         ng-repeat="variant in question.answers track by $index"
+                                         ng-show="!ctrl.showVariants">
+                                        <span class="no-border col-xs-2 questionsFields"></span>
+                                        <textarea type="text"
+                                                  spellcheck="false"
+                                                  rows="1"
+                                                  class="no-border col-xs-8 polls_question_text resizableTextArea customScroll"
+                                                  ng-init="this.setAttribute('autofocus',true)"
+                                                  ng-model="question.answers[$index]"
+                                                  ng-value="variant"
+                                                  ng-keyup="ctrl.autoExpand($event)"
+
+                                        >{{question.answers[$index]}}
+                                         </textarea>
+
+                                        <button class="col-xs-1 polls_question_variant_copy no-padding"
+                                                ng-click="ctrl.copyVariant(question.n-1,$index);ctrl.status=false;ctrl.gotoAnchor((question.n-1)+'variant'+$index)"
+                                                ng-class="{'hidden':editable, 'enabled':!editable}"
+
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 30px;"
+                                                 viewBox="0 0 20 20">
+                                                <defs>
+                                                    <style>.apc {
+                                                        fill: none;
+                                                    }
+
+                                                    .bpc {
+                                                        fill: #fff;
+                                                    }</style>
+                                                </defs>
+                                                <path class="apc" d="M0,0H20V20H0Z"/>
+                                                <path class="bpc"
+                                                      d="M13.667,1h-10A1.672,1.672,0,0,0,2,2.667V14.333H3.667V2.667h10Zm-.833,3.333,5,5v8.333a1.672,1.672,0,0,1-1.667,1.667H6.992a1.664,1.664,0,0,1-1.658-1.667L5.342,6A1.664,1.664,0,0,1,7,4.333ZM12,10.167h4.583L12,5.583Z"
+                                                      transform="translate(-0.333 -0.167)"/>
+                                            </svg>
+                                        </button>
+                                        <button
+                                                class="col-xs-1 polls_question_delete no-padding"
+                                                ng-click="ctrl.deleteVariant(question.n-1,$index);ctrl.status=false">
+
+                                            <svg style="width: 30px; height: 30px;" xmlns="http://www.w3.org/2000/svg"
+                                                 xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50"
+                                                 version="1.1">
+                                                <g id="surface1" fill="#b9504d">
+                                                    <path style=" "
+                                                          d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z "></path>
+                                                </g>
+                                            </svg>
+                                        </button>
+                                        <a id="bottom{{(question.n-1)+'variant'+$index}}"></a>
+                                    </div>
+
+                                    <div class=" col-xs-12 no-padding">
+
+                                        <label ng-if="ctrl.variant==$index"
+                                               class="col-xs-12 no-padding polls_question_variant_text">
+                                            <span class="col-xs-2 no-padding"></span>
+                                            <textarea type="text"
+                                                      ng-keyup="ctrl.autoExpand($event)"
+                                                      spellcheck="false"
+                                                      ng-model="ctrl.newQuestionVariant"
+                                                      class="col-xs-9 polls_question_variant_input resizableTextArea resizableTextAreaNew  customScroll"
+                                                      autofocus
+                                                      placeholder="Додати варіант"
+                                                      ng-bind-html="ctrl.newQuestionVariant"
+                                            >
+                                        </textarea>
+                                            <button ng-click="ctrl.addQuestionVariant(question.n);ctrl.status=false;ctrl.gotoAnchor()"
+                                                    ng-if="ctrl.newQuestionVariant.length"
+                                                    class="col-xs-1 polls_question_variant_save no-padding">
+                                                <svg xmlns="http://www.w3.org/2000/svg" style="  width:30px"
+                                                     viewBox="0 0 24 24">
+                                                    <defs>
+                                                        <style>.aps {
+                                                            fill: none;
+                                                        }
+
+                                                        .bps {
+                                                            fill: #45bf72;
+                                                        }</style>
+                                                    </defs>
+                                                    <path class="aps" d="M0,0H24V24H0Z"/>
+                                                    <path class="bps"
+                                                          d="M9,16.17,4.83,12,3.41,13.41,9,19,21,7,19.59,5.59Z"/>
+                                                </svg>
+
+
+                                                <!--<svg style="width: 25px; height: 25px;"-->
+                                                <!--xmlns="http://www.w3.org/2000/svg"-->
+                                                <!--xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16"-->
+                                                <!--version="1.1">-->
+                                                <!--<g id="surface1">-->
+                                                <!--<path fill="#49b994"-->
+                                                <!--d="M 2.59375 1 C 1.71875 1 1 1.71875 1 2.59375 L 1 12.40625 C 1 13.28125 1.71875 14 2.59375 14 L 12.40625 14 C 13.28125 14 14 13.28125 14 12.40625 L 14 4.042969 L 10.957031 1 Z M 2.59375 2 L 3 2 L 3 5 C 3 5.546875 3.453125 6 4 6 L 10 6 C 10.546875 6 11 5.546875 11 5 L 11 2.457031 L 13 4.457031 L 13 12.40625 C 13 12.742188 12.738281 13 12.40625 13 L 11 13 L 11 10 C 11 9.453125 10.546875 9 10 9 L 5 9 C 4.453125 9 4 9.453125 4 10 L 4 13 L 2.59375 13 C 2.257813 13 2 12.738281 2 12.40625 L 2 2.59375 C 2 2.257813 2.257813 2 2.59375 2 Z M 4 2 L 7 2 L 7 4 L 9 4 L 9 2 L 10 2 L 10 5 L 4 5 Z M 5 10 L 10 10 L 10 13 L 5 13 Z "></path>-->
+                                                <!--</g>-->
+                                                <!--</svg>-->
+                                            </button>
+                                        </label>
+
+                                        <div class="col-xs-12 no-padding">
+                                            <span class="col-xs-9">
+
+
+                                        </span>
+                                            <button class="col-xs-4 polls_add_new_button button_adaptive_font"
+                                                    style="float: right;"
+                                                    ng-if="ctrl.variant!==$index"
+                                                    ng-click="ctrl.addVariant($index);ctrl.status=false;ctrl.gotoAnchor()">
+                                                Додати варіант
+                                                відповіді
+                                            </button>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+<a  id="bottom"></a>
+                </div>
+
+                <div class="row col-xs-3 center-block polls_add_new_button_container">
+
+                    <!--<button class="polls_add_new_button col-xs-12 button_adaptive_font"-->
+                    <!--ng-click="ctrl.addNewQuestion(); ctrl.status=false; ctrl.stop===true; ctrl.stopSave=true;"-->
+                    <!--ng-class="{'disabled':ctrl.stop || ctrl.newPoll.name.length<1||ctrl.newPoll.description.length<1||ctrl.newPoll.questions[ctrl.newPoll.questions.length-1].question.length<1 }"-->
+                    <!--&gt;-->
+                    <!--Додати запитання-->
+                    <!--&lt;!&ndash;<svg class='hide720' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"&ndash;&gt;-->
+                    <!--&lt;!&ndash;viewBox="0 0 26 26" version="1.1" style="height: 20px; float: right;margin-top: 4px;">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<g id="surface1">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<path fill="white"&ndash;&gt;-->
+                    <!--&lt;!&ndash;d="M 12 3 C 11.398438 3 11 3.398438 11 4 L 11 11 L 4 11 C 3.398438 11 3 11.398438 3 12 L 3 14 C 3 14.601563 3.398438 15 4 15 L 11 15 L 11 22 C 11 22.601563 11.398438 23 12 23 L 14 23 C 14.601563 23 15 22.601563 15 22 L 15 15 L 22 15 C 22.601563 15 23 14.601563 23 14 L 23 12 C 23 11.398438 22.601563 11 22 11 L 15 11 L 15 4 C 15 3.398438 14.601563 3 14 3 Z "></path>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</g>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</svg>&ndash;&gt;-->
+                    <!--</button>-->
+                    <!--<button class="polls_add_new_button polls_add_new_button_save col-xs-12" ng-click="ctrl.saveNewPoll()"-->
+                    <!--ng-class="{'disabled':ctrl.stop || ctrl.newPoll.name.length<1||ctrl.newPoll.description.length<1||ctrl.newPoll.questions[ctrl.newPoll.questions.length-1].question.length<1|| ctrl.newPoll.questions.length<1||ctrl.stopSave===true}">-->
+                    <!--Зберегти-->
+                    <!--</button>-->
+                    <!--<button class="polls_add_new_button polls_add_new_button_publicate col-xs-12"-->
+                    <!--ng-click="ctrl.publicateNewPoll()"-->
+                    <!--ng-if="ctrl.status==true"-->
+                    <!--ng-class="{'disabled':ctrl.stop }"-->
+                    <!--&gt;-->
+                    <!--Опублікувати-->
+                    <!--</button>-->
+                </div>
+            </div>
+        </div>
+
+
+        <div ng-if="displayNotes()" class="col-xs-4 no-padding"
+             ng-class="{'width_0': !displayNotes(), 'col-lg-4':!sidebarVisible()}"
+             id="newPoll_m-change_s"
+        >
+            <notes-component>
+            </notes-component>
+        </div>
+    </div>
+
+</div>
+

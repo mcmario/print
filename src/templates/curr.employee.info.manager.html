@@ -1,0 +1,111 @@
+<div class="doc_preview_modal" style="width: auto;">
+
+    <div class=" col-xs-12 animate-if modal-main" style="padding-left: 20px;">
+        <div class="duties-modal"
+             ng-init="
+             manager={
+                id:ngDialogData.manager.fk_person,
+                level:ngDialogData.level,
+                }">
+
+            <div class="col-xs-12 no-padding" style="margin-bottom: 30px">
+                <span class="duties-modal-title">Лінійний керівник</span>
+            </div>
+
+            <div class="col-xs-12 duties-modal-items no-padding">
+                <span class="col-xs-12 duties-modal-items-numbers">Керівник</span>
+                <div class="dropdown col-xs-12 col-lg-12 newEmpName no-padding"
+
+                     style="position: relative;height: 40px; background-color: white">
+                    <button class=" col-xs-12 dropdown-toggle  text-left"
+                            type="button"
+                            data-toggle="dropdown"
+                            style="width: 100%;height: 40px; border-radius: 0; background: none;"
+                            ng-click="perSearch='';ctrl.showManager=''">
+                                <span
+                                        ng-bind="ngDialogData.manager.name_ua?ngDialogData.manager.surname_ua+' '+ngDialogData.manager.name_ua:'Лінійний керівник не вказаний'"
+                                ></span>
+                        <span>{{ showManager }}</span>
+
+                    </button>
+
+                    <ul class="dropdown-menu col-xs-12 customScroll"
+                        style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+                        <li class="dropdown-menu_search-input" style="position: sticky; top: 0;">
+                            <input type="text"
+                                   style="width: 100%;"
+                                   autofocus placeholder="Введіть ім'я чи прізвище"
+                                   ng-model="perSearch"></li>
+                        <li class="polls_statistics_filters_li"
+
+                            ng-click="manager.id=person.id;
+                            ctrl.editionSave=true;
+                             ngDialogData.manager.surname_ua=person.surname;
+                             ngDialogData.manager.name_ua=person.name"
+                            ng-repeat="person in ngDialogData.listManagers | filter: perSearch"
+
+                        >
+                            <span class="invisible"></span>
+                            <span>{{ person.surname }} {{ person.name }}</span>
+                        </li>
+
+                    </ul>
+                </div>
+                <span class="col-xs-12 duties-modal-items-numbers">Організаційний рівень</span>
+                <div class="dropdown col-xs-12 col-lg-12 newEmpName no-padding"
+
+                     style="position: relative;height: 40px; background-color: white">
+                    <button class=" col-xs-12 dropdown-toggle  text-left"
+                            type="button"
+                            data-toggle="dropdown"
+                            style="width: 100%;height: 40px; border-radius: 0; background: none;"
+                    >
+                        <span ng-bind="ngDialogData.level===1?'Топ-менеджмент':ngDialogData.level===2?'Менеджмент середнього рівня':ngDialogData.level===3?'Лінійні працівники':'Не вказано'"></span>
+                    </button>
+
+                    <ul class="dropdown-menu col-xs-12 customScroll"
+                        style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+
+                        <li class="polls_statistics_filters_li"
+
+                            ng-click="manager.level=1;ngDialogData.level=1;ctrl.editionSave=true">
+                            <span class="invisible"></span>
+                            <span>Топ-менеджмент</span>
+                        </li>
+                        <li class="polls_statistics_filters_li"
+
+                            ng-click="manager.level=2;ngDialogData.level=2;ctrl.editionSave=true">
+                            <span class="invisible"></span>
+                            <span>Менеджмент середнього рівня</span>
+                        </li>
+                        <li class="polls_statistics_filters_li"
+
+                            ng-click="manager.level=3;ctrl.editionSave=true;ngDialogData.level=3">
+                            <span class="invisible"></span>
+                            <span>Лінійні працівники</span>
+                        </li>
+
+                    </ul>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <div class="button_panel no-padding col-xs-12 animate-if" ng-if='1'>
+            <br>
+            <button ng-click="saveManager(manager);closeThisDialog(0)"
+                    class="duties-modal-items-buttons_add save_duty col-xs-5 "
+                    ng-hide="!ctrl.editionSave"
+            >
+                Зберегти зміни
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,501 @@
+<header-component></header-component>
+<sidebar></sidebar>
+
+
+<div class="spinner_container" ng-if="ctrl.spinner==true">
+    <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</div>
+<div class="content no-padding" style="overflow:hidden; margin-top: 60px;min-height: 100vh;"
+     ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}">
+
+    <div class="no-padding page_wrapper smooth_width  newUserPage"
+         ng-class="{' col-xs-8 col-lg-5': displayNotes(), 'col-xs-9 col-lg-6  col-lg-offset-1': !displayNotes()}">
+        <div class="container-fluid page page_boxed col-xs-12 newUserPage">
+
+            <div class=" col-xs-offset-2 col-xs-10" id="newEmpForm"
+                 ng-class="{'col-lg-8': displayNotes(), 'col-xs-10 col-lg-8  col-lg-offset-2': !displayNotes()}"
+            >
+                <h4 class="newEmpHeader text-center">Анкета кандидата</h4>
+                <div class="container container-fluid col-xs-12 no-padding" ng-if="ctrl.showCandidateTypes!=true">
+                    <div class="col-xs-1"></div>
+                    <button class="button col-xs-5" ng-click="ctrl.getListQuestions(1)">Кандидат для ІТ</button>
+                    <button class="button col-xs-5" ng-click="ctrl.getListQuestions(2)">Всі інші</button>
+                </div>
+                <div class="fPart" ng-repeat="new in ctrl.newIndividPoll track by $index"
+                     ng-if="new.block==ctrl.page &&ctrl.showCandidateTypes==true">
+                    <!--ng-if="new.order>=ctrl.fieldFrom&& new.order<=ctrl.fieldTo">-->
+
+                    <div class="newEmpInputField">
+                        <label class="newUserLable" class="col-xs-12" ng-if="new.type_=='title'">
+                            <strong>{{ new.question }}</strong>
+
+
+                            <span style="color: red;" ng-if="new.required" title="обов'язкове поле">*</span>
+                        </label>
+                        <label class="newUserLable" class="col-xs-12" ng-if="new.type_!='title'">
+                            {{ new.question }}
+
+
+                            <span style="color: red;" ng-if="new.required" title="обов'язкове поле">*</span>
+                        </label>
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newIndivid[new.value]" ng-if="new.type_=='text'">
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newIndivid[new.value]" ng-if="new.type_=='textC'"
+                               onkeyup="this.value = this.value.replace(/[A-Za-z0-9]/g, '')">
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newIndivid[new.value]" ng-if="new.type_=='textE'"
+                               onkeyup="this.value = this.value.replace(/[А-Яа-яЁё0-9]/g, '')">
+                        <input type="number" class="newEmpName dateInput"
+                               ng-model="ctrl.newIndivid[new.value]" ng-if="new.type_=='textIpn'"
+                               onkeyup="this.value = this.value.slice(0,10); this.value = this.value.replace('e', '')">
+                        <input type="number" class="newEmpName dateInput"
+                               ng-model="ctrl.newIndivid[new.value]" ng-if="new.type_=='pasId'"
+                               onkeyup="  this.value = this.value.slice(0,9); this.value = this.value.replace('e', '')">
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newIndivid[new.value]" ng-if="new.type_=='textTel'"
+                               onkeyup="this.value=this.value.replace(/[^\+0-9]/g,'')"
+                               ng-blur="ctrl.checkPhone()">
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newIndivid[new.value]" ng-if="new.type_=='textPas'"
+                               onkeyup="this.value = this.value.slice(0,2); this.value = this.value.replace(/[A-Za-z0-9]/g, '');this.value = this.value.toLocaleUpperCase()"
+                               ng-class="{'text-danger':ctrl.wrongPass}">
+                        <input type="date" class="newEmpName dateInput"
+                               ng-model="ctrl.newIndivid[new.value]" ng-if="new.type_=='date'">
+
+                        <!--education-->
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newEdu[new.value]" ng-if="new.type_=='edu'">
+
+                        <input type="button" ng-click="ctrl.addEducation()" ng-if="new.type_=='edu'&& new.final=='1'"
+                               value="додати освіту" ng-class="{'invisible':ctrl.newEdu.eduName.length<1}">
+                        <div ng-if="new.type_=='language'">
+                            <table class="table table-fluid table-bordered">
+                                <tr>
+                                    <td rowspan="2">Мова</td>
+                                    <td colspan="4">Ступінь володіння</td>
+                                </tr>
+                                <tr>
+                                    <td>Вільно</td>
+                                    <td>Добре</td>
+                                    <td>Задовільно</td>
+                                    <td>Погано</td>
+                                </tr>
+                                <tr ng-repeat="lang in ctrl.languages track by $index">
+                                    <td ng-model="ctrl.newIndivid.language[$index].language">{{ lang.language }}</td>
+                                    <td>
+                                        <input type="radio" name="{{ lang.value }}" value="Вільно"
+                                               style="display:block"
+                                               ng-model="ctrl.newIndivid.language[$index].knowledge_level">
+                                    </td>
+                                    <td>
+                                        <input type="radio" name="{{ lang.value }}" value="Добре"
+                                               style="display:block"
+                                               ng-model="ctrl.newIndivid.language[$index].knowledge_level">
+                                    </td>
+                                    <td>
+                                        <input type="radio" name="{{ lang.value }}" value="Задовільно"
+                                               style="display:block"
+                                               ng-model="ctrl.newIndivid.language[$index].knowledge_level">
+                                    </td>
+                                    <td>
+                                        <input type="radio" name="{{ lang.value }}" value="Погано"
+                                               style="display:block"
+                                               ng-model="ctrl.newIndivid.language[$index].knowledge_level" checked>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" class="col-xs-12" placeholder="мова"
+                                               ng-model="ctrl.newLang.language">
+                                    </td>
+                                    <td>
+                                        <input type="radio" name="newLang" value="Вільно"
+                                               style="display:block" ng-model="ctrl.newLang.knowledge_level"
+                                               ng-class="{'disabled':ctrl.newLang.language.length<1}">
+                                    </td>
+                                    <td>
+                                        <input type="radio" name="newLang" value="Добре"
+                                               style="display:block" ng-model="ctrl.newLang.knowledge_level"
+                                               ng-class="{'disabled':ctrl.newLang.language.length<1}">
+                                    </td>
+                                    <td>
+                                        <input type="radio" name="newLang" value="Задовільно"
+                                               style="display:block" ng-model="ctrl.newLang.knowledge_level"
+                                               ng-class="{'disabled':ctrl.newLang.language.length<1}">
+                                    </td>
+                                    <td>
+                                        <input type="radio" name="newLang" value="Погано"
+                                               style="display:block" ng-model="ctrl.newLang.knowledge_level"
+                                               ng-class="{'invisible':ctrl.newLang.language.length<1}" checked>
+                                    </td>
+
+                                </tr>
+                            </table>
+                            <input type="button" class="col-xs-11" ng-click="ctrl.addLanguage()"
+                                   value="додати ще мову" ng-class="{'invisible':ctrl.newLang.language.length<1}">
+
+                        </div>
+                        <div class="container container-fluid col-xs-12"
+                             style="display: flex; justify-content: space-between" ng-if="new.type_=='priority'">
+                            <input type="radio" value="1" style="display: block" name="priority{{$index}}" checked
+                                   ng-model="ctrl.newIndivid[new.value]">1
+                            <input type="radio" value="2" style="display: block" name="priority{{$index}}"
+                                   ng-model="ctrl.newIndivid[new.value]">2
+                            <input type="radio" value="3" style="display: block" name="priority{{$index}}"
+                                   ng-model="ctrl.newIndivid[new.value]">3
+                            <input type="radio" value="4" style="display: block" name="priority{{$index}}"
+                                   ng-model="ctrl.newIndivid[new.value]">4
+                            <input type="radio" value="5" style="display: block" name="priority{{$index}}"
+                                   ng-model="ctrl.newIndivid[new.value]">5
+                            <input type="radio" value="6" style="display: block" name="priority{{$index}}"
+                                   ng-model="ctrl.newIndivid[new.value]">6
+                            <input type="radio" value="7" style="display: block" name="priority{{$index}}"
+                                   ng-model="ctrl.newIndivid[new.value]">7
+                            <input type="radio" value="8" style="display: block" name="priority{{$index}}"
+                                   ng-model="ctrl.newIndivid[new.value]">8
+                            <input type="radio" value="9" style="display: block" name="priority{{$index}}"
+                                   ng-model="ctrl.newIndivid[new.value]">9
+                            <input type="radio" value="10" style="display: block" name="priority{{$index}}"
+                                   ng-model="ctrl.newIndivid[new.value]">10
+                        </div>
+
+                        <!--work recomendations-->
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newRecomendations[new.value]" ng-if="new.type_=='recomendations'">
+                        <input type="button" ng-click="ctrl.addRecomendations()"
+                               ng-if="new.type_=='recomendations'&& new.final=='1'"
+                               value="додати рекомендації">
+                        <!--work experience-->
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newWorkExp[new.value]"
+                               ng-if="new.type_=='wExp'&&new.question!=='Функціональні обов\'язки'">
+                        <textarea type="text" class="newEmpName resizableTextArea "
+                                  style="height: 35px;min-height: 35px; padding-left: 10px"
+                                  onkeyup="this.style.height=this.scrollHeight+'px'"
+                                  ng-model="ctrl.newWorkExp[new.value]"
+                                  ng-if="new.type_=='wExp'&&new.question==='Функціональні обов\'язки'"></textarea>
+                        <input type="button" ng-click="ctrl.addWorkExp()" ng-if="new.type_=='wExp'&& new.final=='1'"
+                               value="додати роботу">
+
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newRel[new.value]" ng-if="new.type_=='family'">
+                        <input type="date" class="newEmpName dateInput"
+                               ng-model="ctrl.newRel.birthday" ng-if="new.type_=='relDate'">
+                        <input type="button" ng-click="ctrl.addRel()" ng-if="new.type_=='family'&& new.final==1"
+                               value="додати члена родини">
+
+                        <!--when textarea is needed-->
+
+                        <textarea name="" class="newEmpName resizableTextArea"
+                                  ng-if="new.type_=='textarea'"
+                                  ng-model="ctrl.newIndivid[new.value]"
+                                  onkeyup="this.style.height=this.scrollHeight+'px'"
+                                  style="height: 35px;min-height: 35px; padding-left: 10px;"
+
+
+                        >{{ ctrl.newIndivid[new.value] }}</textarea>
+
+
+                        <!--when select is needed-->
+
+
+                        <select class="newEmpName selectField" name="" ng-if=" new.type_=='selectG'"
+                                ng-model="ctrl.newIndivid.gender">
+                            <option value="" selected disabled>Виберіть стать</option>
+                            <option value="Чоловіча">Чоловіча</option>
+                            <option value="Жіноча">Жіноча</option>
+                        </select>
+                        <select class="newEmpName selectField" name="" ng-if=" new.type_=='selectEdu'"
+                                ng-model="ctrl.newEdu.education_type">
+                            <option value="" selected disabled>виберіть тип освіти</option>
+                            <option value="{{ education }}" ng-repeat="education in ctrl.eduType">{{ education }}
+                            </option>
+                            <option value="інше">інше</option>
+                        </select>
+                        <select class="newEmpName selectField" name="" ng-if=" new.type_=='selectDep'"
+                                ng-model="ctrl.newIndivid.dep">
+                            <option value="" selected disabled>виберіть Відділ</option>
+                            <option value="{{ dept }}" ng-repeat="dept in ctrl.departments track by $index">{{ dept }}
+                            </option>
+
+                        </select>
+                        <select class="newEmpName selectField" name="" ng-if=" new.type_=='selectCity'"
+                                ng-model="ctrl.newIndivid.city">
+                            <option value="" selected disabled>Виберіть місто</option>
+                            <option value="{{ city.name }}" ng-repeat="city in ctrl.cities">{{ city.name }}
+                            </option>
+
+                        </select>
+                        <select class="newEmpName selectField" ng-if="new.type_=='textF'"
+                                ng-model="ctrl.newIndivid.married">
+                            <option value="" selected disabled>Виберіть сімейний стан</option>
+
+                            <option value="не одружений(на)">
+                                Не одружений(а)
+                            </option>
+                            <option value="одружений(на)">
+                                Одружений(а)
+                            </option>
+                            <option value="розлучений(на)">
+                                Розлучений(а)
+                            </option>
+                        </select>
+
+                        <select class="newEmpName selectField" name="" ng-if="new.type_=='familySelect'"
+                                ng-model="ctrl.newRel.type_">
+                            <option value="" selected disabled>Виберіть родинний зв'язок</option>
+                            <option value="Чоловік">Чоловік</option>
+                            <option value="Дружина">Дружина</option>
+                            <option value="Дитина">Дитина</option>
+                        </select>
+
+
+                        <!--when checkbox is needed-->
+                        <div class="container container-fluid col-xs-12" ng-if="new.type_=='check'">
+                            <!--<h1 ng-repeat="x in new.answers">{{x}}</h1>-->
+                            <label class=" container container-fluid col-xs-12"
+                                   ng-repeat="variant in new.answers track by $index">
+                                <input type="checkbox" class="col-xs-1" ng-true-value="'{{ variant }}'"
+                                       ng-model="ctrl.newIndivid[new.value][$index]" style="display: block;">
+                                {{ variant }} </label>
+
+
+                        </div>
+                        <div class="container container-fluid col-xs-12" ng-if="new.type_=='radio'">
+                            <!--<h1 ng-repeat="x in new.answers">{{x}}</h1>-->
+                            <label class=" container container-fluid col-xs-12"
+                                   ng-repeat="variant in new.answers track by $index">
+                                <input type="radio" name="{{ new.value }}" class="col-xs-1" ng-value="'{{ variant }}'"
+                                       ng-model="ctrl.newIndivid[new.value]" style="display: block;">
+                                {{ variant }} </label>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+                <br>
+                <label ng-show="ctrl.page==1 && ctrl.showCandidateTypes==true">
+                    <span class="button save" ng-click="ctrl.addNewCandidatePhoto()">Додати фото</span>
+
+                    <!--<input type="file" id="fileInput3" ng-model="ctrl.photo" style="display: none;"-->
+                           <!--base-sixty-four-input ng-change="ctrl.checkFileSize('fileInput3')">-->
+
+                    <!--<span ng-if="ctrl.PhotoLoaded">фото завантажене</span>-->
+
+                     <!--<form-->
+                            <!--class="no-padding"-->
+                            <!--novalidate-->
+                            <!--enctype=multipart/form-data-->
+                            <!--method="post"-->
+                            <!--action='/photo'-->
+                            <!--id="documentsForm3"-->
+                            <!--name="form">-->
+
+                        <!--<label class=" newUserLable no-padding">-->
+
+                        <!--</label>-->
+
+
+                        <!--<input style="display: none;" type="number" name="id" id="formIdInput3"-->
+                               <!--value="{{ ctrl.newIndividualid }}">-->
+
+                        <!--<label>-->
+                            <!--<span class="save curr_empl_button"-->
+                                  <!--ng-bind="!data.file?'Обрати фото профілю':'Файл вибрано'"></span>-->
+
+                            <!--<input-->
+
+                                    <!--id="fileName3"-->
+                                    <!--ng-class="{'':!data.fileName}"-->
+                                    <!--style="display: none"-->
+                                    <!--tabindex="2"-->
+                                    <!--accept="application/pdf, .jpg, .jpeg, .png"-->
+                                    <!--name="file"-->
+                                    <!--type="file"-->
+                                    <!--fileinput="file"-->
+                                    <!--filepreview="data.file"-->
+                                    <!--placeholder="Оберіть файл"/>-->
+                        <!--</label>-->
+
+
+                    <!--</form>-->
+
+
+                </label>
+                <label ng-show="ctrl.page===1">
+                  <!--  <form
+                            class="no-padding"
+                            novalidate
+                            enctype=multipart/form-data
+                            method="post"
+                            action='/photo'
+                            id="documentsForm"
+                            name="form">
+
+                        <label class=" newUserLable no-padding">
+                            <select name="type" style="display: none" id="" ng-model="data.doctype"
+                                    ng-init="data.doctype='photo'"
+                                    class="newEmpName">
+
+                                <option value="ipn">ІПН</option>
+                                <option value="education">документи про освіту</option>
+                                <option value="license">посвідчення водія</option>
+                                <option value="other">інше</option>
+
+
+                            </select>
+                        </label>
+
+
+                        <input style="display: none;" type="number" name="id" id="formIdInput"
+                               value="{{ ctrl.newIndividualid }}">
+
+                        <label>
+                            <span class="save curr_empl_button"
+                                  ng-bind="!data.file?'Обрати фото профілю':'Файл вибрано'"></span>
+
+                            <input
+
+                                    id="fileName"
+                                    ng-class="{'':!data.fileName}"
+                                    style="display: none"
+                                    tabindex="2"
+                                    accept="application/pdf, .jpg, .jpeg, .png"
+                                    name="file"
+                                    type="file"
+                                    fileinput="file"
+                                    filepreview="data.file"
+                                    placeholder="Оберіть файл"/>
+                        </label>
+
+
+                    </form>
+                -->
+                </label>
+                <div class="progress progressBar" ng-if="ctrl.showCandidateTypes==true">
+                    <div class="progress-bar progres_color" role="progressbar" aria-valuenow="3" aria-valuemin="0"
+                         aria-valuemax="5" style="width:{{ ctrl.progres }}">
+
+                    </div>
+                </div>
+                <h5 class="progresCount" ng-if="ctrl.showCandidateTypes==true">{{ ctrl.page }}/{{ ctrl.pages }}</h5>
+                <div class="buttonsPanel" ng-if="ctrl.showCandidateTypes==true">
+
+                    <input type="button" class=" button_new_user newUserBack" value="назад"
+                           ng-click="ctrl.ChangePart(-1)" ng-if="ctrl.page>1">
+                    <input type="button" class=" button_new_user newUserBack invisible" value=" "
+                           ng-if="ctrl.page==1"><!--invisible-->
+                    <input type="button" class="button_new_user" form="newEmpForm" ng-if="ctrl.page>=1"
+                           ng-click="ctrl.addNewCandidate()"
+                           value="зберегти">
+                    <input type="button" class=" button_new_user newUserBack newUserForvard" value="далі"
+                           ng-click="ctrl.ChangePart(1)" ng-if="ctrl.page<ctrl.pages">
+
+                </div>
+                <div class="buttonsPanel invisible" ng-if="ctrl.showCandidateTypes==true">
+                            <div class="col-xs-12 " >
+        <br>s<br>s<br>s<br>
+    </div>
+
+                </div>
+
+            </div>
+            <!--manual block-->
+
+
+        </div>
+
+    </div>
+    <div class="no-padding page-wrapper smooth_width col-xs-2 manual" style="margin: 0;">
+        <h3 class="text-center">Інструкція</h3><br>
+        <ul style="list-style-type: none">
+            <li ng-if="ctrl.showCandidateTypes!=true">Для додавання нового кандидата, виберіть сферу його
+                діяльності:
+                <ul style="list-style-type: none" class="no-padding">
+                    <li>-Для кандидатів, пов'язаних зі сферою ІТ, натисніть кнопку <strong>"Кандидат для
+                        ІТ"</strong></li>
+                    <li>-Для всіх інших кандидатів, натисніть кнопку <strong>"Всі інші"</strong></li>
+                </ul>
+            </li>
+            <li ng-if="ctrl.showCandidateTypes==true">Поля позначені <span style="color: red;">*</span> є
+                обов'язковими для заповнення
+            </li>
+            <li ng-if="ctrl.showCandidateTypes==true">Для додавання дати використовуйте формат ДД ММ РРРР де
+                ДД-число, ММ - номер місяця, РРРР-рік
+            </li>
+            <li ng-if="ctrl.page==2"><strong>ІПН повинен містити 10 цифр без пробілів</strong></li>
+            <li ng-if="ctrl.page==2"><strong>Серію паспорта записуйте без пробілів та великими буквами
+                <i> (АА)</i></strong></li>
+            <li ng-if="ctrl.page==2"><strong>Номер паспорта або ІД карти записуйте без пробілів<i> (123456789)</i></strong></li>
+               <li ng-if="ctrl.page==2"><strong>Телефонний номер записуйте у повному форматі
+                <i> (+380991234567)</i></strong>
+            </li>
+            <li ng-if="ctrl.page==4&&ctrl.pollAnk.id==1 || ctrl.page==5&&ctrl.pollAnk.id==2"><strong>Для
+                додавання ще однієї освіти натисніть кнопку "додати освіту" та заповніть необхідні
+                поля</strong></li>
+            <li ng-if="ctrl.page==5&&ctrl.pollAnk.id==1 || ctrl.page==6&&ctrl.pollAnk.id==2"><strong>дані
+                заповнюються з військового квитка або його замінника</strong></li>
+            <li ng-if="ctrl.page==7 &&ctrl.pollAnk.id==1  || ctrl.page==8&&ctrl.pollAnk.id==2"><strong>Вкажіть
+                рівень володіння мовами, зазначеними в таблиці</strong></li>
+            <li ng-if="ctrl.page==7 &&ctrl.pollAnk.id==1  || ctrl.page==8&&ctrl.pollAnk.id==2"><strong>Для
+                додавання ще однієї мови, введіть назву мови в поле "мова", виберіть рівень володіння нею та
+                натисніть кнопку "додати ще мову"</strong></li>
+            <li ng-if="ctrl.page==7 &&ctrl.pollAnk.id==1  || ctrl.page==8&&ctrl.pollAnk.id==2"><strong>Для
+                додавання кожної наступної мови, щоразу виконуйте вищезазначену процедуру </strong></li>
+            <li ng-if="ctrl.page==8 &&ctrl.pollAnk.id==1  || ctrl.page==9&&ctrl.pollAnk.id==2"><strong>Для
+                додавання ще одного досвіду роботи, натисніть кнопку "додати роботу" та заповніть необхідні
+                поля</strong></li>
+            <li ng-if="ctrl.page==10&&ctrl.pollAnk.id==2"><strong>Для додавання ще контактної особи,
+                натисніть кнопку "додати рекомендації" та заповніть необхідні поля</strong></li>
+            <li ng-if="ctrl.page==9 &&ctrl.pollAnk.id==1 || ctrl.page==3&&ctrl.pollAnk.id==2"><strong>Для
+                додавання ще одного члена сім'ї, натисніть кнопку "додати члена родини" та заповніть
+                необхідні поля</strong></li>
+            <li ng-if="ctrl.page==9 &&ctrl.pollAnk.id==1 || ctrl.page==3&&ctrl.pollAnk.id==2"><strong>Для
+                додавання кожного наступного члена сім'ї, щоразу виконуйте вищезазначену процедуру </strong>
+            </li>
+
+            <li ng-if="ctrl.page==9 &&ctrl.pollAnk.id==1 || ctrl.page==3&&ctrl.pollAnk.id==2"><strong> Для
+                дитини поля "місце роботи/навчання" та "посада" є необов'язковими</strong></li>
+            <li ng-if="ctrl.page==10 &&ctrl.pollAnk.id==1 || ctrl.page==12&&ctrl.pollAnk.id==2"><strong>
+                Одна і та ж відповідь для двох запитань не допускається </strong></li>
+            <li><strong> У разі назаповнення поля чи полів які є обов'язковими для
+                заповнення, Вас буде перенаправлено на перший розділ з незаповненим обовєязковим
+                полем </strong></li>
+        </ul>
+        <canvas id="canvasNew" width="768" height="768" hidden></canvas>
+
+        <span></span>
+        <span></span>
+
+
+    </div>
+    <div ng-if="displayNotes()" class="col-md-4 col-xs-offset-1 no-padding"
+         ng-class="{'width_0': !displayNotes()}">
+        <notes-component>
+        </notes-component>
+    </div>
+
+
+</div>
+
+
+<!--<header-component></header-component>-->
+<!--<sidebar></sidebar>-->
+
+<!--<div class="content" style="overflow:hidden;"-->
+<!--ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}">-->
+
+<!--<div  ng-class="{'col-md-12': displayNotes(), 'col-md-12': !displayNotes()}">-->
+
+
+<!--</div>-->
+
+<!--</div>-->

@@ -1,0 +1,165 @@
+<div
+        lazy-img-container
+        class="page_wrapper">
+    <div class="component_list_people page">
+        <br>
+        <div class="col-xs-12 info_header no-padding">
+            <div class="info_person col-xs-6">
+                <h3 class="curr_empl_name ">
+                    Активні вакансії
+                </h3>
+            </div>
+            <div class="info_person col-xs-2 info_body_button_panel_vacations">
+            </div>
+            <div class="col-xs-3 info_body_button_panel info_body_button_panel_vacations">
+                <button ng-click="$ctrl.addNewVacancy=true; $ctrl.addVacancyBut()"
+                        class=" info_button_add col-xs-3 no-padding"
+                >
+                    Додати вакансію
+                </button>
+            </div>
+        </div>
+        <div class="col-xs-12 no-padding info_body info_body_row animate-if"
+             ng-if="$ctrl.addNewVacancy==true">
+
+            <span class="col-xs-12 info_body_row_vacations_headers curr_empl_name">додати нову вакансія</span><br>
+            <span class="col-xs-4  info_body_row_vacations_headers">
+                <input type="text" class=" info_body_row_vacations_headers"
+                       ng-model="$ctrl.newVacancy.name_vacancy"
+                       placeholder="назва вакансії">
+            </span>
+            <span class="col-xs-4  info_body_row_vacations_headers">
+            <input type="text" class="info_body_row_vacations_headers dateInput"
+                   ng-model="$ctrl.newVacancy.link"
+                   placeholder="посилання на вакансію">
+
+        </span>
+
+            <div class="col-xs-4 info_body_button_panel info_body_button_panel_vacations">
+
+                <button class="info_body_button_panel_vacations_save col-xs-5"
+                        ng-click="$ctrl.addVacancy();"
+
+                >
+                    Зберегти
+
+                </button>
+                <button class="info_body_button_panel_vacations_cancel col-xs-5"
+                        ng-click="$ctrl.addNewVacancy=false; $ctrl.newVacancy={}"
+                >
+                    Скасувати
+                </button>
+
+
+            </div>
+
+        </div>
+
+        <h1 ng-if="vacanciesList.length<=0">список порожній</h1>
+        <div ng-repeat="vacancy in vacanciesList track by $index"
+             class="component_list_people_person "
+        >
+            <div class="component_list_people_person_expander"
+                 ng-click="$ctrl.togglePane($event); $ctrl.getVacancyDetail(vacancy.id,$index)"></div>
+            <div class="container-fluid component_list_people_person_title">
+                <div class="col-sm-3 component_list_people_person_cell">
+                    {{vacancy.name_vacancy}}
+                </div>
+
+                <div class="col-sm-3 component_list_people_person_cell">
+                    {{vacancy.date_created}}
+                </div>
+
+                <div class="col-sm-6  component_list_people_person_cell component_list_people_person_action_wrapper vacancies_button_panel ">
+
+                    <button
+                            class="info_body_button_panel_vacations_edit col-xs-4 no-padding"
+                            style="height: 40px;background-image: none"
+                            ng-click="$ctrl.changeVacancyStatus(vacancy.id)"
+                            ng-if="vacancy.status!=='active'"
+                    > активувати
+                    </button>
+                    <button
+                            class="info_body_button_panel_vacations_edit col-xs-4 no-padding"
+                            style="height: 40px;background-image: none"
+                            ng-click="$ctrl.changeVacancyStatus(vacancy.id)"
+                            ng-if="vacancy.status==='active'"
+                    > деактивувати
+                    </button>
+
+                    <button
+                            class="info_body_button_panel_vacations_delete col-xs-4 no-padding"
+                            style="height: 40px;background-image: none"
+                            ng-click="$ctrl.deleteVacancy(vacancy.id)"> видалити
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="col-sm-4 component_list_people_person_cell"></div>
+
+
+            <div class="component_list_people_person_detail container-fluid"
+            >
+
+                <span class="col-xs-6 vacancy_title"
+                      ng-bind-html="vacancy.theme"
+                ></span>
+                <span class="col-xs-6"
+                      ng-bind-html="vacancy.price"
+                ></span>
+                <div class="col-xs-12" ng-bind-html="vacancy.description"
+                ></div>
+
+            </div>
+
+
+            <div class="component_list_people_person_detail container-fluid"
+                 ng-if="person.status=='reserve' || person.status=='rejected'">
+
+                <div class="col-sm-2 component_list_people_person_cell">
+                    <div
+                            class="component_list_people_person_image_wrapper">
+                        <img class="component_list_people_person_image"
+                             lazy-img='/get_photo/{{person.id}}'/>
+                    </div>
+                </div>
+                <div class="col-sm-offset-1 col-sm-4 component_list_people_person_cell">
+                    <p class="person-icon person-icon-dep">
+                        Бажані посади: <strong>{{person.positions}} </strong>
+                    </p><br>
+                    <!--<p class="person-icon person-icon-dep">-->
+                    <!--Опитування пройдено: <strong ng-if="person.fk_polls==1">Для ІТ працівників</strong>-->
+                    <!--<strong ng-if="person.fk_polls==2">Для всіх працівників</strong>-->
+                    <!--</p>-->
+                    <p class="person-icon person-icon-email">
+                        Email: <a ng-if="person.mail.length" href="mailto:{{person.mail}}">{{person.mail}}</a>
+                        <strong ng-if="!person.mail.length">не вказано</strong>
+                    </p>
+                </div>
+
+                <div class="col-sm-4 component_list_people_person_cell">
+                    <p class="person-icon person-icon-mobile">
+                        Мобільний:
+                        <strong ng-bind="person.phone.length > 0 ? person.phone : 'не вказано'"></strong>
+
+                    </p>
+
+                    <p class="person-icon person-icon-skype">
+                        Skype:
+                        <a ng-if="person.skype.length" href="skype:{{person.skype}}?chat"
+                           ng-bind=" person.skype !=='None' ? person.skype : 'не вказано'"></a>
+                        <strong ng-if="!person.skype.length">не вказано</strong>
+                    </p>
+                    <p class="person-icon person-icon-email">
+                        Email: <a ng-if="person.mail.length" href="mailto:{{person.mail}}">{{person.mail}}</a>
+                        <strong ng-if="!person.mail.length">не вказано</strong>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>

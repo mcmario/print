@@ -1,0 +1,78 @@
+
+
+
+
+
+
+
+
+
+<div class="note_wrapper" ng-class="{'active': active,'emptyNote':$ctrl.data.emptyNote}">
+  <!--id {{$ctrl.data.id}}-->
+  <!--<p class="note_person">{{$ctrl.data.person}}</p>-->
+  <search-component
+          ng-if="noteForm.$visible"
+          type="$ctrl.data.type_"
+          person="$ctrl.data['notes.name']"
+          department="$ctrl.data.department">
+  </search-component>
+
+  <p class="note_status">
+    <span ng-if="$ctrl.data['name']">{{$ctrl.data['name']}}{{$ctrl.data.id_person}}</span><br>
+    <!--<span ng-if="$ctrl.data.type">{{$ctrl.data.typeUa}}</span><br>-->
+    <!--<span ng-if="$ctrl.data.type!=='else'">{{$ctrl.data.position}}. {{$ctrl.data.department}}</span>-->
+    <!--<span ng-if="$ctrl.data.type==='else'" class="invisible">{{$ctrl.data.position}}. {{$ctrl.data.department}}</span>-->
+
+  </p>
+  <p class="note_text" editable-textarea="$ctrl.data.text" e-form="noteForm" e-formclass="note_textarea"
+     ng-bind-html="$ctrl.data.text | lineBreak">
+  </p>
+
+  <p class="note_author"  ng-if="!emptyNote">
+    <a href="/#!/employees/{{$ctrl.data.type_}}/{{$ctrl.data.id_person}}" ng-if="$ctrl.data.type_!=='else'">
+      <img class="note_author_thumbnail instead_ofBroken_alt" src='/get_photo/{{$ctrl.data.id_person}}' alt="фото" >
+    </a>
+
+    <a ng-if="$ctrl.data.type_==='else'" href="/#!/notes" >
+      <img class="note_author_thumbnail instead_ofBroken_alt" src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDUyOC44OTkgNTI4Ljg5OSIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTI4Ljg5OSA1MjguODk5OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPHBhdGggZD0iTTMyOC44ODMsODkuMTI1bDEwNy41OSwxMDcuNTg5bC0yNzIuMzQsMjcyLjM0TDU2LjYwNCwzNjEuNDY1TDMyOC44ODMsODkuMTI1eiBNNTE4LjExMyw2My4xNzdsLTQ3Ljk4MS00Ny45ODEgICBjLTE4LjU0My0xOC41NDMtNDguNjUzLTE4LjU0My02Ny4yNTksMGwtNDUuOTYxLDQ1Ljk2MWwxMDcuNTksMTA3LjU5bDUzLjYxMS01My42MTEgICBDNTMyLjQ5NSwxMDAuNzUzLDUzMi40OTUsNzcuNTU5LDUxOC4xMTMsNjMuMTc3eiBNMC4zLDUxMi42OWMtMS45NTgsOC44MTIsNS45OTgsMTYuNzA4LDE0LjgxMSwxNC41NjVsMTE5Ljg5MS0yOS4wNjkgICBMMjcuNDczLDM5MC41OTdMMC4zLDUxMi42OXoiIGZpbGw9IiM2ODY4NjkiLz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K" alt="фото" style="width: 14%;left: 4%;" >
+    </a>
+    <!--<img class="note_author_thumbnail" src='https://cdn2.iconfinder.com/data/icons/social-messaging-productivity-1/128/write-compose-512.png'-->
+    <!--alt="фото" ng-if="$ctrl.data.type==='else'">-->
+    <span class="note_author_name"  ng-if="$ctrl.data.type_!=='else'">{{$ctrl.data.name_ua}}, {{$ctrl.data.surname}}</span>
+    <span class="note_author_name" ng-if="$ctrl.data.type_==='else'">загальна нотатка</span>
+    <br>
+
+
+
+
+    <span class="note_author_updated" >{{$ctrl.data.created |amUtc | amCalendar:referenceTime:'dddd, MMMM Do YYYY, h:mm a'}}</span>
+
+
+
+
+
+
+
+
+
+
+
+  </p>
+  <!--<button class="note_button note_button_public hidden" ng-click="$ctrl.data.public = !$ctrl.data.public"-->
+          <!--ng-class="{'disable_pointer_events': !noteForm.$visible, 'private': !$ctrl.data.public}" title='disabled'>save-->
+  <!--</button>-->
+  <button class="note_button note_button_edit" ng-if="$ctrl.editionNote!==true" ng-click="$ctrl.editNote($ctrl.data, true, noteForm); $ctrl.editionNote=true"
+          ng-class="{'addOpacity': noteForm.$visible}">edit
+  </button>
+  <button class="note_button note_button_delete animat" ng-if="$ctrl.editionNote!==true" ng-click="$ctrl.deletingNote($ctrl.data, noteForm)">delete</button>
+  <form class="note_submit_form" editable-form name="noteForm" onbeforesave="$ctrl.updateNote($ctrl.data)">
+    <button class="note_button note_button_save" type="submit"
+            ng-class="{'addOpacity': !noteForm.$visible}" ng-click="$ctrl.editionNote=false">save
+    </button>
+    <button class="note_button note_button_cancel" type="button"
+            ng-class="{'addOpacity': !noteForm.$visible}" ng-click="$ctrl.cancelNoteChanges($ctrl.data, noteForm);$ctrl.editionNote=false">
+      cancel
+    </button>
+  </form>
+</div>
+

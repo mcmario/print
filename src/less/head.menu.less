@@ -1,0 +1,84 @@
+.head_menu {
+  &_background {
+    //border-bottom: 1px solid #e0e0e0;
+    //background-color: rgb(247, 247, 247);
+    background: #353535;
+        box-shadow: inset 8px 0 10px -5px hsla(0, 0%, 4%, 0.34);
+  }
+  &_wrapper {
+    padding: 0px 10px 0px;
+    height: 59px;
+
+
+    &_curr {
+
+      //position: relative;
+      padding-left: 15px;
+      padding-right: 0;
+      top: 0px;
+      z-index: 9999;
+      //left: 259px;
+      width: 100%;
+      &_top{
+        //position: absolute;
+      }
+    }
+  }
+  &_icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-size: 56px;
+    background-position: -4px 2px;
+    background-color: red;
+  }
+  &_input {
+    padding-left: 0;
+    padding-right: 2px;
+    border-radius: 0px;
+  }
+
+  &_select_smaller {
+
+  }
+
+  &_button {
+    margin-left: 2px;
+    background-color: transparent;
+    border: none;
+    padding: 4px 0 0;
+    //width: 29px;
+    opacity: .85;
+    transition: opacity .15s;
+    &:hover {
+      opacity: 1;
+    }
+    &.right {
+      float: right;
+    }
+    &_wrapper {
+      position: absolute;
+      top: 10px;
+      right: 55px;
+    }
+    &_refresh{
+
+    }
+  }
+}
+
+.rounded-buttons-header{
+  border-radius: 0px;
+  height: 40px;
+  font-size: 16px;
+  font-family: "Gilroy Semibold",sans-serif;
+  color:#797979;
+
+}
+.head_menu_button{
+  span{
+    word-wrap:normal;
+    color: #FFFFFF;
+  }
+}

@@ -1,0 +1,48 @@
+.toggle_between_component {
+  //клас для приховання списку опитувань та відображення компоненти з опитуванням, і наоборот
+  --delay: .3s;
+  --fade: .3s;
+  height: auto;
+  opacity: 1;
+  overflow: unset;
+  transition: opacity var(--fade) ease-out var(--delay), height 0s linear 0s;
+
+  &_hide {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: opacity linear var(--delay), height 0s linear var(--delay);
+  }
+}
+
+.polls {
+  &_title {
+    margin-bottom: 20px;
+  }
+}
+
+.poll {
+  &_name {
+
+  }
+  &_contacts {
+    &_delete {
+    }
+    &_delete:hover{
+      border-bottom: 1px solid black;
+    }
+    &_add{
+
+    }
+  }
+  &_status {
+    font-size: 16px;
+    color: #555;
+    &_warning {
+      color: red;
+    }
+  }
+  &_button {
+
+  }
+}

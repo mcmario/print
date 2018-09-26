@@ -1,0 +1,28 @@
+<!--<h3 class="modal_title">Видалення нотатки</h3>-->
+<!--<p class="modal_text">-->
+  <!--Ви дійсно бажаєте видалити нотатку?-->
+  <!--<br>-->
+  <!--<br>-->
+<!--</p>-->
+
+<!--<div class="material-modal_button_container">-->
+  <!--<button class="button delete curr_empl_button" ng-click="ctrl.deleteNote()">Видалити</button>-->
+  <!--<button class="button " ng-click="closeThisDialog(0)">Відміна</button>-->
+<!--</div>-->
+
+
+
+<div class="doc_preview_modal" style="width: auto;">
+
+  <div class="col-xs-12" >
+    <h3 class="text-center">Видалення нотатки</h3>
+    <p class="modal_text text-center">
+      Ви дійсно бажаєте видалити нотатку?
+      <br>
+      <br>
+    </p>
+    <button class="btn btn-success col-xs-5 col-xs-offset-1" ng-click="ctrl.deleteNote(); closeThisDialog(0)">так</button>
+    <button class="btn btn-danger col-xs-5 col-xs-offset-1" ng-click="closeThisDialog(0)">ні</button>
+  </div>
+
+</div>

@@ -1,0 +1,16 @@
+<button class="button" ng-click="$ctrl.backToPolls()">Назад до списку опитувань</button>
+
+<fieldset class="test" disabled>
+  <!--<div class="form-horizontal col-xs-12" ng-model="answersInsert" fb-form="default"></div>-->
+  <div class="form-horizontal col-xs-12" ng-model="input" fb-form="default" fb-default="answersInsert"></div>
+</fieldset>
+
+<!--
+<div ng-repeat="(key, item) in answersInsert">
+  <h5>{{item.label}}</h5>
+  <p>{{item.value}}</p>
+</div>
+-->
+<p>{{formTemplate | json}}</p>
+<hr>
+<p>{{answersInsert | json}}</p>

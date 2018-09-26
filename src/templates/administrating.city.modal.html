@@ -1,0 +1,41 @@
+<div class="doc_preview_modal" style="width: auto;">
+    <span class="title-text">Додати нове місто</span>
+
+    <div class=" col-xs-12 animate-if modal-main">
+
+
+        <label class="newUserLable">Область
+        </label>
+        <select type="text" class="newEmpName"
+               ng-model="ctrl.newCity.fk_region">
+            <option value="" selected disabled>Виберіть область</option>
+            <option ng-value="reg.id" ng-repeat="reg in regionslist">{{reg.name}}</option>
+
+
+
+        </select>
+
+
+
+
+
+
+        <label class="newUserLable">Місто <span style="color: red;"
+                                                 title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newCity.name">
+
+
+        <div class="button_panel">
+            <br>
+            <button class="info_body_button_panel_vacations_save col-xs-6"
+                    ng-class="{'disabled':!ctrl.newCity.name||!ctrl.newCity.fk_region}"
+                    ng-click="createNewCity(ctrl.newCity);closeThisDialog(0)"
+            >
+                Зберегти
+
+            </button>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,294 @@
+<div class="info_container cities_widget branch-widget">
+
+    <div class="spinner_container" ng-if="ctrl.spinner==true">
+        <div class="spinner spinner_components">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+
+
+    <div class="spinner_container"
+         ng-if="ctrl.spinner2==true">
+
+        <span class="spinner_message" style="left: 25%;">триває перевірка, це може зайняти тривалий час</span><br>
+        <div class="spinner spinner_components ">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+            <br>
+
+        </div>
+    </div>
+
+
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-12">
+
+            <span class="info_header_title">Адміністрування:  Заявки на відпустки</span>
+
+
+        </div>
+
+    </div>
+
+
+    <br><br><br><br><br>
+
+    <div class=" statistic_body no-padding "
+    ng-class="{'col-xs-12':displayNotes(),'col-xs-11':!displayNotes()}">
+        <div class="col-xs-12 statistic_body_period_month no-padding">
+            <div class="col-xs-3 div_bordered ">
+                <span class=" text-center   ">Прізвище, ім'я/ коментар</span>
+            </div>
+            <div class="col-xs-3 div_bordered ">
+                <span class=" text-center  "> Департамент, посада</span>
+            </div>
+            <div class="col-xs-3 div_bordered ">
+                <span class=" text-center  "> Дата початку</span>
+            <!--</div>-->
+            <!--<div class="col-xs-1 div_bordered ">-->
+                <span class=" text-center  "> Дата закінчення</span>
+            </div>
+            <div class="col-xs-1 div_bordered ">
+                <span class=" text-center  "> Кількість днів/ період</span>
+            </div>
+
+
+            <div class="col-xs-2 div_bordered ">
+                <span class="text-center"> Дії</span>
+            </div>
+        </div>
+
+
+        <div class="col-xs-12 statistic_body_period_month no-padding animate-if" ng-init="ctrl.showComments=[]"
+             ng-repeat="vacation in ctrl.pendingVactions track by $index"
+        >
+            <div class="col-xs-3 div_bordered ">
+                <span class="col-xs-11 text-center statistic_body_period_head-quarter">{{vacation.vacation.worker.surname_ua}} {{vacation.vacation.worker.name_ua}}</span>
+                <button ng-if="!vacation.comments.length" class="col-xs-1 polls_active_button" style="min-width: 20px;"
+                     >222
+                </button>
+                <button ng-if="vacation.comments.length>0" ng-class="{'revert':ctrl.showComments[$index]==true}" class="col-xs-1 polls_active_button" style="min-width: 20px;"
+                        ng-click="ctrl.showComments[$index]=!ctrl.showComments[$index]" title="показати коментар">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <defs>
+                            <style>.aNote {
+                                fill: #767676;
+                            }</style>
+                        </defs>
+                        <path class="aNote"
+                              d="M20,2H4A2,2,0,0,0,2,4V22l4-4H20a2,2,0,0,0,2-2V4A2,2,0,0,0,20,2ZM9,15H7V11H9Zm4,0H11V5h2Zm4,0H15V8h2Z"
+                              transform="translate(-2 -2)"/>
+                    </svg>
+
+                </button>
+                <div class="col-xs-3 bg-info vacations_comments no-padding animate-if"
+
+                     ng-click="ctrl.showComments[$index]=false" ng-if="ctrl.showComments[$index]">
+                    коментар: <br>
+                    {{vacation.comments}}
+                </div>
+
+                <!--<span class="col-xs-1" ng-click="ctrl.showComments[$index]=true">K</span>-->
+
+            </div>
+            <div class="col-xs-3 div_bordered ">
+                <span class="text-center">{{vacation.vacation.worker.department.name}}-{{vacation.vacation.worker.position.name}}</span>
+            </div>
+            <!--<div class="col-xs-1 div_bordered ">-->
+            <!--</div>-->
+            <div class="col-xs-3 div_bordered ">
+                <span class="text-center">{{vacation.start_date | date: 'dd.MM.yyyy'}}</span>
+
+                <span class="text-center">{{vacation.end_date | date: 'dd.MM.yyyy'}}</span>
+            </div>
+            <div class="col-xs-1 div_bordered ">
+                <span class="text-center">{{vacation.count}} / {{vacation.year}}</span>
+            </div>
+            <!--<div class="col-xs-1 div_bordered ">-->
+            <!--<span class="text-center" style="overflow: hidden; max-height: 45px;"-->
+            <!--ng-click="ctrl.showComments[$index]=true">{{vacation.comments}}</span>-->
+
+            <!--</div>-->
+            <div class="col-xs-2 div_bordered ">
+
+                <!--<button ng-click="ctrl.confirmPendingVacation(vacation)">Підтвердити</button>-->
+
+
+                <button title="Підтвердити заявку" type="button" class="col-xs-4 polls_active_button"
+                        ng-click="ctrl.confirmPendingVacationAdmin(vacation)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 15.052">
+                        <defs>
+                            <style>.aConf {
+                                fill: #45bf92;
+                            }</style>
+                        </defs>
+                        <path class="aConf"
+                              d="M23.16,12.1,10.993,24.266l-4.95-4.948L4.6,20.813l6.391,6.341L24.6,13.543Z"
+                              transform="translate(-4.602 -12.102)"/>
+                    </svg>
+                </button>
+                <button title="Відхилити заявку" type="button" class="col-xs-4 polls_active_button"
+                        ng-click="ctrl.rejectPendingVacation(vacation)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.424 17.424">
+                        <defs>
+                            <style>.ad {
+                                fill: #b13d3a;
+                                stroke: #b13d3a;
+                                stroke-width: 0.3px;
+                            }</style>
+                        </defs>
+                        <path class="ad"
+                              d="M6.934,6.281l-.653.653,7.847,7.847L6.281,22.629l.653.653,7.847-7.847,4.344,4.344,3.5,3.5.653-.653-7.847-7.847,7.847-7.847-.653-.653-7.847,7.847Z"
+                              transform="translate(-6.069 -6.069)"></path>
+                    </svg>
+                </button>
+                <a title="Редагувати заявку" href="/#!/employees/active/{{vacation.vacation.worker.fk_person}}#6"
+                   class="col-xs-4 polls_active_button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.288 17.292">
+                        <defs>
+                            <style>.ae {
+                                fill: #bc10ab;
+                            }</style>
+                        </defs>
+                        <path class="ae"
+                              d="M17.459,2a1.826,1.826,0,0,0-1.292.54l-.305.305L18.446,5.43l.305-.305A1.833,1.833,0,0,0,17.459,2ZM15.286,3.515a.378.378,0,0,0-.223.117L2.869,15.838A.383.383,0,0,0,2.763,16l-.752,2.819a.376.376,0,0,0,.458.458l2.819-.752a.383.383,0,0,0,.164-.106L17.659,6.229a.378.378,0,1,0-.529-.54L4.995,17.824,3.468,16.3,15.6,4.162a.376.376,0,0,0-.282-.646Z"
+                              transform="translate(-1.999 -2)"></path>
+                    </svg>
+                </a>
+
+            </div>
+
+
+            <!--<span class="col-xs-2"></span>-->
+            <!--<span class="col-xs-3">{{vacation.vacation.worker.department.name}}-{{vacation.vacation.worker.position.name}}</span>-->
+            <!--<span class="col-xs-1">-->
+            <!--{{vacation.start_date}}-->
+            <!--</span>-->
+            <!--<span class="col-xs-1">-->
+            <!--{{vacation.end_date}}-->
+            <!--</span>-->
+            <!--<span class="col-xs-1">{{vacation.count}}</span>-->
+            <!--<span class="col-xs-1">{{vacation.year}}</span>-->
+            <!--<div class="col-xs-3">-->
+            <!--<button ng-click="ctrl.confirmPendingVacation(vacation)">confirm</button>-->
+            <!--<button ctrl.rejectPendingVacation()>reject</button>-->
+            <!--<a href="/#!/employees/active/{{vacation.fk_person}}#6">edit</a>-->
+            <!--</div>-->
+
+
+        </div>
+
+
+    </div>
+
+
+    <!--<div class="col-xs-12 animate-if" ng-if="ctrl.personRestF">-->
+
+    <!--<div class="col-xs-12 no-padding statistic_body animate-if" ng-if="ctrl.personRestF">-->
+
+    <!--<div class="col-xs-12 statistic_body_header ">-->
+    <!--<div class="col-xs-4 statistic_body_header-year">-->
+    <!--<span class="text-center">Прізвище, ім'я, департамент</span>-->
+    <!--</div>-->
+    <!--<div class="col-xs-2 statistic_body_header-year" ng-repeat="year in ctrl.restYears track by $index"-->
+    <!--ng-if="ctrl.yearSearch===''"-->
+    <!--&gt;-->
+    <!--<span class="col-xs-12 text-center">{{year}}</span>-->
+    <!--</div>-->
+    <!--<div class="col-xs-2 "-->
+    <!--ng-if="ctrl.yearSearch!==''"-->
+    <!--&gt;-->
+    <!--<span class="col-xs-12 text-center">{{ctrl.yearSearch}}</span>-->
+    <!--</div>-->
+    <!--<div class="col-xs-4 "-->
+    <!--ng-if="ctrl.yearSearch!==''"-->
+    <!--&gt;</div>-->
+    <!--<div class="col-xs-2">-->
+    <!--<span class="col-xs-12 text-center">Разом</span></div>-->
+    <!--</div>-->
+
+    <!--<div class="col-xs-12 no-padding" ng-repeat="(dep, depList) in ctrl.personRestF track by $index">-->
+    <!--<span class="col-xs-12 statistic_body_period_head-period-rests statistic_padding_left" style="line-height: 80px;"> {{dep}}</span>-->
+
+
+    <!--<div class="col-xs-12 statistic_body_period_month no-padding" ng-repeat="person in depList"-->
+    <!--&gt;-->
+
+    <!--<div class="col-xs-4 div_bordered statistic_padding_left">-->
+    <!--<a class="text-left" href="#!/employees/active/{{ person.fk_person }}">-->
+    <!--{{person.surname_ua}} {{person.name_ua}}-->
+    <!--</a>-->
+    <!--</div>-->
+    <!--<div class="col-xs-2 div_bordered ">-->
+    <!--<span class="text-center"-->
+    <!--ng-bind="person.vacation[0][0]?person.vacation[0][0].balance: ' - '"-->
+    <!--&gt;-->
+    <!--</span>-->
+    <!--</div>-->
+    <!--<div class="col-xs-2 div_bordered ">-->
+    <!--<span class="text-center col-xs-12"-->
+    <!--ng-bind="person.vacation[1][0]?person.vacation[1][0].balance: ' - '"-->
+    <!--&gt;-->
+    <!--</span>-->
+    <!--</div>-->
+    <!--<div class="col-xs-2 div_bordered ">-->
+    <!--<span class="text-center col-xs-12"-->
+    <!--ng-bind="person.vacation[2][0]?person.vacation[2][0].balance: ' - '">-->
+    <!--</span>-->
+    <!--</div>-->
+    <!--<div class="col-xs-2 div_bordered ">-->
+    <!--<span class="text-center col-xs-12" ng-if="ctrl.yearSearch===''">-->
+    <!--{{person.vacation[0][0].balance+person.vacation[1][0].balance+person.vacation[2][0].balance}}-->
+    <!--</span>-->
+    <!--<span class="text-center col-xs-12" ng-if="ctrl.yearSearch!==''">-->
+    <!--{{person.vacation[0][0].total}}-->
+    <!--</span>-->
+    <!--</div>-->
+    <!--</div>-->
+
+
+    <!--</div>-->
+
+
+    <!--</div>-->
+    <div class="col-xs-12 invisible">
+        <br><br><br>
+    </div>
+</div>
+
+
+<!--<div class="col-xs-12">-->
+<!--<span class="col-xs-6">інформація за <span ng-bind="$ctrl.shownYearS?$ctrl.shownYearS:restYears[0]"></span> рік-->
+<!--</span>-->
+<!--&lt;!&ndash;<select class="col-xs-3" name="" id="" ng-model="year" ng-change="$ctrl.getRests(year)"&ndash;&gt;-->
+<!--&lt;!&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<option value="" selected disabled>оберіть рік</option>&ndash;&gt;-->
+<!--&lt;!&ndash;<option ng-repeat="year in restYears" ng-value="year">{{year}}</option>&ndash;&gt;-->
+<!--&lt;!&ndash;</select>&ndash;&gt;-->
+
+<!--<table class="table table-bordered table-hover" id="restTable" ng-if="personRest.length">-->
+<!--<tr>-->
+<!--<th ng-click="sorter='balance';orderS=!orderS ">прізвище, ім'я</th>-->
+<!--<th>нараховано днів</th>-->
+<!--<th>використано днів</th>-->
+<!--<th ng-click="sorter='balance';orderS=!orderS ">залишок днів</th>-->
+<!--</tr>-->
+<!--<tr ng-repeat="person in personRest | orderBy:sorter:orderS" ng-init="sorter='balance';orderS=!orderS ">-->
+<!--<td><a href="#!/employees/active/{{person.worker.id}}#6">{{person.worker.name_ua}}-->
+<!--{{person.worker.surname_ua}}</a></td>-->
+
+<!--<td>{{person.count}}</td>-->
+<!--<td>{{person.used}}</td>-->
+<!--<td>{{person.balance}}</td>-->
+<!--</tr>-->
+
+
+<!--</table>-->
+<!--</div>-->
+
+
+
+

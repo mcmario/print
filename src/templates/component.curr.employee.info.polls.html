@@ -1,0 +1,135 @@
+<div class="info_container cur_empl_polls">
+
+    <div class="spinner_container" ng-if="$ctrl.spinner==true">
+        <div class="spinner spinner_components">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-12">
+
+            <h3 class="curr_empl_name ">
+                {{$ctrl.data[0].surname_ua}} {{$ctrl.data[0].name_ua}} {{$ctrl.data[0].middle_name_ua}}
+            </h3>
+            <span class="info_header_title">Відповіді на запитання анкети</span>
+
+
+        </div>
+
+
+    </div>
+    <h4 class="curr_empl_name col-xs-12 "
+            ng-if="pollMilitary.length<1&&pollPriorityAnswers.length<1&&pollLanguages.length<1&&pollMilitary.length<1">
+            відсутні дані</h4>
+    <div class="col-xs-12 "
+         ng-if="pollMilitary.length>=1&&pollPriorityAnswers.length>=1&&pollLanguages.length>=1&&pollMilitary.length>=1">
+    <!--ng-hide="pollMilitary.length<1&&pollPriorityAnswers.length<1&&pollLanguages.length<1&&pollMilitary.length<1">-->
+
+        <h3 class="curr_empl_name col-xs-12 " ng-if="pollAnswers.length>=1">Загальні запитання</h3>
+        <div class="border-info border-info-r col-xs-12 no-padding">
+            <div ng-repeat="variant in pollAnswers track by $index " class="col-xs-12 no-padding cur_empl_polls_stretch"
+                 >
+
+
+                <span class="col-xs-1 text-center h-100 d-inline-block border-info-right">{{$index+1}}</span>
+                <span class="col-xs-5 h-100 d-inline-block">{{variant.question.question}}</span>
+                <span class="col-xs-6  bg-gray h-100 d-inline-block ">{{variant.answer}}</span>
+
+
+            </div>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="col-xs-6"
+    ng-if="pollMilitary.length<1&&pollPriorityAnswers.length<1&&pollLanguages.length<1&&pollMilitary.length<1">
+        <h3 class="curr_empl_name col-xs-12 " ng-if="pollPriorityAnswers.length>=1">Пріоритети кандидата</h3>
+
+        <div class="border-info border-info-r col-xs-11 no-padding">
+
+            <div ng-repeat="(key, value) in pollPriorityAnswers[0] track by $index " class="col-xs-12  no-padding cur_empl_polls_stretch"
+                >
+                <span class="col-xs-2 text-center h-100 d-inline-block ">{{$index+1}}</span>
+                <span class="col-xs-8  bg-gray h-100 d-inline-block ">{{key}}</span>
+                <span class="col-xs-2 text-center bg-gray h-100 d-inline-block">{{value}}</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-xs-6 body-info-npl"
+    ng-if="pollMilitary.length>0&&pollPriorityAnswers.length>0&&pollLanguages.length>0&&pollMilitary.length>0"
+    ng-class="{'body-info-15pl':pollPriorityAnswers.length<1}">
+
+        <h3 class="curr_empl_name col-xs-11  " ng-if="pollLanguages.length>=1">Знання мов</h3>
+
+        <div class="border-info border-info-r col-xs-12 no-padding">
+            <div ng-repeat="language in pollLanguages track by $index " class="col-xs-12 no-padding cur_empl_polls_stretch">
+
+                <!--<span class="col-xs-1">{{$index+1}}</span>-->
+                <span class="col-xs-6 text-left  ">{{language.language}}</span>
+                <span class="col-xs-6 text-left    bg-gray"
+                      ng-class="{'text-success':language.knowledge_level =='Вільно',
+            'text-primary':language.knowledge_level =='Добре',
+            'text-warning':language.knowledge_level =='Задовільно',
+            'text-secondary':language.knowledge_level =='Погано'
+          }"
+
+
+                >{{language.knowledge_level}}</span>
+
+            </div>
+        </div>
+        <h3 class="curr_empl_name col-xs-12   " ng-if="pollMilitary.length>=1">Військова служба</h3>
+        <div class="border-info border-info-r col-xs-12 no-padding">
+            <div ng-repeat="military in pollMilitary track by $index " class="col-xs-12 no-padding ">
+
+                <div class="col-xs-12 no-padding cur_empl_polls_stretch">
+                    <span class="col-xs-6  text-left">Придатність до служби</span>
+                    <span class="col-xs-6  text-left  bg-gray"
+                    ng-bind="military.military_suitability?military.military_suitability:'не вказано'"></span>
+
+                </div>
+                <div class="col-xs-12 no-padding cur_empl_polls_stretch">
+                    <span class="col-xs-6  text-left">Рід військ</span>
+                    <span class="col-xs-6  text-left  bg-gray"
+                          ng-bind="military.corps?military.corps:'не вказано'"></span>
+                </div>
+
+                <div class="col-xs-12 no-padding cur_empl_polls_stretch">
+                    <span class="col-xs-6  text-left">Звання</span>
+                    <span class="col-xs-6  text-left bg-gray"
+                    ng-bind="military.rank?military.rank:'не вказано'"></span>
+                    </span>
+
+                </div>
+                <div class="col-xs-12 no-padding">
+                    <span class="col-xs-6  text-left">роки служби</span>
+                    <span class="col-xs-6  text-left bg-gray"
+                    ng-bind="military.years?military.years:'не вказано'">
+                    </span>
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+

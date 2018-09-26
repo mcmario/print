@@ -1,0 +1,38 @@
+#newEmpForm{
+  //width:50%;
+  margin:0 auto;
+  display: flex;
+  flex-direction:column;
+}
+
+
+input,textarea, select {outline:none!important;
+  width:100%;}
+
+#firstPart{
+  display: flex;
+  flex-direction:column;
+
+}
+.progressBar{
+  width: 100%;
+  min-height: 10px;
+  max-height: 10px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  background-color: #95989a;
+}
+.progres_color{
+  background-color: #457bbf;
+}
+#dateInput{
+  width:100%;}
+#dateInput::-webkit-outer-spin-button,
+#dateInput::-webkit-inner-spin-button {
+  display: none;
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+#dateInput::-webkit-inner-spin-button { display: none !important; }
+#dateInput::-webkit-calendar-picker-indicator { display: none !important;}

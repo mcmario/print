@@ -1,0 +1,71 @@
+<div class="doc_preview_modal" style="width: auto;">
+    <br>
+    <span class="title-text text-s" ng-bind="editPerm?'Змінити доступи до користування корпоративними ресурсами (Phonebook, e-mail, wi-fi, RDP)':'Працівнику надані наступні права:'
+"></span>
+    <div class="col-xs-12" ng-if="!editPerm">
+        <span  ng-bind="ngDialogData.email===1?'Корпоративний e-mail створений':'Корпоративний e-mail відсутній'"></span><br>
+        <span ng-if="!editPerm"
+        ng-bind="ngDialogData.phonebook===1?'Працівник внесений до телефонної книги':'Працівник не внесений до телефонної книги'"
+        ></span>
+
+
+    </div>
+
+
+
+     <label ng-if="editPerm"> Створити корпоративний e-mail (e-mail, wifi, RDP)
+        <select
+
+                name="" ng-init="ngDialogData.change.email=true" ng-model="ngDialogData.email"
+        ng-change="ngDialogData.change.email=!ngDialogData.change.email">
+            <option value="" disabled>Оберіть дію</option>
+            <option ng-value="1">Надати доступи</option>
+            <option ng-value="0">Не надавати доступів</option>
+        </select>
+
+
+    </label>
+    <label ng-if="editPerm"> Користувач у Phonebook
+
+        <select
+                name="" ng-model="ngDialogData.phonebook"
+                 ng-init="ngDialogData.change.phonebook=true"
+        ng-change="ngDialogData.change.phonebook=!ngDialogData.change.phonebook">
+            <option value="" disabled>Оберіть дію</option>
+            <option ng-value="1"
+            >Додати запис у телефонну книгу
+            </option>
+            <option ng-value="0"
+            >Не створювати запис у телефонну книгу
+            </option>
+        </select>
+
+
+    </label>
+<div class="col-xs-12"
+    ng-show="!editPerm"
+
+    >
+        <button class="btn btn-success col-xs-5 "
+                ng-class="{'disabled':ngDialogData.phonebook!==1&&ngDialogData.phonebook!==0&&ngDialogData.email!==1&&ngDialogData.email!==0}"
+                ng-click="editPerm=true">
+            Редагувати
+        </button>
+ <button class="btn btn-danger  col-xs-5 col-xs-offset-2" ng-click="closeThisDialog(0)">Закрити вікно</button>
+    </div>
+
+
+    <div class="col-xs-12"
+    ng-show="editPerm"
+
+    >
+        <button class="btn btn-success col-xs-5 "
+                ng-class="{'disabled':ngDialogData.phonebook!==1&&ngDialogData.phonebook!==0&&ngDialogData.email!==1&&ngDialogData.email!==0}"
+                ng-click="editPermissionsConfirmation(ngDialogData);closeThisDialog(0)">Зберегти
+        </button>
+        <button class="btn btn-danger  col-xs-5 col-xs-offset-2" ng-click="closeThisDialog(0)">Скасувати зміни</button>
+
+    </div>
+
+
+</div>

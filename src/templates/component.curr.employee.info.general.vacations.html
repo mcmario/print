@@ -1,0 +1,43 @@
+<div class="col-xs-12 general_info_widgets-header">
+    <span class="general_info_widgets-title">Відпустки</span>
+    <span class="general_info_widgets-button col-xs-1 " ng-click="$ctrl.addVacationModal()">
+       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.667 11.653"><defs><style>.aplus{fill:#457bbf;}</style></defs><path class="aplus" d="M8.833,4.154V8.815H4.167v2.331H8.833v4.661h2.333V11.146h4.667V8.815H11.166V4.154Z" transform="translate(-4.167 -4.154)"/></svg>
+    </span>
+</div>
+
+<div class="col-xs-12 general_info_widgets-container general_info_widgets-container-edu no-padding ">
+
+
+    <div class="col-xs-12 no-padding widget_row" style="">
+        <span class="col-xs-6 widget_row_span_f text-center">Нараховано</span>
+        <span class="col-xs-6 text-center" >{{$ctrl.periodAvailable.daysCount}}</span>
+
+    </div>
+    <div class="col-xs-12 no-padding widget_row" >
+
+        <span class="col-xs-6 widget_row_span_s text-center" >Використано</span>
+        <span class="col-xs-6 text-center" >{{$ctrl.periodAvailable.daysCount-$ctrl.periodAvailable.daysRest}}</span>
+
+    </div>
+    <div class="col-xs-12 no-padding widget_row" >
+        <span class="col-xs-6 widget_row_span_l text-center" >Залишок</span>
+        <span class="col-xs-6 text-center" >{{ $ctrl.periodAvailable.daysRest}}</span>
+
+    </div>
+    <!--<div class="col-xs-6 general_info_widgets-left">-->
+        <!--<span>Нараховано</span>-->
+        <!--<span>Використано</span>-->
+        <!--<span>Залишок</span>-->
+
+
+    <!--</div>-->
+    <!--<div class="col-xs-6 general_info_widgets-right">-->
+        <!--<span class="col-xs-12 "> {{$ctrl.periodAvailable.daysCount}}</span>-->
+        <!--<span class="col-xs-12  ">{{$ctrl.periodAvailable.daysCount-$ctrl.periodAvailable.daysRest}}</span>-->
+        <!--<span class="col-xs-12  ">{{ $ctrl.periodAvailable.daysRest}}</span>-->
+
+    <!--</div>-->
+</div>
+
+
+</div>

@@ -1,0 +1,63 @@
+<div class="doc_preview_modal" style="width: auto;">
+    <span class="title-text">Додати  відпустку</span>
+    <span class="newUserLable"> Доступно {{ngDialogData.period.total[0].balance}} з {{ngDialogData.period.daysCount}} </span>
+
+
+    <div class="col-xs-12 no-padding modal-main">
+
+        <label class="col-xs-6 newUserLable">
+            <span class="col-xs-12">дата початку</span>
+
+
+            <input type="date" class="  dateInput newUserLable"
+                   ng-model="ngDialogData.new.start_date"
+                   ng-change="ngDialogData.new.end_date=setVacationDurationModal(ngDialogData.new)">
+        </label>
+        <label class="col-xs-6 newUserLable">
+            <span class="col-xs-12">кількість днів</span>
+            <input type="number"
+                   class=" newEmpName"
+                   ng-model="ngDialogData.new.count"
+
+                   value="1"
+                   ng-change=" ngDialogData.new.end_date=setVacationDurationModal(ngDialogData.new)"
+                   ng-class="{'text-danger ':  ngDialogData.new.count > ngDialogData.period.total[0].balance}">
+
+        </label>
+        <div class="col-xs-9 no-padding general_info_widgets-container "
+             style="margin-left:20px;flex-direction: row;">
+            <div class="col-xs-6 no-padding general_info_widgets-left">
+                <label class="col-xs-12 newUserLable">
+                    <span class="col-xs-12 no-padding"
+                    style="margin-left: 0">дата закінчення</span>
+                    <input type="date"
+                           class="col-xs-12 dateInput newEmpName vacations_vacation_add_dayFinish no-padding"
+                           style="border: 2px solid transparent; box-sizing: border-box; margin-left: -2px;"
+                           ng-model="ngDialogData.new.end_date"
+                           ng-class="{'text-danger ':  ngDialogData.new.count <= 0}">
+                </label>
+
+
+            </div>
+            <div class="col-xs-6 no-padding general_info_widgets-right">
+                <label class="col-xs-12 newUserLable">
+                    Період <br>
+
+                    <span>{{ngDialogData.new.year}}</span>
+                </label>
+            </div>
+        </div>
+
+    </div>
+    <div class="button_panel col-xs-12">
+        <br>
+        <button class="info_body_button_panel_vacations_save col-xs-6"
+                ng-click="addNewVacationModal(ngDialogData.new,1);closeThisDialog(0)"
+                ng-mouseover="checkConflictDates(ngDialogData.new)"
+                ng-class="{'disabled':ngDialogData.new.count<=0||ngDialogData.new.count>ngDialogData.period.total[0].balance||ctrl.stopSave==true }"
+        >
+            Зберегти
+        </button>
+    </div>
+
+</div>

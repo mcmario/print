@@ -1,0 +1,227 @@
+<sidebar></sidebar>
+
+
+<div class="spinner_container"
+     ng-if="spinner==true">
+
+    <span class="spinner_message" style="">триває синхронізація, це може зайняти тривалий час</span><br>
+    <div class="spinner spinner_synchronize">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+        <br>
+
+    </div>
+</div>
+
+<div class="content no-padding comparison_page text-center no-padding"
+     style="overflow:hidden;    height: calc(100vh - 20px)"
+     ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}"
+     ng-if="data">
+    <div class="col-xs-12 col-lg-12 collision_head_menu head_menu_background" style="padding-top: 0;padding-bottom: 0;">
+        <a href="#!/sync" class=" col-xs-3 col-sm-2  collision_header_button" style="border-left: none;">⟵ назад</a>
+        <button class="col-xs-4 col-md-3 col-lg-2 collision_header_button" ng-click="difOnly=!difOnly"
+                style=""
+                ng-bind="!difOnly?'Лише відмінності':'Показати усе'"></button>
+
+        <button form="form" ng-if="ctrl.dataEdited" type="submit"
+                class=" button animate-if button_submit button_save_changes_sync col-xs-4 col-sm-3 col-md-2 text-center collision_header_button"
+                style="color: #ffffff;">
+
+            <i
+                    class="buttons-icon icon-save"
+            ></i>Зберегти зміни
+        </button>
+
+    </div>
+    <!--<div class="col-xs-12 col-lg-8 col-xs-offset-2 no-padding">-->
+
+    <!--</div>-->
+    <div class="col-xs-12 customScroll no-padding" style="height: calc(100vh - 60px);overflow: auto">
+        <div class="container-fluid page page_boxed col-xs-12 col-lg-8 col-lg-offset-2 no-padding">
+            <div class="comparison_row  " style="position: sticky;top:0px; z-index: 100">
+                <div id="comparrison_column1" class="comparrison_field text-center"></div>
+                <div id="comparrison_column2" class="comparrison_field" ng-click="ctrl.getObjToSave()"></div>
+                <div id="comparrison_column3" class="comparrison_field"></div>
+            </div>
+            <form class="container-fluid comparsion_table no-padding" novalidate name="formInfo" id="form"
+                  ng-submit="ctrl.submit()">
+
+                <div class="fields ">
+
+
+                    <div class="comparison_row" ng-repeat="field in data track by $index"
+                         ng-hide="field.collision==false&&difOnly">
+
+
+                        <div class="comparrison_field" ng-class="{'disabled':!field.c||field.c==null}"><!--1C -->
+                            <span class="comparison_lable">{{field.title}}</span>
+                            <div class="comparison_inputs">
+
+
+                                <input class="comparison_radio" type="radio" id="{{field.model}}1"
+                                       name="{{field.model}}"
+                                       ng-click="ctrl.setValue($index,field.c,field.model)"
+                                >
+                                <label class="comparison_radio_lable " for="{{field.model}}1">
+
+
+                                    <input class="comparison_input" type="text"
+                                           ng-model="field.c"
+                                           ng-if="!field.type"
+                                           ng-class="{'collision_panel_collision':field.collision==true}"
+                                           ng-blur="ctrl.setValue($index,field.sql,field.model,1)"
+
+
+                                    >
+                                    <input class="comparison_input" type="date"
+                                           ng-model='field.c'
+                                           ng-if="field.type=='date'"
+                                           ng-class="{'collision_panel_collision':field.collision==true}"
+                                           ng-blur="ctrl.setValue($index,field.sql,field.model)"
+
+                                    >
+
+                                    <textarea name="" class="newEmpTextarea comparison_input customScroll" rows="3"
+                                              ng-if="field.type=='text'"
+                                              ng-class="{'collision_panel_collision':field.collision==true}"
+                                              ng-model='field.c'
+                                              ng-blur="ctrl.setValue($index,field.sql,field.model,1)"
+                                    >{{field.c}}</textarea>
+
+                                </label>
+
+
+                            </div>
+                        </div><!-- 1C-->
+                        <div class="comparrison_field"><!--SQL -->
+                            <span class="comparison_lable">{{field.title}}</span>
+                            <div class="comparison_inputs">
+                                <input class="comparison_radio" type="radio" id="{{field.model}}2"
+                                       name="{{field.model}}"
+                                       ng-checked="field.sql||(!field.c&&!field.ad)"
+                                       ng-click="ctrl.setValue($index,field.sql,field.model)"
+
+
+                                >
+                                <label class="comparison_radio_lable" for="{{field.model}}2">
+                                    <input class="comparison_input" type="text"
+                                           ng-model="field.sql"
+                                           ng-class="{'collision_panel_collision':field.collision==true}"
+                                           ng-if="!field.type"
+                                           ng-blur="ctrl.setValue($index,field.sql,field.model,2)"
+                                    >
+                                    <input class="comparison_input" type="date"
+                                           ng-model='field.sql'
+                                           ng-if="field.type=='date'"
+                                           ng-class="{'collision_panel_collision':field.collision==true}"
+                                           ng-blur="ctrl.setValue($index,field.sql,field.model)"
+
+                                    >
+
+                                    <textarea name="" class=" newEmpTextarea comparison_input customScroll" rows="3"
+                                              ng-if="field.type=='text'"
+                                              ng-model="field.sql"
+                                              ng-class="{'collision_panel_collision':field.collision==true}"
+                                              ng-blur="ctrl.setValue($index,field.sql,field.model,2)"
+
+                                    >{{field.sql}}</textarea>
+                                </label>
+
+                            </div>
+                        </div><!--sql-->
+                        <div class="comparrison_field" ng-class="{'disabled':!field.ad||field.ad==null}"><!--AD -->
+                            <span class="comparison_lable">{{field.title}}</span>
+                            <div class="comparison_inputs">
+                                <input class="comparison_radio" type="radio" id="{{field.model}}3"
+                                       ng-click="ctrl.setValue($index,field.ad,field.model)"
+                                       name="{{field.model}}"
+                                >
+
+                                <label class="comparison_radio_lable" for="{{field.model}}3">
+
+                                    <input class="comparison_input" type="text"
+                                           ng-model='field.ad'
+                                           ng-if="!field.type"
+                                           ng-class="{'collision_panel_collision':field.collision==true}"
+                                           ng-blur="ctrl.setValue($index,field.sql,field.model,3)"
+
+                                    >
+
+                                    <input class="comparison_input" type="date"
+                                           ng-model='field.ad'
+                                           ng-if="field.type=='date'"
+                                           ng-class="{'collision_panel_collision':field.collision==true}"
+                                           ng-blur="ctrl.setValue($index,field.sql,field.model,3)"
+
+                                    >
+                                    <textarea name="" class="newEmpTextarea comparison_input customScroll" rows="4"
+                                              ng-if="field.type=='text'"
+                                              ng-class="{'collision_panel_collision':field.collision==true}"
+                                              ng-model='field.ad'
+                                              ng-blur="ctrl.setValue($index,field.sql,field.model,3)"
+
+
+                                    >{{field.ad}}</textarea>
+                                </label>
+                            </div>
+                        </div><!--AD-->
+                    </div>
+
+
+                    <!--<div class="comparison_row" ng-repeat="field in data[1] track by $index" ng-class="{'disabled':!data[1][$index].conflict==true}">-->
+
+                    <!--<div class="comparrison_field" ng-class="{'disabled':!data[0][$index].value}">&lt;!&ndash;1C &ndash;&gt;-->
+                    <!--<span class="comparison_lable">{{field.name}}</span>-->
+                    <!--<div class="comparison_inputs" >-->
+
+
+                    <!--<input class="comparison_radio" type="radio" id="{{field.title}}1" name="{{field.title}}"-->
+                    <!--ng-model="ctrl.comparison[field.title]" ng-value="data[0][$index].value">-->
+                    <!--<label class="comparison_radio_lable" for="{{field.title}}1" checked >-->
+                    <!--<input class="comparison_input" type="text" ng-model="data[0][$index].value"-->
+                    <!--ng-value='data[0][$index].value' ng-if="data[0][$index].title!='address_residence'&&data[0][$index].title!='registration'">-->
+                    <!--<textarea name="" class="comparison_input"  ng-model="data[0][$index].value" ng-if="data[0][$index].title==='address_residence' ||data[0][$index].title==='registration'">{{data[0][$index].value}}</textarea>-->
+
+                    <!--</label>-->
+
+
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="comparrison_field">&lt;!&ndash;SQL &ndash;&gt;-->
+                    <!--<span class="comparison_lable">{{field.name}}</span>-->
+                    <!--<div class="comparison_inputs">-->
+                    <!--<input class="comparison_radio" type="radio" id="{{field.title}}2" name="{{field.title}}" ng-model="ctrl.comparison[field.title]" ng-value='data[1][$index].value' checked>-->
+                    <!--<label class="comparison_radio_lable" for="{{field.title}}2">-->
+                    <!--<input class="comparison_input" type="text" ng-model="data[1][$index].value"-->
+                    <!--ng-value='data[1][$index].value'  ng-if="data[1][$index].title!='address_residence'&&data[1][$index].title!='registration'">-->
+
+
+                    <!--<textarea name="" class="comparison_input"  ng-model="data[1][$index].value" ng-if="data[1][$index].title==='address_residence' ||data[1][$index].title==='registration'">{{data[1][$index].value}}</textarea>-->
+                    <!--</label>-->
+
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="comparrison_field" ng-class="{'disabled':!data[2][$index].value}">&lt;!&ndash;AD &ndash;&gt;-->
+                    <!--<span class="comparison_lable">{{field.name}}</span>-->
+                    <!--<div class="comparison_inputs" >-->
+                    <!--<input class="comparison_radio" type="radio" id="{{field.title}}3" name="{{field.title}}" ng-model="ctrl.comparison[field.title]" ng-value="data[2][$index].value">-->
+                    <!--<label class="comparison_radio_lable" for="{{field.title}}3">-->
+                    <!--<input class="comparison_input" type="text" ng-model="data[2][$index].value"-->
+                    <!--ng-value='data[2][$index].value' ng-if="data[2][$index].title!='address_residence'&&data[2][$index].title!='registration'">-->
+
+
+                    <!--<textarea name="" class="comparison_input"  ng-model="data[2][$index].value" ng-if="data[2][$index].title==='address_residence' ||data[2][$index].title==='registration'">{{data[2][$index].value}}</textarea>-->
+                    <!--</label>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+

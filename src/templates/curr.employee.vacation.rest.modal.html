@@ -1,0 +1,60 @@
+<div class="doc_preview_modal" style="width: auto">
+    <div class="doc_preview_info">
+        <span class="rest-header">Звільнення працівника</span>
+    </div>
+
+    <!--<span> залишок відпустки{{rest}}</span>-->
+    <input type="date" class="dateInput"
+           ng-model="ngDialogData.day"
+           ng-change="changeDismissDate(ngDialogData.day)"
+           style="    margin-bottom: 15px;">
+    <div class="doc_preview_info" ng-init="vacationRestsDissmissed=ngDialogData.count">
+        <span class="rest-header"> Залишок відпустки {{ vacationRestsDissmissed }} дні(в)
+        </span>
+    </div>
+    <select class="rest_vac_select" name="" ng-model="reasons">
+        <option value="" selected disabled>причина звільнення</option>
+        <option value="" ng-value="res" ng-repeat="res in ngDialogData.reasons.reasons">{{res.name}}</option>
+    </select>
+    <select class="rest_vac_select" name="" ng-model="article">
+        <option value="" selected disabled>стаття звільнення</option>
+        <option value="" ng-value="art" ng-repeat="art in ngDialogData.reasons.articles">{{art.name}}</option>
+    </select>
+
+    <textarea name=""
+              style="height: 35px"
+              ng-model="comments"
+              ng-init="comments=''"
+              class=" col-xs-12  customScroll resizableTextArea"
+              onkeyup="this.scrollHeight>35?this.style.height =this.scrollHeight + 'px':this.style.height =this.style.height + 'px'"
+
+              id="" cols="30" rows="10" placeholder="Коментарі"></textarea>
+    <h3 class="animate-if component_list_people_dept_title " ng-if="showConfFire===true">ви дійсно хочете звільнити
+        цього працівника {{ngDialogData.day|date:'dd-MM-yyyy'}}</h3>
+
+
+    <div class="doc_preview_panel">
+
+
+        <button class="doc_preview_button-print button_dismiss"
+                ng-class="{'disabled':!reasons||!article}"
+                ng-show="!showConfFire"
+                ng-click="showConfFire=true"
+
+        > звільнити працівника
+        </button>
+        <button ng-show="showConfFire==true"
+                class=" col-xs-5 doc_preview_button-print button_dismiss button_dismiss "
+                style="min-width: 150px;"
+                ng-click="showConfFire=false"> ні(змінити дані)
+        </button>
+        <button class=" col-xs-5 col-xs-offset-2 doc_preview_button-print button_dismiss_confirm"
+                ng-class="{'disabled':!reasons||!article}"
+                ng-if="showConfFire==true"
+                ng-click="dissmissWorker(ngDialogData.day,reasons,article,comments); closeThisDialog(0)"
+
+        > Так, звільнити
+        </button>
+
+    </div>
+</div>

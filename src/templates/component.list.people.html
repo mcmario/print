@@ -1,0 +1,202 @@
+
+<div lazy-img-container
+        class="page_wrapper customScroll">
+    <div class="component_list_people page ">
+
+        <div class="container-fluid page_boxed"
+             ng-repeat="(deptName, deptList) in $ctrl.people track by $index">
+            <div ng-repeat="person in deptList | filter: $ctrl.person">
+                <div class="row">
+                    <h5 class="component_list_people_dept_title"
+                        ng-bind="deptName"
+                        ng-if="deptList&&$index==0"
+                    >
+                    </h5>
+                </div>
+
+                <div class="row component_list_people_person "
+                        ng-class="{'rounded-borders':$index==0}"
+                >
+                    <div class="component_list_people_person_expander" ng-click="$ctrl.togglePane($event); person.img=true"></div>
+                    <div class="container-fluid component_list_people_person_title ">
+                        <div class="col-sm-3 component_list_people_person_cell">
+                            <span ng-if="person.status">{{person.name_ua}} {{person.surname_ua}}</span>
+                            <span ng-if="person.type_">{{person.name}} {{person.surname}}</span>
+                        </div>
+                        <div class="col-sm-5 component_list_people_person_cell">
+                            {{person.titleUa}}
+                        </div>
+                        <div class="col-sm-4 component_list_people_person_cell component_list_people_person_action_wrapper ">
+                            <a href="#!/employees/{{$ctrl.employeesType}}/{{person.person.id}}"
+                               class="component_list_people_person_action detail"
+                               ng-if="person.status=='active'||person.status=='dismissed'">
+                            </a>
+                            <button
+                               class="component_list_people_person_action response"
+                               title="функціональні обов'язки"
+                               ng-if="person.status=='active'||person.status=='dismissed'"
+                            ng-click="$ctrl.showDuties(person.duties,person.person.id)">
+                            </button>
+
+
+
+                            <a href="#!/candidate/{{$ctrl.employeesType}}/{{person.id}}"
+                               class="component_list_people_person_action detail"
+                               ng-if="person.type_=='reserve'||person.type_=='rejected'||person.type_=='ready'">
+                            </a>
+
+                            <button ng-if="person.status"
+                                    class="component_list_people_person_action cellphone"
+
+                                    title="Мобільний дзвінок"
+                                    ng-click="$ctrl.call(person.person.mobile_phone)">
+                            </button>
+                            <button ng-if="person.type_"
+                                    class="component_list_people_person_action cellphone"
+                                    title="Мобільний дзвінок"
+                                    ng-click="$ctrl.call(person.mobile_phone)"
+                            ng-class="{'disabled':!person.mobile_phone }">
+                            </button>
+
+
+                            <button
+                                    ng-if="person.ip_phone"
+                                    class="component_list_people_person_action ipPhone"
+                                     title="Робочий дзвінок"
+                                    ng-click="$ctrl.call(person.ip_phone)">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 component_list_people_person_cell"></div>
+                    <!--employees-->
+
+
+
+                    <div class="component_list_people_person_detail container-fluid "
+                         ng-if="person.status=='active' || person.status=='dismissed'">
+                        <div class="col-sm-2 component_list_people_person_cell "
+                        >
+                            <div
+
+                                    class="component_list_people_person_image_wrapper">
+                                <img class="component_list_people_person_image instead_ofBroken_alt"
+                                     lazy-img='/get_photo/{{person.person.id}}'
+                                ng-if="person.img===true"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-offset-1 col-sm-4 component_list_people_person_cell info-short">
+                            <p class="person-icon person-icon-city">
+                                <strong>{{person.position.name}}</strong>
+                            </p>
+                            <p class="person-icon person-icon-dep">
+                                <strong>{{person.department.name}}</strong>
+                            </p>
+                            <p class="person-icon person-icon-dateIn">
+                                <strong ng-if="person.started_to_work">{{person.started_to_work |
+                                date:'dd.MM.yyyy'}}</strong>
+                                <strong ng-if="person.started_to_work<1000">не вказано</strong>
+                            </p>
+                            <p class="person-icon person-icon-dateOut"
+                               ng-if="person.finished_to_work&&person.status!='active'">
+                                <strong ng-if="person.finished_to_work>1000">{{person.finished_to_work |
+                                date:'dd.MM.yyyy'}}</strong>
+                                <strong ng-if="person.finished_to_work<1000">не вказано</strong>
+                            </p>
+                            <p class="person-icon person-icon-bday" ng-if="person.status!='dismissed'"
+                            >
+                                <strong ng-if="1">{{person.person.birthday |
+                                date:'dd.MM.yyyy'}}</strong>
+                                <!--<strong ng-if="person.Finish_work<1000">не вказано</strong>-->
+                            </p>
+
+                            <!--<p class="person-icon person-icon-email" ng-if="person.status=='dismissed'" >-->
+                            <!--Дата звільнення: <strong ng-if="person.Finish_work>1000" >{{person.Finish_work | date:'dd.MM.yyyy'}}</strong>-->
+                            <!--<strong ng-if="person.Finish_work<1000">не вказано</strong>-->
+                            <!--</p>-->
+                        </div>
+                        <div class="col-sm-4 component_list_people_person_cell info-short">
+                            <p class="person-icon person-icon-mobile">
+                                <strong ng-bind="person.person.mobile_phone.length > 0 ? person.person.mobile_phone : 'не вказано'"></strong>
+                            </p>
+                            <p class="person-icon person-icon-ip" ng-if="person.status!='dismissed'">
+                               <strong
+                                        ng-bind="person.ip_phone.length>0 ? person.ip_phone : 'не вказано'"></strong>
+                            </p>
+                            <p class="person-icon person-icon-skype">
+                                <a ng-if="person.skype.length&&person.skype!=='None'" href="skype:{{person.skype}}?chat">
+                                 <strong>{{person.skype}}</strong></a>
+                                <strong ng-if="!person.skype.length||person.skype=='None'">не вказано</strong>
+                            </p>
+                            <p class="person-icon person-icon-email">
+                                <a ng-if="person.email.length"
+                                          href="mailto:{{person.email}}">{{person.email}}</a>
+                                <strong ng-if="!person.email.length">не вказано</strong>
+                            </p>
+                            <p class="person-icon person-icon-bday" ng-if="person.status=='dismissed'"
+                            >
+                                <strong ng-if="1">{{person.person.birthday |
+                                date:'dd.MM.yyyy'}}</strong>
+                                <!--<strong ng-if="person.Finish_work<1000">не вказано</strong>-->
+                            </p>
+                        </div>
+                    </div>
+
+
+
+
+                    <!--candidates-->
+                    <div class="component_list_people_person_detail container-fluid"
+                         ng-if="person.type_=='reserve' || person.type_=='rejected' ||person.type_=='ready'">
+                        <div class="col-sm-2 component_list_people_person_cell "
+                        >
+                            <div
+
+                                    class="component_list_people_person_image_wrapper">
+                                <img class="component_list_people_person_image instead_ofBroken_alt"
+                                     lazy-img='/get_photo/{{person.id}}'/>
+                            </div>
+                        </div>
+                        <div class="col-sm-offset-1 col-sm-4 component_list_people_person_cell info-short">
+                            <p class="person-icon person-icon-dep">
+                                Бажані посади: <strong ng-if="person.position.length<1">не вказано </strong> <strong>{{person.position}} </strong>
+                            </p>
+                            <p class="person-icon person-icon-edu">
+                                Освіта: <strong ng-if="person.education.length<1">не вказано </strong><br>
+                                <span ng-repeat="edu in person.education">
+                             {{edu.institution_name}}<strong ng-if="edu.specialty">: {{edu.specialty}}</strong>
+                            <span ng-if="person.education.length>1">, </span>
+                        </span>
+                            </p><br>
+                            <!--<p class="person-icon person-icon-mobile">-->
+                            <!--Досвід:  <strong ng-if="person.experience.length<1">не вказано </strong><br>-->
+                            <!--<span  ng-repeat="exp in person.experience">-->
+                            <!--{{exp.name}}<strong ng-if="exp.position">: {{exp.position}}</strong>-->
+                            <!--<span ng-if="person.experience.length>1">, </span>-->
+                            <!--</span>-->
+                            <!--</p>-->
+                        </div>
+                        <div class="col-sm-4 component_list_people_person_cell info-short">
+                            <p class="person-icon person-icon-mobile">
+                                <strong ng-bind="person.mobile_phone.length > 0 ? person.mobile_phone : 'не вказано'" title="мобільний телефон"></strong>
+                            </p>
+                            <p class="person-icon person-icon-skype">
+                                <a ng-if="person.skype.length" href="skype:{{person.skype}}?chat"
+                                   ng-bind=" person.skype !=='None' ? person.skype : 'не вказано'"></a>
+                                <strong ng-if="!person.skype.length">не вказано</strong>
+                            </p>
+                            <p class="person-icon person-icon-email">
+                                <a ng-if="person.email.length"
+                                          href="mailto:{{person.email}}">{{person.email}}</a>
+                                <strong ng-if="!person.email.length">не вказано</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <diw class="row col-xs-12 invisible" ><h1>.</h1></diw>
+    </div>
+</div>

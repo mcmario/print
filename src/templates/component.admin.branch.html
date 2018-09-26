@@ -1,0 +1,146 @@
+<div class="info_container cities_widget branch-widget">
+    <div class="spinner_container" ng-if="$ctrl.spinner==true">
+        <div class="spinner spinner_components">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-11">
+
+            <span class="info_header_title">Адміністрування: філіали{{}}</span>
+
+
+        </div>
+        <div class="col-xs-1 info_body_button_panel">
+             <span class="general_info_widgets-button col-xs-1 " ng-click="$ctrl.newBranchModal();
+">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+                        <defs>
+                            <style>
+                                .cls-1 {
+                                    fill: #457bbf;
+                                }
+                            </style>
+                        </defs>
+                        <path id="Path_327" data-name="Path 327" class="cls-1"
+                              d="M9.983,2.973a1.166,1.166,0,0,0-1.15,1.181V8.815H4.167a1.165,1.165,0,1,0,0,2.331H8.833v4.661a1.167,1.167,0,0,0,2.333,0V11.146h4.667a1.165,1.165,0,1,0,0-2.331H11.166V4.154A1.166,1.166,0,0,0,9.983,2.973Z"
+                              transform="translate(-3 -2.972)"/>
+                    </svg>
+    </span>
+
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xs-6 general_info_widgets-container no-padding " ng-repeat="branch in branches track by $index " style="flex-direction: row; justify-content: space-between;">
+        <!--<div class="col-xs-12 general_info_widgets-container no-padding ">-->
+
+        <div class="col-xs-3 general_info_widgets-left">
+            <span>
+                Назва:
+            </span>
+            <span>
+                Назва(en):
+            </span>
+            <span>
+                Місто:
+            </span>
+            <span>
+                Вулиця:
+            </span>
+            <span>
+                Вулиця(en):
+            </span>
+            <span>
+                Вулиця(ru):
+            </span>
+            <span>
+                Індекс:
+            </span>
+
+
+        </div>
+        <div class="col-xs-8 general_info_widgets-right">
+
+            <span ng-if="!editBranch" class="text-left">
+
+                {{branch.name}}
+            </span>
+            <input type="text" class="newEmpName col-xs-10"
+                   ng-model="$ctrl.uBranch.name" ng-value="branch.name" ng-if="editBranch">
+
+
+
+
+            <span ng-if="!editBranch" class="text-left">
+
+                {{branch.name_en}}
+            </span>
+             <input type="text" class="newEmpName col-xs-10"
+                   ng-model="$ctrl.uBranch.name_en" readonly ng-value="branch.name_en" ng-if="editBranch">
+
+
+            <span ng-if="!editBranch" class="text-left">
+
+                {{branch.city.name}}
+            </span>
+            <select type="text" class="newEmpName col-xs-10" ng-if="editBranch" style="font-size: 16px;"
+                    ng-model="$ctrl.uBranch.fk_city">
+                <option value="" selected disabled>Виберіть місто</option>
+            <option ng-value="city.id" ng-repeat="city in citieslist">{{city.name}}</option>
+
+
+            </select>
+
+            <span ng-if="!editBranch" class="text-left">
+
+                {{branch.address_ua}}
+            </span>
+            <input type="text" class="newEmpName col-xs-10"
+                   ng-model="$ctrl.uBranch.address_ua" ng-value="branch.address_ua" ng-if="editBranch">
+
+
+
+
+            <span ng-if="!editBranch" class="text-left">
+
+                {{branch.address_en}}
+            </span>
+            <input type="text" class="newEmpName col-xs-10 disabled"
+                   ng-model="$ctrl.uBranch.address_en" ng-value="branch.address_en" readonly ng-if="editBranch">
+            <span ng-if="!editBranch" class="text-left">
+
+                {{branch.address_ru}}
+            </span>
+
+            <input type="text" class="newEmpName col-xs-10"
+                   ng-model="$ctrl.uBranch.address_ru" ng-value="branch.address_ru" ng-if="editBranch">
+            <span ng-if="!editBranch" class="text-left">
+
+                {{branch.zip_code}}
+            </span>
+            <input type="number" class="newEmpName col-xs-10"
+                   ng-model="$ctrl.uBranch.zip_code" ng-value="branch.zip_code" ng-if="editBranch">
+
+
+        </div>
+        <div class="col-xs-1 city_widget_button_panel no-padding">
+            <button class="col-xs-12  edit" ng-click="editBranch=true; $ctrl.editBranch($index)" ng-hide="editBranch"
+                    title="редагувати місто"></button>
+            <button class="col-xs-12 save" ng-click="editBranch=false; $ctrl.saveEditedBranch()"
+                    ng-hide="!editBranch"></button>
+            <button class="col-xs-12 cancel" ng-click="editBranch=false" ng-hide="!editBranch"></button>
+            <button class="col-xs-12 delete" ng-click="$ctrl.deleteBranch($index,branch.id)"
+                    ng-hide="editBranch"></button>
+
+        </div>
+    </div>
+
+    <br>
+    <br>
+</div>
+

@@ -1,0 +1,371 @@
+<div class="info_container no-padding  general_info_widgets-allinfo-component" >
+
+    <form id="form" name="formInfo"  class="" style="padding-left: 15px;"
+          novalidate autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <div class="col-xs-12 ">
+
+            <button form="form"  type="submit"
+                    ng-click="$ctrl.submit($ctrl.data[0])"
+                    class="animate-if button-save col-xs-3 no-padding">
+                <!--<i class="buttons-icon icon-save"></i>-->
+                Зберегти зміни
+            </button>
+
+        </div>
+        <div class="row">
+            <!---->
+
+            <div class="col-sm-6"
+                 >
+                <label class="block_padding">
+                    <span class="control-label">Підрозділ</span>
+                    <select type="text" ng-model="$ctrl.data[0].department.name" class="form-control"
+                           ng-if="$ctrl.data[0].status"
+                            disabled
+                           style="background-color: white"
+                            placeholder="Вкажіть підрозділ">
+                        <option value="{{dep}}" ng-repeat="dep in departments track by $index">{{dep}}</option>
+
+
+
+                    </select>
+                    <select type="text" ng-model="$ctrl.data[0].department" class="form-control"
+                           ng-if="$ctrl.data[0].type_"
+                           style="background-color: white"
+                            placeholder="Вкажіть підрозділ">
+                        <option value="{{dep}}" ng-repeat="dep in departments track by $index">{{dep}}</option>
+
+
+
+                    </select>
+                </label>
+                <span class="block_padding invisible"></span>
+            </div>
+
+
+            <div class="col-sm-6"
+                 ng-if="!$ctrl.data[0].type_">
+                <label class="block_padding">
+                    <span class="control-label">Посада</span>
+                    <input type="text" ng-model="$ctrl.data[0].position.name" class="form-control" readonly
+                           style="background-color: white"
+                           placeholder="Посада">
+                </label>
+            </div>
+
+            <div class="col-sm-6"
+                 ng-if="$ctrl.data[0].type_">
+                <label class="block_padding">
+                    <span class="control-label">Місто</span>
+                    <select type="text" ng-model="$ctrl.data[0].city" class="form-control"
+                           ng-disabled="!$ctrl.data[0].type_"
+                           style="background-color: white"
+                           placeholder=" Вкажіть місто">
+                        <option value="{{city}}" ng-repeat="city in citieslist">{{city}}</option>
+                    </select>
+                </label>
+            </div>
+            <!---->
+
+
+           <div class="col-xs-6" ng-if="$ctrl.data[0].type_">
+                <label class="block_padding">
+                    <span class="control-label">Бажані посади</span>
+                    <input type="text" ng-model="$ctrl.data[0].position" ng-if="$ctrl.data[0].type_" class="form-control"
+                           placeholder="Бажані посади"
+                           >
+
+                </label>
+
+            </div>
+           <div class="col-xs-6 invisible" ng-if="$ctrl.data[0].type_">
+                <label class="block_padding">
+                    <span class="control-label">Бажані посади</span>
+                    <input type="text"  ng-if="$ctrl.data[0].type_" class="form-control"
+                           placeholder="Бажані посади"
+                           >
+
+                </label>
+
+            </div>
+
+           <!---->
+
+
+            <div class="col-xs-6">
+                <label class="block_padding">
+                    <span class="control-label">Прізвище (українською)</span>
+                    <input type="text" ng-model="$ctrl.data[0].surname_ua"  ng-if="!$ctrl.data[0].type_" class="form-control"
+                           placeholder="Прізвище (українською)"
+                           onkeyup="this.value = this.value.replace(/[A-Za-z0-9]/g, '')"
+                    ng-blur="$ctrl.data[0].surname_en=$ctrl.transWord($ctrl.data[0].surname_ua)">
+                    <input type="text" ng-model="$ctrl.data[0].surname"  ng-if="$ctrl.data[0].type_" class="form-control"
+                           placeholder="Прізвище (українською)"
+                           onkeyup="this.value = this.value.replace(/[A-Za-z0-9]/g, '')">
+                </label>
+
+            </div>
+            <div class="col-xs-6">
+                <label class="block_padding">
+                    <span class="control-label">Ім'я (українською) </span>
+                    <input type="text" ng-model="$ctrl.data[0].name_ua"  ng-if="!$ctrl.data[0].type_" class="form-control"
+                           placeholder="Ім'я (українською)"
+                           onkeyup="this.value = this.value.replace(/[A-Za-z0-9]/g, '')"
+                            ng-blur="$ctrl.data[0].name_en=$ctrl.transWord($ctrl.data[0].name_ua)"
+                    >
+                    <input type="text" ng-model="$ctrl.data[0].name"  ng-if="$ctrl.data[0].type_" class="form-control"
+                           placeholder="Ім'я (українською)"
+                           onkeyup="this.value = this.value.replace(/[A-Za-z0-9]/g, '')">
+                </label>
+
+            </div>
+            <!---->
+            <div class="col-xs-6">
+                <label class="block_padding">
+                    <span class="control-label">По батькові (українською)</span>
+                    <input type="text" ng-model="$ctrl.data[0].middle_name_ua"  ng-if="!$ctrl.data[0].type_" class="form-control"
+                           placeholder="По батькові (українською)"
+                           onkeyup="this.value = this.value.replace(/[A-Za-z0-9]/g, '')">
+                    <input type="text" ng-model="$ctrl.data[0].middle_name"  ng-if="$ctrl.data[0].type_" class="form-control"
+                           placeholder="По батькові (українською)"
+                           onkeyup="this.value = this.value.replace(/[A-Za-z0-9]/g, '')">
+                </label>
+
+            </div>
+            <div class="col-xs-6">
+                <label class="block_padding">
+                    <span class="control-label">Дата народження:</span>
+                    <input type="date" ng-model="$ctrl.data[0].person.birthday"  ng-if="!$ctrl.data[0].type_" style="resize: none"
+                           class="form-control dateInput"
+                           placeholder="Дата народження">
+                     <input type="date" ng-model="$ctrl.data[0].person.birthday"  ng-if="$ctrl.data[0].type_" style="resize: none"
+                           class="form-control dateInput"
+                           placeholder="Дата народження">
+                </label>
+            </div>
+            <div class="col-xs-6"
+                 ng-if="$ctrl.data[0].status">
+                <label class="block_padding">
+                    <span class="control-label">Прізвище (англійською)</span>
+                    <input type="text" ng-model="$ctrl.data[0].surname_en" class="form-control"
+                           placeholder="Прізвище (англійською)"
+                           onkeyup="this.value=this.value.replace(/[А-Яа-я0-9]/g,'')">
+                </label>
+
+
+            </div>
+            <div class="col-xs-6"
+                 ng-if="!$ctrl.data[0].type_">
+                <label class="block_padding">
+                    <span class="control-label">Ім'я (англійською)</span>
+                    <input type="text" ng-model="$ctrl.data[0].name_en" class="form-control"
+                           placeholder="Ім'я (англійською)" onkeyup="this.value=this.value.replace(/[А-Яа-я0-9]/g,'')">
+                </label>
+
+            </div>
+            <div class="col-xs-6">
+                <label class="block_padding">
+                    <span class="control-label">Сімейний стан:</span>
+
+                    <select ng-model="$ctrl.data[0].person.marital_status"  ng-if="!$ctrl.data[0].type_" class="form-control">
+                        <option value="">сімейний стан</option>
+                        <option value="одружений(на)">Одружений(на)</option>
+                        <option value="не одружений(на)">Не одружений(на)</option>
+                        <option value="розлучений(на)">
+                                Розлучений(а)
+                            </option>
+
+
+                    </select>
+                     <select ng-model="$ctrl.data[0].marital_status" ng-if="$ctrl.data[0].type_" class="form-control">
+                        <option value="">сімейний стан</option>
+                        <option value="одружений(на)">Одружений(на)</option>
+                        <option value="неодружений(на)">Не одружений(на)</option>
+                         <option value="розлучений(на)">
+                                Розлучений(а)
+                            </option>
+
+
+                    </select>
+
+                </label>
+
+            </div>
+            <div class="col-xs-6 invisible">
+                <label class="block_padding">
+                    <span class="control-label">Сімейний стан:</span>
+
+                    <select name="" id="" class="form-control">
+                        <option value="">сімейний стан</option>
+                        <option value="одружений(на)">Одружений(на)</option>
+                        <option value="не одружений(на)">Не одружений(на)</option>
+                        <option value="розлучений(на)">
+                                Розлучений(а)
+                            </option>
+
+
+                    </select>
+                    <!--<input type="text" ng-model="$ctrl.data[0].married" class="form-control"-->
+                    <!--placeholder="Сімейний стан">-->
+                </label>
+
+            </div>
+            <div class="col-xs-6">
+                <label class="block_padding">
+                    <span class="control-label">Контактний номер телефону:</span>
+                    <input type="text" ng-model="$ctrl.data[0].person.mobile_phone" ng-if="!$ctrl.data[0].type_" class="form-control"
+                           placeholder="Контактний номер телефону">
+                <input type="text" ng-model="$ctrl.data[0].person.mobile_phone" ng-if="$ctrl.data[0].type_" class="form-control"
+                           placeholder="Контактний номер телефону" >
+                </label>
+
+            </div>
+            <div class="col-xs-6">
+                <label class="block_padding"
+                >
+                    <span class="control-label">Домашній телефон</span>
+                    <input type="text" ng-model="$ctrl.data[0].person.home_phone" ng-if="!$ctrl.data[0].type_" class="form-control"
+                           placeholder="Домашній телефон">
+               <input type="text" ng-model="$ctrl.data[0].person.home_phone" ng-if="$ctrl.data[0].type_" class="form-control"
+                           placeholder="Домашній телефон">
+                </label>
+            </div>
+
+            <div class="col-sm-6">
+                <label class="block_padding">
+                    <span class="control-label">Емейл:</span>
+                    <input type="text" ng-model="$ctrl.data[0].email" class="form-control"
+                           placeholder="Емейл">
+                </label>
+
+            </div>
+            <div class="col-sm-6">
+                <label class="block_padding">
+                    <span class="control-label">Skype</span>
+                    <input type="text" ng-model="$ctrl.data[0].skype" class="form-control"
+                           placeholder="Skype" onkeyup="this.value=this.value.replace(/[А-Яа-я]/g,'')">
+                </label>
+
+            </div>
+
+            <div class="col-xs-6">
+                <label class="block_padding"
+                       ng-if="!$ctrl.data[0].type_"
+                >
+                    <span class="control-label">Службовий телефон</span>
+                    <input type="text" ng-model="$ctrl.data[0].ip_phone" class="form-control"
+                           placeholder="Службовий телефон">
+                </label>
+            </div>
+
+
+            <div class="col-xs-6">
+                <label class="block_padding"
+                       ng-if="!$ctrl.data[0].type_">
+                    <span class="control-label">Графік роботи</span>
+                    <input type="text" ng-model="$ctrl.data[0].work_schedule" class="form-control"
+                           placeholder="Графік роботи" readonly
+                           style="background-color: white">
+                </label>
+            </div>
+            <div class="col-xs-6">
+                <label class="block_padding">
+                    <span class="control-label">Адреса прописки:</span>
+                    <input type="text" ng-model="$ctrl.data[0].person.registration" ng-if="!$ctrl.data[0].type_" class="form-control"
+                           placeholder="Адреса прописки">
+                <input type="text" ng-model="$ctrl.data[0].person.registration" ng-if="$ctrl.data[0].type_" class="form-control"
+                           placeholder="Адреса прописки">
+                </label>
+            </div>
+            <div class="col-xs-6">
+                <label class="block_padding">
+                    <span class="control-label">Адреса проживання:</span>
+                    <input type="text" ng-model="$ctrl.data[0].person.place_of_residence" ng-if="!$ctrl.data[0].type_" class="form-control"
+                           placeholder="Адреса проживання">
+                <input type="text" ng-model="$ctrl.data[0].person.place_of_residence" ng-if="$ctrl.data[0].type_" class="form-control"
+                           placeholder="Адреса проживання">
+                </label>
+            </div>
+            <div class="col-xs-6">
+                <label class="block_padding">
+                    <span class="control-label">Паспорт серія, номер</span>
+                    <input type="text" ng-model="$ctrl.data[0].person.passport_id" ng-if="!$ctrl.data[0].type_" class="form-control"
+                           placeholder="Паспорт серія, номер">
+                 <input type="text" ng-model="$ctrl.data[0].person.passport_id" ng-if="$ctrl.data[0].type_" class="form-control"
+                           placeholder="Паспорт серія, номер">
+                </label>
+            </div>
+            <div class="col-xs-6">
+                <label class="block_padding">
+                    <span class="control-label">Ідентифікаційний код</span>
+                    <input type="text" ng-model="$ctrl.data[0].person.ipn" ng-if="!$ctrl.data[0].type_" class="form-control"
+                           placeholder="Ідентифікаційний код">
+                    <input type="text" ng-model="$ctrl.data[0].person.ipn" ng-if="$ctrl.data[0].type_" class="form-control"
+                           placeholder="Ідентифікаційний код">
+                </label>
+            </div>
+            <div class="col-xs-6">
+                <label class="block_padding">
+                    <span class="control-label">Виданий (ким)</span>
+                    <input type="text" ng-model="$ctrl.data[0].person.issued_by" ng-if="!$ctrl.data[0].type_" class="form-control"
+                           placeholder="Виданий (ким)">
+                <input type="text" ng-model="$ctrl.data[0].person.issued_by" ng-if="$ctrl.data[0].type_" class="form-control"
+                           placeholder="Виданий (ким)">
+                </label>
+            </div>
+            <div class="col-xs-6">
+                <label class="block_padding">
+                    <span class="control-label">Виданий (коли)</span>
+                    <input type="date" ng-model="$ctrl.data[0].person.date_of_issue" ng-if="!$ctrl.data[0].type_" style="resize: none"
+                           class="form-control dateInput"
+                           placeholder="виданий (коли)">
+               <input type="date" ng-model="$ctrl.data[0].person.date_of_issue" ng-if="$ctrl.data[0].type_" style="resize: none"
+                           class="form-control dateInput"
+                           placeholder="виданий (коли)">
+                </label>
+            </div>
+
+            <div class="col-xs-6">
+
+            </div>
+            <div class="col-xs-6">
+
+            </div>
+
+
+        </div>
+
+
+        <!--<div class="row">-->
+        <!--<div class="col-sm-6">-->
+
+
+        <!--</div>-->
+
+
+        <!--&lt;!&ndash;<div class="col-sm-6">&ndash;&gt;-->
+
+
+        <!--&lt;!&ndash;&lt;!&ndash;<label class="block_padding"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;ng-if="$ctrl.data[0].type!=='ready'&&$ctrl.data[0].type!=='reserve'&&$ctrl.data[0].type!=='rejected'">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<span class="control-label">Графік роботи</span>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<input type="text" ng-model="$ctrl.data[0].schedule" class="form-control"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;placeholder="Графік роботи">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</label>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<div class="col-sm-6" ng-if="$ctrl.data[0].type!=='ready'&&$ctrl.data[0].type!=='reserve'&&$ctrl.data[0].type!=='rejected'">&ndash;&gt;&ndash;&gt;-->
+
+
+        <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<div class="col-sm-6">&ndash;&gt;-->
+
+
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="col-sm-6">&ndash;&gt;-->
+
+
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--</div>-->
+    </form>
+</div>

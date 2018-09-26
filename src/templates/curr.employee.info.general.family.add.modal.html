@@ -1,0 +1,54 @@
+<div class="doc_preview_modal" style="width: auto;">
+    <span class="title-text">Додати члена сім'ї</span>
+
+    <div class=" col-xs-12 animate-if modal-main">
+        <label class="newUserLable">сімейний звязок <span style="color: red;"
+                                                          title="обов'язкове поле">*</span></label>
+        <select class="newEmpName"
+                ng-model="ctrl.newRelInfo.type_">
+            <option type="text" value="" selected disabled>виберіть сімейний звязок</option>
+            <option value="Дружина">Дружина</option>
+            <option value="Чоловік">Чоловік</option>
+            <option value="Дитина">Дитина</option>
+        </select>
+
+        <label class="newUserLable">Ім'я <span style="color: red;"
+                                               title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newRelInfo.name">
+
+        <label class="newUserLable">Прізвище <span style="color: red;"
+                                                   title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newRelInfo.surname">
+
+
+        <label class="newUserLable">Дата народження <span style="color: red;"
+                                                          title="обов'язкове поле">*</span></label>
+        <input type="date" class="newEmpName dateInput"
+               ng-model="ctrl.newRelInfo.birthday">
+
+
+        <label class="newUserLable">Місце роботи</label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newRelInfo.workplace">
+
+        <label class="newUserLable">Посада</label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newRelInfo.position">
+
+        <div class="button_panel">
+            <br>
+            <button  ng-click="saveNewRelModal(ctrl.newRelInfo); closeThisDialog(0)"
+                    class="info_body_button_panel_vacations_save col-xs-5" style="width: 50%;"
+            ng-class="{'disabled':!ctrl.newRelInfo.birthday||!ctrl.newRelInfo.type_}"
+
+            >
+                Зберегти зміни
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

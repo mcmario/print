@@ -1,0 +1,57 @@
+<div class="modal_qr-show">
+    <div class="modal_qr_header">
+        <span class="text">Редагувати фото</span>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.min.css">
+
+
+    <div>
+         <form class="no-padding" novalidate enctype=multipart/form-data method="post" action='/photo' id="documentsForm" name="form">
+
+            <label class=" newUserLable no-padding">
+                <select name="type" style="display: none" id="" ng-model="data.doctype" ng-init="data.doctype='photo'"
+                        class="newEmpName">
+
+
+
+                </select>
+            </label>
+
+
+            <input style="display: none;" type="number" name="id" id="formIdInput" value="{{ ctrl.newIndividualid }}">
+
+            <label>
+                <span class="save curr_empl_button" ng-bind="!data.file?'Обрати фото профілю':'Файл вибрано'"></span>
+
+                <input
+
+                        id="myImgFile"
+                        ng-class="{'':!data.fileName}"
+                        style="display: none"
+                        tabindex="2"
+                        accept="application/pdf, .jpg, .jpeg, .png"
+                        name="file"
+                        type="file"
+                        fileinput="file"
+                        filepreview="data.file"
+                        placeholder="Оберіть файл"/>
+            </label>
+
+
+        </form>
+        <img id="myImg" src="{{ ngDialogData.src }}" alt="" width="300px"
+        ng-init=""
+
+        >
+        <input type="hidden" id="myImgFile" >
+        <button ng-click="ctrl.GetFile()">cccccc</button>
+        <button ng-click="ctrl.saveFile({})">ssssss</button>
+    </div>
+
+
+</div>
+
+
+

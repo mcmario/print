@@ -1,0 +1,1060 @@
+<div class="row">
+    <div class="col-xs-12">
+        <current-employee-person data="$scope.data"></current-employee-person>
+        <!--<button form="form" ng-if="formInfo.$dirty" type="submit"-->
+        <button form="form" type="submit"
+                class="curr_empl_button button curr_empl_button_top_right save animate-if"><i
+                class="buttons-icon icon-save"></i>Зберегти зміни1
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <form class="container-fluid comparsion_table" novalidate name="formInfo" id="form" ng-submit="$ctrl.submit()">
+
+            <div class="fields">
+                <div class="comparison_row">
+                    <div id="comparrison_column1" class="comparrison_field"></div>
+                    <div id="comparrison_column2" class="comparrison_field"></div>
+                    <div id="comparrison_column3" class="comparrison_field"></div>
+                </div>
+
+
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Прізвище</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].surname">
+
+
+                            <input class="comparison_radio" type="radio" id="snUa1" name="snUa"
+                                   ng-model="comparison.snUa" ng-value="data[0][0].surname">
+                            <label class="comparison_radio_lable" for="snUa1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].surname"
+                                       ng-value='data[0][0].surname'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Прізвище</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].snUa">
+
+
+                            <input class="comparison_radio" type="radio" id="snUa2" name="snUa"
+                                   ng-model="comparison.snUa" ng-value='data[1][0].snUa' checked>
+                            <label class="comparison_radio_lable" for="snUa2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].snUa"
+                                       ng-value='data[1][0].snUa'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Прізвище</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0].snUa">
+                            <!--<input class="comparison_radio" type="radio" name="sname" value="xxx">-->
+
+                            <input class="comparison_radio" type="radio" id="snUa3" name="snUa"
+                                   ng-model="comparison.snUa" ng-value="data[2][0].snUa">
+                            <label class="comparison_radio_lable" for="snUa3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].snUa"
+                                       ng-value='data[2][0].snUa'>
+                            </label>
+                        </div>
+                    </div>
+                </div><!-- snUa: 'Прізвище', +++++++-->
+
+
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                <span class="comparison_lable">Ім'я
+                </span>
+                        <div class="comparison_inputs" ng-if="data[0][0].name">
+
+
+                            <input class="comparison_radio" type="radio" id="givenNameUa1" name="givenNameUa"
+                                   ng-model="comparison.givenNameUa" ng-value="data[0][0].name"
+                            >
+                            <label class="comparison_radio_lable" for="givenNameUa1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].name" ng-value='data[0][0].name'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Ім'я</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].givenNameUa">
+
+                            <input class="comparison_radio" type="radio" id="givenNameUa2" name="givenNameUa"
+                                   ng-model="comparison.givenNameUa" ng-value='data[1][0].givenNameUa' checked>
+                            <label class="comparison_radio_lable" for="givenNameUa2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].givenNameUa"
+                                       value="givenNameUa">
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Ім'я</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0].givenNameUa">
+
+                            <input class="comparison_radio" type="radio" id="givenNameUa3" name="givenNameUa"
+                                   ng-model="comparison.givenNameUa" ng-value='data[2][0].givenNameUa' checked>
+                            <label class="comparison_radio_lable" for="givenNameUa3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].givenNameUa"
+                                       ng-value='data[1][0].givenNameUa'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--givenNameUa: 'Ім\'я', +++++++-->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">По батькові</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].middlename">
+
+
+                            <input class="comparison_radio" type="radio" id="middlename1" name="middlename"
+                                   ng-model="comparison.middlename" ng-value="data[0][0].middlename">
+                            <label class="comparison_radio_lable" for="middlename1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].middlename"
+                                       ng-value='data[0][0].middlename'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">По батькові</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].middlename">
+
+                            <input class="comparison_radio" type="radio" id="middlename2" name="middlename" checked
+                                   ng-model="comparison.middlename" ng-value="data[1][0].middlename">
+                            <label class="comparison_radio_lable" for="middlename2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].middlename"
+                                       ng-value='data[1][0].middlename'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">По батькові</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0].middlename">
+
+                            <input class="comparison_radio" type="radio" id="middlename3" name="middlename"
+                                   ng-model="comparison.middlename" ng-value="data[2][0].middlename">
+                            <label class="comparison_radio_lable" for="middlename3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].middlename"
+                                       ng-value='data[2][0].middlename'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!-- middlename:'По батькові', +++++++-->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Прізвище (російською)</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].sn">
+
+
+                            <input class="comparison_radio" type="radio" id="sn1" name="sn" ng-model="comparison.sn"
+                                   ng-value="data[0][0].sn">
+                            <label class="comparison_radio_lable" for="sn1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].sn"
+                                       ng-value='data[0][0].sn'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Прізвище (російською)</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].sn">
+
+                            <input class="comparison_radio" type="radio" id="sn2" name="sn" checked
+                                   ng-model="comparison.sn" ng-value="data[1][0].sn">
+                            <label class="comparison_radio_lable" for="sn2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].sn"
+                                       ng-value='data[1][0].sn'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Прізвище (російською)</span>
+                        <div class="comparison_inputs_cont">
+
+                            <input class="comparison_radio" type="radio" id="sn3" name="sn" ng-model="comparison.sn"
+                                   ng-value="data[2][0].sn">
+                            <label class="comparison_radio_lable" for="sn3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].sn"
+                                       ng-value='data[2][0].sn'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  sn: 'Прізвище (російською)', ++++-->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Ім'я (російською)</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].givenName">
+
+
+                            <input class="comparison_radio" type="radio" id="givenName1" name="givenName"
+                                   ng-model="comparison.givenName" ng-value="data[0][0].givenName">
+                            <label class="comparison_radio_lable" for="givenName1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].givenName"
+                                       ng-value='data[0][0].givenName'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Ім'я (російською)</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].givenName">
+
+                            <input class="comparison_radio" type="radio" id="givenName2" name="givenName" checked
+                                   ng-model="comparison.givenName" ng-value="data[1][0].givenName">
+                            <label class="comparison_radio_lable" for="givenName2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].givenName"
+                                       ng-value='data[1][0].givenName'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Ім'я (російською)</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0].givenName">
+
+                            <input class="comparison_radio" type="radio" id="givenName3" name="givenName"
+                                   ng-model="comparison.givenName" ng-value="data[2][0].givenName">
+                            <label class="comparison_radio_lable" for="givenName3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].givenName"
+                                       ng-value='data[2][0].givenName'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  givenName: 'Ім\'я (російською)' ++++-->
+
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Прізвище (англійською)</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].snEn">
+
+
+                            <input class="comparison_radio" type="radio" id="snEn1" name="snEn"
+                                   ng-model="comparison.snEn" ng-value="data[0][0].snEn">
+                            <label class="comparison_radio_lable" for="snEn1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].snEn"
+                                       ng-value='data[0][0].snEn'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Прізвище (англійською)</span>
+                        <div class="comparison_inputs">
+
+                            <input class="comparison_radio" type="radio" id="snEn2" name="snEn" checked
+                                   ng-model="comparison.snEn" ng-value="data[1][0].snEn">
+                            <label class="comparison_radio_lable" for="snEn2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].snEn"
+                                       ng-value='data[1][0].snEn'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Прізвище (англійською)</span>
+                        <div class="comparison_inputs_cont">
+
+                            <input class="comparison_radio" type="radio" id="snEn3" name="snEn"
+                                   ng-model="comparison.snEn" ng-value="data[2][0].snEn">
+                            <label class="comparison_radio_lable" for="snEn3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].snEn"
+                                       ng-value='data[2][0].snEn'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  snEn: 'Прізвище (англійською)', +++-->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Ім'я (англійською)</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].givenNameEn">
+
+
+                            <input class="comparison_radio" type="radio" id="givenNameEn1" name="givenNameEn"
+                                   ng-model="comparison.givenNameEn" ng-value="data[0][0].givenNameEn">
+                            <label class="comparison_radio_lable" for="givenNameEn1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].givenNameEn"
+                                       ng-value='data[0][0].givenNameEn'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Ім'я (англійською)</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].givenNameEn">
+
+                            <input class="comparison_radio" type="radio" id="givenNameEn2" name="givenNameEn" checked
+                                   ng-model="comparison.givenNameEn" ng-value="data[1][0].givenNameEn">
+                            <label class="comparison_radio_lable" for="givenNameEn2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].givenNameEn"
+                                       ng-value='data[1][0].givenNameEn'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Ім'я (англійською)</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0]['givenName-En']">
+
+                            <input class="comparison_radio" type="radio" id="givenNameEn3" name="givenNameEn"
+                                   ng-model="comparison.givenNameEn" ng-value="data[2][0]['givenName-En']">
+                            <label class="comparison_radio_lable" for="givenNameEn3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0]['givenName-En']"
+                                       ng-value="data[2][0]['givenName-En']">
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  givenNameEn: 'Ім\'я (англійською)',+++-->
+                <!--<div class="comparison_row">-->
+                    <!--<div class="comparrison_field">-->
+                        <!--<span class="comparison_lable">Посада</span>-->
+                        <!--<div class="comparison_inputs">-->
+
+
+                            <!--<input class="comparison_radio" type="radio" id="titleUa1" name="titleUa"-->
+                                   <!--ng-model="comparison.titleUa" ng-value="data[0][0].position">-->
+                            <!--<label class="comparison_radio_lable" for="titleUa1">-->
+                                <!--<input class="comparison_input" type="text" ng-model="data[0][0].position"-->
+                                       <!--ng-value='data[0][0].position'>-->
+                            <!--</label>-->
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="comparrison_field">-->
+                        <!--<span class="comparison_lable">Посада</span>-->
+                        <!--<div class="comparison_inputs">-->
+
+                            <!--<input class="comparison_radio" type="radio" id="titleUa2" name="titleUa" checked required-->
+                                   <!--ng-model="comparison.titleUa" ng-value="data[1][0].titleUa">-->
+                            <!--<label class="comparison_radio_lable" for="titleUa2">-->
+                                <!--<input class="comparison_input" type="text" ng-model="data[1][0].titleUa"-->
+                                       <!--ng-value='data[1][0].titleUa'>-->
+                            <!--</label>-->
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="comparrison_field">-->
+                        <!--<span class="comparison_lable">Посада</span>-->
+                        <!--<div class="comparison_inputs_cont">-->
+
+                            <!--<input class="comparison_radio" type="radio" id="titleUa3" name="titleUa"-->
+                                   <!--ng-model="comparison.titleUa" ng-value="data[2][0].titleUa">-->
+                            <!--<label class="comparison_radio_lable" for="titleUa3">-->
+                                <!--<input class="comparison_input" type="text" ng-model="data[2][0].titleUa"-->
+                                       <!--ng-value='data[2][0].titleUa'>-->
+                            <!--</label>-->
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                <!--</div>&lt;!&ndash;  titleUa: 'Посада',+++&ndash;&gt;-->
+                <!--<div class="comparison_row">-->
+                    <!--<div class="comparrison_field">-->
+                        <!--<span class="comparison_lable">Відділ</span>-->
+                        <!--<div class="comparison_inputs" ng-if="data[0][0].department">-->
+
+
+                            <!--<input class="comparison_radio" type="radio" id="departmentUa1" name="departmentUa"-->
+                                   <!--ng-model="comparison.department" ng-value="data[0][0].department">-->
+                            <!--<label class="comparison_radio_lable" for="departmentUa1">-->
+                                <!--<input class="comparison_input" type="text" ng-model="data[0][0].department"-->
+                                       <!--value="departmentUa">-->
+                            <!--</label>-->
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="comparrison_field">-->
+                        <!--<span class="comparison_lable">Відділ</span>-->
+                        <!--<div class="comparison_inputs" ng-if="data[1][0].departmentUa">-->
+
+                            <!--<input class="comparison_radio" type="radio" id="departmentUa2" name="departmentUa" checked-->
+                                   <!--ng-model="comparison.departmentUa" ng-value="data[1][0].departmentUa">-->
+                            <!--<label class="comparison_radio_lable" for="departmentUa2">-->
+                                <!--<input class="comparison_input" type="text" ng-model="data[1][0].departmentUa"-->
+                                       <!--ng-value='data[1][0].departmentUa'>-->
+                            <!--</label>-->
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="comparrison_field">-->
+                        <!--<span class="comparison_lable">Відділ</span>-->
+                        <!--<div class="comparison_inputs_cont" ng-if="data[2][0].departmentUa">-->
+
+                            <!--<input class="comparison_radio" type="radio" id="departmentUa3" name="departmentUa"-->
+                                   <!--ng-model="comparison.departmentUa" ng-value="data[2][0].departmentUa">-->
+                            <!--<label class="comparison_radio_lable" for="departmentUa3">-->
+                                <!--<input class="comparison_input" type="text" ng-model="data[2][0].departmentUa"-->
+                                       <!--ng-value='data[2][0].departmentUa'>-->
+                            <!--</label>-->
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                <!--</div>&lt;!&ndash;  departmentUa: 'Відділ', +++&ndash;&gt;-->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Область</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].st">
+
+
+                            <input class="comparison_radio" type="radio" id="st1" name="st" ng-model="comparison.st"
+                                   ng-value="data[0][0].st">
+                            <label class="comparison_radio_lable" for="st1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].st"
+                                       ng-value='data[0][0].st'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Область</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].stUa">
+
+                            <input class="comparison_radio" type="radio" id="st2" name="st" checked
+                                   ng-model="comparison.stUa" ng-value="data[1][0].stUa">
+                            <label class="comparison_radio_lable" for="st2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].stUa"
+                                       ng-value='data[1][0].stUa'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Область</span>
+                        <div class="comparison_inputs_cont">
+
+                            <input class="comparison_radio" type="radio" id="st3" name="st" ng-model="comparison.stUa"
+                                   ng-value="data[2][0].stUa">
+                            <label class="comparison_radio_lable" for="st3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].stUa"
+                                       ng-value='data[2][0].stUa'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  st: 'Область', +++ -->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Місто</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].cityUa">
+
+
+                            <input class="comparison_radio" type="radio" id="cityUa1" name="cityUa1" ng-model="comparison.cityUa" ng-value="data[0][0].cityUa">
+                            <label class="comparison_radio_lable" for="cityUa1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].cityUa" ng-value='data[0][0].cityUa'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Місто</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].cityUa">
+
+                            <input class="comparison_radio" type="radio" id="cityUa2" name="cityUa" checked ng-model="comparison.cityUa" ng-value="data[1][0].cityUa">
+                            <label class="comparison_radio_lable" for="cityUa2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].cityUa" ng-value='data[1][0].cityUa'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Місто</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0].cityUa">
+
+                            <input class="comparison_radio" type="radio" id="cityUa3" name="cityUa" ng-model="comparison.cityUa" ng-value="data[2][0].cityUa">
+                            <label class="comparison_radio_lable" for="cityUa3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].cityUa" ng-value='data[2][0].cityUa'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  cityUa: 'Місто',-->
+
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Філіал</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].company">
+
+
+                            <input class="comparison_radio" type="radio" id="company1" name="company" ng-model="comparison.company" ng-value="data[0][0].company">
+                            <label class="comparison_radio_lable" for="company1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].company" ng-value='data[0][0].company'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Філіал</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].company">
+
+                            <input class="comparison_radio" type="radio" id="company2" name="company" checked ng-model="comparison.company" ng-value="data[1][0].company">
+                            <label class="comparison_radio_lable" for="company2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].company" ng-value='data[1][0].company'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Філіал</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0].company">
+
+                            <input class="comparison_radio" type="radio" id="company3" name="company" ng-model="comparison.company" ng-value="data[2][0].company">
+                            <label class="comparison_radio_lable" for="company3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].company" ng-value='data[2][0].company'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  company: 'Філіал',-->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Вулиця</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].street">
+
+
+                            <input class="comparison_radio" type="radio" id="street1" name="street"
+                                   ng-model="comparison.street" ng-value="data[0][0].street">
+                            <label class="comparison_radio_lable" for="street1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].stUa"
+                                       ng-value='data[0][0].stUa'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Вулиця</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].streetAddressUa
+">
+
+                            <input class="comparison_radio" type="radio" id="street2" name="street" checked ng-model="comparison.streetAddressUa
+" ng-value="data[1][0].streetAddressUa
+">
+                            <label class="comparison_radio_lable" for="street2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].streetAddressUa
+" ng-value='data[1][0].streetAddressUa'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Вулиця</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0].streetAddressUa">
+
+                            <input class="comparison_radio" type="radio" id="street3" name="street" ng-model="comparison.streetAddressUa" ng-value="data[2][0].streetAddressUa">
+                            <label class="comparison_radio_lable" for="street3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].streetAddressUa" ng-value='data[2][0].streetAddressUa'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  street: 'Вулиця', +++-->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Поштовий індекс</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].postalCode">
+
+
+                            <input class="comparison_radio" type="radio" id="postalCode1" name="postalCode" ng-model="comparison.postalCode" ng-value="data[0][0].postalCode">
+                            <label class="comparison_radio_lable" for="postalCode1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].postalCode" ng-value='data[0][0].postalCode'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Поштовий індекс</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].postalCode">
+
+                            <input class="comparison_radio" type="radio" id="postalCode2" name="postalCode" checked ng-model="comparison.postalCode" ng-value="data[1][0].postalCode">
+                            <label class="comparison_radio_lable" for="postalCode2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].postalCode" ng-value='data[1][0].postalCode'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Поштовий індекс</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0].postalCode">
+
+                            <input class="comparison_radio" type="radio" id="postalCode3" name="postalCode" ng-model="comparison.postalCode" ng-value="data[2][0].postalCode">
+                            <label class="comparison_radio_lable" for="postalCode3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].postalCode" ng-value='data[2][0].postalCode'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  postalCode: 'Поштовий індекс', +++-->
+
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Мобільний телефон</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].phone">
+
+
+                            <input class="comparison_radio" type="radio" id="mobile1" name="mobile" ng-model="comparison.mobile" ng-value="data[0][0].phone">
+                            <label class="comparison_radio_lable" for="mobile1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].phone" ng-value='data[0][0].phone'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Мобільний телефон</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].mobile">
+
+                            <input class="comparison_radio" type="radio" id="mobile2" name="mobile" checked ng-model="comparison.mobile" ng-value="data[1][0].mobile">
+                            <label class="comparison_radio_lable" for="mobile2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].mobile" ng-value='data[1][0].mobile'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Мобільний телефон</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0].mobile">
+
+                            <input class="comparison_radio" type="radio" id="mobile3" name="mobile" ng-model="comparison.mobile" ng-value="data[2][0].mobile">
+                            <label class="comparison_radio_lable" for="mobile3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].mobile" ng-value='data[2][0].mobile'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  mobile: 'Мобільний телефон', ++++-->
+                <div class="comparison_row">
+                    <div class="comparrison_field" >
+                        <span class="comparison_lable">Внутрішній телефон</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].ipPhone">
+
+
+                            <input class="comparison_radio" type="radio" id="ipPhone1" name="ipPhone" ng-model="comparison.ipPhone" ng-value="data[0][0].ipPhone">
+                            <label class="comparison_radio_lable" for="ipPhone1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].ipPhone" ng-value='data[0][0].ipPhone'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field" >
+                        <span class="comparison_lable">Внутрішній телефон</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].ipPhone">
+
+                            <input class="comparison_radio" type="radio" id="ipPhone2" name="ipPhone" checked  ng-model="comparison.ipPhone" ng-value="data[1][0].ipPhone">
+                            <label class="comparison_radio_lable" for="ipPhone2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].ipPhone" ng-value='data[1][0].ipPhone'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Внутрішній телефон</span>
+                        <div class="comparison_inputs_cont" ng-if="data[1][0].ipPhone">
+
+                            <input class="comparison_radio" type="radio" id="ipPhone3" name="ipPhone" ng-model="comparison.ipPhone" ng-value="data[2][0].ipPhone">
+                            <label class="comparison_radio_lable" for="ipPhone3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].ipPhone" ng-value='data[2][0].ipPhone'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  ipPhone: 'Внутрішній телефон',-->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">E-Mail</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].mail">
+
+
+                            <input class="comparison_radio" type="radio" id="mail1" name="mail" ng-model="comparison.mail" ng-value="data[0][0].mail">
+                            <label class="comparison_radio_lable" for="mail1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].mail" ng-value='data[0][0].mail'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">E-Mail</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].mail">
+
+                            <input class="comparison_radio" type="radio" id="mail2" name="mail" checked ng-model="comparison.mail" ng-value="data[1][0].mail">
+                            <label class="comparison_radio_lable" for="mail2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].mail" ng-value='data[1][0].mail'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">E-Mail</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0].mail">
+
+                            <input class="comparison_radio" type="radio" id="mail3" name="mail" ng-model="comparison.mail" ng-value="data[2][0].mail">
+                            <label class="comparison_radio_lable" for="mail3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].mail" ng-value='data[2][0].mail'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  mail: 'E-Mail',+++-->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Skype</span>
+                        <div class="comparison_inputs"  ng-if="data[0][0].pager">
+
+
+                            <input class="comparison_radio" type="radio" id="pager1" name="pager" ng-model="comparison.pager" ng-value="data[0][0].pager">
+                            <label class="comparison_radio_lable" for="pager1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].pager" ng-value='data[0][0].pager'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Skype</span>
+                        <div class="comparison_inputs"  ng-if="data[1][0].pager">
+
+                            <input class="comparison_radio" type="radio" id="pager2" name="pager" checked ng-model="comparison.pager" ng-value="data[1][0].pager">
+                            <label class="comparison_radio_lable" for="pager2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].pager" ng-value='data[1][0].pager'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Skype</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0].pager">
+
+                            <input class="comparison_radio" type="radio" id="pager3" name="pager" ng-model="comparison.pager" ng-value="data[2][0].pager">
+                            <label class="comparison_radio_lable" for="pager3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].pager" ng-value='data[2][0].pager'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  pager: 'Skype',+++-->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">ІПН</span>
+                        <div class="comparison_inputs" ng-if="data[0][0].IPN">
+
+
+                            <input class="comparison_radio" type="radio" id="ipn1" name="ipn" ng-model="comparison.ipn" ng-value="data[0][0].IPN">
+                            <label class="comparison_radio_lable" for="ipn1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].IPN" ng-value='data[0][0].IPN'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">ІПН</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].ipn">
+
+                            <input class="comparison_radio" type="radio" id="ipn2" name="ipn" checked  ng-model="comparison.ipn" ng-value="data[1][0].ipn">
+                            <label class="comparison_radio_lable" for="ipn2">
+                                <input class="comparison_input" type="text"  ng-model="data[1][0].ipn" ng-value='data[1][0].ipn'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">ІПН</span>
+                        <div class="comparison_inputs_cont"  ng-if="data[2][0].ipn">
+
+                            <input class="comparison_radio" type="radio" id="ipn3" name="ipn" ng-model="comparison.ipn" ng-value="data[2][0].ipn">
+                            <label class="comparison_radio_lable" for="ipn3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].ipn" ng-value='data[2][0].ipn'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  ipn:'ІПН', +++-->
+
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Оклад</span>
+                        <div class="comparison_inputs"  ng-if="data[0][0].salary">
+
+
+                            <input class="comparison_radio" type="radio" id="salary1" name="salary" ng-model="comparison.salary" ng-value="data[0][0].salary">
+                            <label class="comparison_radio_lable" for="salary1">
+                                <input class="comparison_input" type="text" ng-model="data[0][0].salary" ng-value='data[0][0].salary'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Оклад</span>
+                        <div class="comparison_inputs" ng-if="data[1][0].salary">
+
+                            <input class="comparison_radio" type="radio" id="salary2" name="salary" checked ng-model="comparison.salary" ng-value="data[1][0].salary">
+                            <label class="comparison_radio_lable" for="salary2">
+                                <input class="comparison_input" type="text" ng-model="data[1][0].salary" ng-value='data[1][0].salary'>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Оклад</span>
+                        <div class="comparison_inputs_cont" ng-if="data[2][0].salary">
+
+                            <input class="comparison_radio" type="radio" id="salary3" name="salary" ng-model="comparison.salary" ng-value="data[2][0].salary">
+                            <label class="comparison_radio_lable" for="salary3">
+                                <input class="comparison_input" type="text" ng-model="data[2][0].salary" ng-value='data[2][0].salary'>
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  salary:'Оклад'-->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Адреса прописки</span>
+                        <div class="comparison_inputs">
+
+
+                            <input class="comparison_radio" type="radio" id="registration1" name="registration" ng-model="comparison.registration" ng-value="data[0][0].registration">
+                            <label class="comparison_radio_lable" for="registration1">
+                                <!--<input class="comparison_input" type="text" ng-model="data[1][0].registration" value="registration">-->
+                                <textarea name="" class="comparison_input" ng-model="data[0][0].registration">{{data[0][0]['place_of_residence']}}</textarea>
+
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Адреса прописки</span>
+                        <div class="comparison_inputs">
+
+                            <input class="comparison_radio" type="radio" id="registration2" name="registration" checked>
+                            <label class="comparison_radio_lable" for="registration2">
+                                <textarea name="" class="comparison_input" >registration</textarea>
+
+                                <!--<input class="comparison_input" type="text" ng-model="data[1][0].registration" value="registration">-->
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Адреса прописки</span>
+                        <div class="comparison_inputs_cont">
+
+                            <input class="comparison_radio" type="radio" id="registration3" name="registration">
+                            <label class="comparison_radio_lable" for="registration3">
+                                <textarea name="" class="comparison_input" >registration</textarea>
+
+                                <!--<input class="comparison_input" type="text" ng-model="data[1][0].registration" value="registration">-->
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  registration:'Адреса прописки',-->
+                <div class="comparison_row">
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Адреса проживання</span>
+                        <div class="comparison_inputs">
+
+
+                            <input class="comparison_radio" type="radio" id="yyy1" name="yyy">
+                            <label class="comparison_radio_lable" for="yyy1">
+                                <!--<input class="comparison_input" type="text" ng-model="data[1][0].yyy" value="yyy">-->
+                                <textarea name="" class="comparison_input">address_residence</textarea>
+
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Адреса проживання</span>
+                        <div class="comparison_inputs">
+
+                            <input class="comparison_radio" type="radio" id="address_residence2"
+                                   name="address_residence" checked>
+                            <label class="comparison_radio_lable" for="address_residence2">
+                                <!--<input class="comparison_input" type="text" ng-model="data[1][0].address_residence" value="address_residence">-->
+                                <textarea name="" class="comparison_input">address_residence</textarea>
+
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="comparrison_field">
+                        <span class="comparison_lable">Адреса проживання</span>
+                        <div class="comparison_inputs_cont">
+
+                            <input class="comparison_radio" type="radio" id="address_residence3"
+                                   name="address_residence">
+                            <label class="comparison_radio_lable" for="address_residence3">
+                                <!--<input class="comparison_input" type="text" ng-model="data[1][0].address_residence" value="address_residence">-->
+                                <textarea name="" class="comparison_input">address_residence</textarea>
+
+                            </label>
+
+
+                        </div>
+                    </div>
+
+
+                </div><!--  address_residence:'Адреса проживання',-->
+
+
+                <!--<div class="comparison_row">-->
+                    <!--<div class="comparrison_field">-->
+                        <!--<span class="comparison_lable">Сімейний стан</span>-->
+                        <!--<div class="comparison_inputs" ng-if="data[0][0].married">-->
+
+
+                            <!--<input class="comparison_radio" type="radio" id="married1" name="married"  ng-model="comparison.married" ng-value="data[0][0].married">-->
+                            <!--<label class="comparison_radio_lable" for="married1">-->
+                                <!--<input class="comparison_input" type="text" ng-model="data[0][0].company" ng-value='data[0][0].company'>-->
+                            <!--</label>-->
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="comparrison_field">-->
+                        <!--<span class="comparison_lable">Сімейний стан</span>-->
+                        <!--<div class="comparison_inputs" ng-if="data[0][0].married">-->
+
+                            <!--<input class="comparison_radio" type="radio" id="married2" name="married" checked ng-model="comparison.married" ng-value="data[1][0].married">-->
+                            <!--<label class="comparison_radio_lable" for="married2">-->
+                                <!--<input class="comparison_input" type="text" ng-model="data[1][0].married" ng-value='data[1][0].married'>-->
+                            <!--</label>-->
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="comparrison_field">-->
+                        <!--<span class="comparison_lable">Сімейний стан</span>-->
+                        <!--<div class="comparison_inputs_cont" ng-if="data[2][0].married">-->
+
+                            <!--<input class="comparison_radio" type="radio" id="married3" name="married" ng-model="comparison.married" ng-value="data[2][0].married">-->
+                            <!--<label class="comparison_radio_lable" for="married3">-->
+                                <!--<input class="comparison_input" type="text" ng-model="data[2][0].married" ng-value='data[2][0].married'>-->
+                            <!--</label>-->
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                <!--</div>&lt;!&ndash;  married:'сімейний стан',&ndash;&gt;-->
+
+            </div>
+        </form>
+
+    </div>
+</div>

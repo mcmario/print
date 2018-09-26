@@ -1,0 +1,23 @@
+<div class="doc_preview_modal" style="width: auto;">
+
+    <div class="col-xs-12" >
+        <h3 class="text-center">{{typeConfirmation}}Ви дісно хочете видалити опитування?</h3>
+        <button class="btn btn-success col-xs-5 col-xs-offset-1" ng-click="ctrl.deletePollConfirmed(); closeThisDialog(0)">так</button>
+        <button class="btn btn-danger col-xs-5 col-xs-offset-1" ng-click="closeThisDialog(0)">ні</button>
+    </div>
+
+
+
+    <div ng-if=" ctrl.typeConfirm=='question'" class="col-xs-12">
+        <h3 class="text-center">Ви дісно хочете видалити запитання </h3>
+        <button class="btn btn-success col-xs-5 col-xs-offset-1" ng-click="closeThisDialog(0);">так</button>
+        <button class="btn btn-danger  col-xs-5 col-xs-offset-1" ng-click="closeThisDialog(0)">ні</button>
+    </div>
+
+    <div ng-if=" ctrl.typeConfirm=='poll'" class="col-xs-12">
+        <h3 class="text-center">Ви дісно хочете видалити опитування?</h3>
+        <button class="btn btn-success col-xs-5 col-xs-offset-1" ng-click="closeThisDialog(0);">так</button>
+        <button class="btn btn-danger  col-xs-5 col-xs-offset-1" ng-click="closeThisDialog(0)">ні</button>
+    </div>
+
+</div>

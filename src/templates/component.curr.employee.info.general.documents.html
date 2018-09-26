@@ -1,0 +1,36 @@
+<div class="col-xs-12  general_info_widgets-header">
+    <span class="general_info_widgets-title">Документи</span>
+    <span class="general_info_widgets-button col-xs-1 " ng-click="$ctrl.uploadNewDocument(false)">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.667 11.653"><defs><style>.aplus{fill:#457bbf;}</style></defs><path class="aplus" d="M8.833,4.154V8.815H4.167v2.331H8.833v4.661h2.333V11.146h4.667V8.815H11.166V4.154Z" transform="translate(-4.167 -4.154)"/></svg>
+    </span>
+</div>
+<div class="col-xs-12 no-padding general_info_widgets_docs_container "
+ng-if="!$ctrl.docsPas">
+    <h4 class="text-center">Дані відсутні</h4>
+    <h5  class="text-center">Для додавання інформації натисніть "+"</h5>
+</div>
+<div class="col-xs-12 no-padding general_info_widgets_docs_container "
+     ng-repeat="item in documents track by $index"
+     ng-if="item.status=='active'&&(item.type_=='ІПН'||item.type_=='паспорт')">
+    <div class="col-xs-3 general_info_widgets_docs_img" style="background-image: url({{item.src}})"
+         ng-click="$ctrl.showDocument(item)"
+         ng-if="item.file_type.indexOf('pdf')<0">
+    </div>
+    <div class="col-xs-3 general_info_widgets_docs_img"
+         style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0KVeAAAAHlBMVEUAAAB9kKGAkqJ+kKCMnKp4i5yKmqmLm6n09ff////+YQofAAAABXRSTlMAvb7G/iUW7D8AAAABYktHRAnx2aXsAAAAUklEQVQoz2NgIAWEwkAgkmDkTCgIU8AiGFGMRTCy3QCL4IxiLIIzEUqRBBFKkQRnthhgEZzhjC4I9gG6IAhMpZogLJwo0j4ybR9AwVAUQFLOAACKvgTQxwGN8wAAAABJRU5ErkJggg==')"
+         ng-click="$ctrl.showDocument(item)"
+         ng-if="item.file_type.indexOf('pdf')>=0">
+    </div>
+
+
+    <div class="col-xs-4 general_info_widgets_docs_text">
+        <span class=" general_info_widgets_docs_text-head"><i ng-if="!item.name"> не вказано </i>{{item.name}} </span>
+        <span class=" general_info_widgets_docs_text-main"><i ng-if="!item.create_date"> --/--/---- </i>{{item.create_date}} </span>
+    </div>
+    <div class="col-xs-5 general_info_widgets_docs_button-container">
+        <span class="general_info_widgets_docs_button" ng-click="$ctrl.changeDocStatus(item)"><span>Деактивувати</span></span>
+    </div>
+</div>
+
+
+

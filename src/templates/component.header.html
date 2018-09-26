@@ -1,0 +1,88 @@
+<header class="header head_menu_background"   ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes(),'header_smaller_stat':sidebarVisible()}"
+style="position: relative;">
+    <!--<div class="header_main_button_container invisible">-->
+        <!--<button class="header_menu_button icon_info " >SB</button>-->
+        <!--<a href="#!/candidate/ready"><img src="static/img/logo_bm_on_dark.svg" alt="" class="header_logo"></a>-->
+    <!--</div>-->
+    <div class="header_links_container col-xs-8" ng-if="ctrl.block=='employees'" style="color: white;">
+        <a href="#!/{{ctrl.block}}/active" ng-class="{'activeLink':ctrl.semiBlock=='active'}">Активні</a>
+        <a href="#!/{{ctrl.block}}/dismissed" ng-class="{'activeLink':ctrl.semiBlock=='dismissed'}">Звільнені </a>
+        <a href="#!/{{ctrl.block}}/new" ng-class="{'activeLink':ctrl.semiBlock=='new'}">
+            <span ng-if="ctrl.semiBlock!='new'"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><defs><style>.ss {
+                fill: #457bbf;
+            }</style></defs><path class="ss"
+                                  d="M9.983,2.973a1.166,1.166,0,0,0-1.15,1.181V8.815H4.167a1.165,1.165,0,1,0,0,2.331H8.833v4.661a1.167,1.167,0,0,0,2.333,0V11.146h4.667a1.165,1.165,0,1,0,0-2.331H11.166V4.154A1.166,1.166,0,0,0,9.983,2.973Z"
+                                  transform="translate(-3 -2.972)"/></svg></span>
+            <span ng-if="ctrl.semiBlock=='new'"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><defs><style>.ss {
+                fill: #FFFFFF;
+            }</style></defs><path class="ss"
+                                  d="M9.983,2.973a1.166,1.166,0,0,0-1.15,1.181V8.815H4.167a1.165,1.165,0,1,0,0,2.331H8.833v4.661a1.167,1.167,0,0,0,2.333,0V11.146h4.667a1.165,1.165,0,1,0,0-2.331H11.166V4.154A1.166,1.166,0,0,0,9.983,2.973Z"
+                                  transform="translate(-3 -2.972)"/></svg></span>
+        </a>
+    </div>
+    <div class="header_links_container col-xs-8" ng-if="ctrl.block=='candidate'" style="color: white;">
+        <a href="#!/{{ctrl.block}}/ready" ng-class="{'activeLink':ctrl.semiBlock=='ready'}">Активні</a>
+        <a href="#!/{{ctrl.block}}/reserve" ng-class="{'activeLink':ctrl.semiBlock=='reserve'}">Резерв </a>
+        <a href="#!/{{ctrl.block}}/rejected" ng-class="{'activeLink':ctrl.semiBlock=='rejected'}"> Відхилені</a>
+        <a href="#!/{{ctrl.block}}/new_individ" ng-class="{'activeLink':ctrl.semiBlock=='new_individ'}">
+            <span ng-if="ctrl.semiBlock!='new_individ'">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><defs><style>.ss {
+                fill: #457bbf;}
+                </style></defs><path class="ss"
+                                  d="M9.983,2.973a1.166,1.166,0,0,0-1.15,1.181V8.815H4.167a1.165,1.165,0,1,0,0,2.331H8.833v4.661a1.167,1.167,0,0,0,2.333,0V11.146h4.667a1.165,1.165,0,1,0,0-2.331H11.166V4.154A1.166,1.166,0,0,0,9.983,2.973Z"
+                                  transform="translate(-3 -2.972)"/></svg></span>
+            <span ng-if="ctrl.semiBlock=='new_individ'"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><defs><style>.ss {
+                fill: #FFFFFF;
+            }</style></defs><path class="ss"
+                                  d="M9.983,2.973a1.166,1.166,0,0,0-1.15,1.181V8.815H4.167a1.165,1.165,0,1,0,0,2.331H8.833v4.661a1.167,1.167,0,0,0,2.333,0V11.146h4.667a1.165,1.165,0,1,0,0-2.331H11.166V4.154A1.166,1.166,0,0,0,9.983,2.973Z"
+                                  transform="translate(-3 -2.972)"/></svg></span>
+        </a>
+    </div>
+    <div class="header_links_container col-xs-12" ng-if="ctrl.block=='polls'||ctrl.block=='update_poll'" style="color: white;width: 100%;">
+        <a href="#!/polls/develop" ng-class="{'activeLink':ctrl.semiBlock=='develop'}">В розробці</a>
+
+        <a href="#!/polls/active" ng-class="{'activeLink':ctrl.semiBlock=='active'}">Активні </a>
+        <a href="#!/polls/closed" ng-class="{'activeLink':ctrl.semiBlock=='closed'}"> Завершені</a>
+        <a href="#!/polls/new" ng-class="{'activeLink':ctrl.semiBlock=='new'}"
+        >
+            <span ng-if="ctrl.semiBlock!='new'"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><defs><style>.ss {
+                fill: #457bbf;
+            }
+           </style></defs><path class="ss"
+                                  d="M9.983,2.973a1.166,1.166,0,0,0-1.15,1.181V8.815H4.167a1.165,1.165,0,1,0,0,2.331H8.833v4.661a1.167,1.167,0,0,0,2.333,0V11.146h4.667a1.165,1.165,0,1,0,0-2.331H11.166V4.154A1.166,1.166,0,0,0,9.983,2.973Z"
+                                  transform="translate(-3 -2.972)"/></svg></span>
+            <span ng-if="ctrl.semiBlock=='new'">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><defs><style>.ss {
+                fill: #FFFFFF;
+            }</style></defs><path class="ss"
+                                  d="M9.983,2.973a1.166,1.166,0,0,0-1.15,1.181V8.815H4.167a1.165,1.165,0,1,0,0,2.331H8.833v4.661a1.167,1.167,0,0,0,2.333,0V11.146h4.667a1.165,1.165,0,1,0,0-2.331H11.166V4.154A1.166,1.166,0,0,0,9.983,2.973Z"
+                                  transform="translate(-3 -2.972)"/></svg></span>
+
+
+        </a>
+    </div>
+    <div class="col-xs-3" ng-if="ctrl.block=='polls'||ctrl.semiBlock=='new'||ctrl.semiBlock=='new_individ'"></div>
+    <div class="head_menu_button_container visible-lg col-lg-4" ng-if="ctrl.block=='polls'||ctrl.semiBlock=='new'||ctrl.semiBlock=='new_individ'">
+
+
+
+        <button class="head_menu_button  col-xs-6 text-success" ng-click="ctrl.addNote()">
+
+        <span>
+        створити нотатку
+
+        </span>
+        </button>
+
+
+        <button class="head_menu_button visible-lg col-lg-6 text-success" ng-click="ctrl.toggleNotes()">
+
+        <span  ng-bind="ctrl.displayNotes()?'Приховати нотатки':'Показати нотатки'">
+
+
+        </span>
+        </button>
+    </div>
+
+
+</header>

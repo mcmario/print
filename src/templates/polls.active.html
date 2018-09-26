@@ -1,0 +1,183 @@
+<header-component></header-component>
+<sidebar></sidebar>
+<div class="spinner_container" ng-if="$scope.spinner">
+    <span class="spinner_message" style="" ng-if="$scope.spinner2">триває відправка повідомлень, це може зайняти тривалий час</span><br>
+    <div class="spinner" >
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</div>
+
+<div class="content" style="overflow:hidden; min-height:100vh"
+     ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}">
+
+
+
+
+        <div class=" smooth_width polls_active_body col-xs-11"
+             ng-class="{'col-lg-8': displayNotes(), 'col-lg-10 col-lg-offset-1': !displayNotes()}">
+            <!--<div class="container-fluid page page_boxed">-->
+
+
+            <div class=" col-xs-12 polls_active customScroll">
+                <div class="row polls_active_header">
+                    <span class=" col-xs-1">№</span>
+                    <span class=" col-xs-4">Назва</span>
+                    <span class=" col-xs-2">Дата</span>
+                    <span class=" col-xs-2">К-сть респондентів</span>
+                    <span class=" col-xs-2">Операції</span>
+                </div>
+                <div class="row polls_active_table " ng-repeat="poll in pollAnk">
+                    <div class=" col-xs-1"><span>{{poll.id}}</span></div>
+                    <div class=" col-xs-4"><span>{{poll.name}}</span></div>
+                    <div class=" col-xs-2"><span>{{poll.created| date:'dd.MM.yyyy'}}</span></div>
+                    <div class=" col-xs-2">
+                        <span>{{poll.count_of_complete}}/{{poll.total_count}}</span>
+                    </div>
+                    <div class=" col-xs-3 polls_active_button_panel">
+
+                        <button type="button" title="опублікувати опитування" class="col-xs-3 polls_active_button"
+                                ng-click="ctrl.publicatePoll(poll.id)">
+
+
+                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.303 18.308">
+                            <defs>
+                                <style>.ap {
+                                    fill: #49b994;
+                                }</style>
+                            </defs>
+                            <path class="ap"
+                                  d="M21.814,4a.4.4,0,0,0-.123.041L4.259,11.528a.436.436,0,0,0-.014.79l6.5,3.241,3.241,6.5a.436.436,0,0,0,.79-.014L22.264,4.609A.437.437,0,0,0,21.814,4Zm-1.852,1.73-8.989,8.989-5.5-2.751Zm.613.613L14.337,20.83l-2.751-5.5Z"
+                                  transform="translate(-4 -3.993)"/>
+                        </svg>
+
+
+                        </button>
+                        <button type="button" title="завершити опитування" class="col-xs-3 polls_active_button" disabled
+                                ng-click="ctrl.closePoll(poll.id, poll.poll_name)">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.269 16.261"><defs><style>.af{fill:#49b994;}</style></defs><path class="af" d="M3.495,0a.323.323,0,0,0-.358.325v15.61c0,.2.451.325.667.325h-.4c.216,0,.667-.13.667-.325V10.407H18.047a.344.344,0,0,0,.358-.325V.325A.344.344,0,0,0,18.047,0Zm.577.65H7.3V3.577H10.88V.65h3.583V3.577h3.225V6.829H14.464V9.756H10.88V6.829H7.3V9.756H4.072V6.829H7.3V3.577H4.072ZM10.88,6.829h3.583V3.577H10.88Z" transform="translate(-3.137)"/></svg>
+
+
+
+                        </button>
+                        <button type="button" title="відобразити статистику"
+                                class="col-xs-3 polls_active_button disabled"
+                                ng-click="ctrl.statPoll(poll.id, poll.poll_name)">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.812 16.292">
+                            <defs>
+                                <style>.as {
+                                    fill: #bc10ab;
+                                }</style>
+                            </defs>
+                            <g transform="translate(-12 -24)">
+                                <path class="as"
+                                      d="M23.906,24a.626.626,0,0,0-.627.627v9.4H20.773v-1.88a.626.626,0,0,0-.627-.627h-3.76a.626.626,0,0,0-.627.627v6.893H12.627a.627.627,0,1,0,0,1.253H35.185a.627.627,0,0,0,0-1.253H32.052V28.386a.626.626,0,0,0-.627-.627H28.292V24.627A.626.626,0,0,0,27.665,24Zm.627,1.253h2.506V39.039H24.532Zm3.76,3.76H30.8V39.039H28.292Zm-11.279,3.76h2.506v6.266H17.013Zm3.76,2.506h2.506v3.76H20.773Z"/>
+                            </g>
+                        </svg>
+
+
+                        </button>
+                        <button type="button" title="скопіювати опитування"
+                                class="col-xs-3 polls_active_button disabled" ng-click="ctrl.copyPoll(poll.id)">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.678 17.678">
+                            <defs>
+                                <style>.ac {
+                                    fill: #457bbf;
+                                    stroke: #457bbf;
+                                    stroke-width: 0.3px;
+                                }</style>
+                            </defs>
+                            <path class="ac"
+                                  d="M6.6,0V2.085l.7.7V.7h5.213V4.866h4.171V13.9H11.469v.7h5.908V4.377L13,0Zm6.6,1.184,2.987,2.987H13.207ZM0,2.78v14.6H10.774V7.157l-.1-.109L6.506,2.878,6.4,2.78Zm.7.7H5.908V7.646h4.171v9.036H.7Zm5.908.5L9.579,6.951H6.6Z"
+                                  transform="translate(0.15 0.15)"/>
+                        </svg>
+
+
+                        </button>
+
+
+                    </div>
+                </div>
+                <div class="row polls_active_table " ng-repeat="poll in polls">
+                    <div class=" col-xs-1"><span>{{poll.id}}</span></div>
+                    <div class=" col-xs-4"><span ng-bind-html="poll.name"></span></div>
+                    <div class=" col-xs-2"><span ng-bind-html="poll.created| date:'dd.MM.yyyy'"></span></div>
+                    <div class=" col-xs-2">
+                        <span>{{poll.count_of_complete}}/{{poll.total_count}}</span>
+                    </div>
+                    <div class=" col-xs-3 polls_active_button_panel">
+
+                        <button type="button" title="опублікувати опитування" class="col-xs-3 polls_active_button"
+                                ng-click="ctrl.publicatePoll(poll.id)">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.303 18.308">
+                            <defs>
+                                <style>.ap {
+                                    fill: #49b994;
+                                }</style>
+                            </defs>
+                            <path class="ap"
+                                  d="M21.814,4a.4.4,0,0,0-.123.041L4.259,11.528a.436.436,0,0,0-.014.79l6.5,3.241,3.241,6.5a.436.436,0,0,0,.79-.014L22.264,4.609A.437.437,0,0,0,21.814,4Zm-1.852,1.73-8.989,8.989-5.5-2.751Zm.613.613L14.337,20.83l-2.751-5.5Z"
+                                  transform="translate(-4 -3.993)"/>
+                        </svg>
+
+
+
+
+
+                        </button>
+                        <button type="button" title="завершити опитування" class="col-xs-3 polls_active_button"
+                                ng-click="ctrl.closePoll(poll.id, poll.name)">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.269 16.261"><defs><style>.af{fill:#49b994;}</style></defs><path class="af" d="M3.495,0a.323.323,0,0,0-.358.325v15.61c0,.2.451.325.667.325h-.4c.216,0,.667-.13.667-.325V10.407H18.047a.344.344,0,0,0,.358-.325V.325A.344.344,0,0,0,18.047,0Zm.577.65H7.3V3.577H10.88V.65h3.583V3.577h3.225V6.829H14.464V9.756H10.88V6.829H7.3V9.756H4.072V6.829H7.3V3.577H4.072ZM10.88,6.829h3.583V3.577H10.88Z" transform="translate(-3.137)"/></svg>
+
+
+                        </button>
+                        <a href="/#!/polls/statistics/{{poll.id}}" type="button" title="відобразити статистику"
+                           class="col-xs-3 polls_active_button" ng-click="ctrl.statPoll(poll.id, poll.name)">
+
+                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.812 16.292">
+                            <defs>
+                                <style>.as {
+                                    fill: #bc10ab;
+                                }</style>
+                            </defs>
+                            <g transform="translate(-12 -24)">
+                                <path class="as"
+                                      d="M23.906,24a.626.626,0,0,0-.627.627v9.4H20.773v-1.88a.626.626,0,0,0-.627-.627h-3.76a.626.626,0,0,0-.627.627v6.893H12.627a.627.627,0,1,0,0,1.253H35.185a.627.627,0,0,0,0-1.253H32.052V28.386a.626.626,0,0,0-.627-.627H28.292V24.627A.626.626,0,0,0,27.665,24Zm.627,1.253h2.506V39.039H24.532Zm3.76,3.76H30.8V39.039H28.292Zm-11.279,3.76h2.506v6.266H17.013Zm3.76,2.506h2.506v3.76H20.773Z"/>
+                            </g>
+                        </svg>
+
+                        </a>
+                        <button type="button" title="скопіювати опитування" class="col-xs-3 polls_active_button"
+                                ng-click="ctrl.copyPoll(poll.id)">
+                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.678 17.678">
+                            <defs>
+                                <style>.ac {
+                                    fill: #457bbf;
+                                    stroke: #457bbf;
+                                    stroke-width: 0.3px;
+                                }</style>
+                            </defs>
+                            <path class="ac"
+                                  d="M6.6,0V2.085l.7.7V.7h5.213V4.866h4.171V13.9H11.469v.7h5.908V4.377L13,0Zm6.6,1.184,2.987,2.987H13.207ZM0,2.78v14.6H10.774V7.157l-.1-.109L6.506,2.878,6.4,2.78Zm.7.7H5.908V7.646h4.171v9.036H.7Zm5.908.5L9.579,6.951H6.6Z"
+                                  transform="translate(0.15 0.15)"/>
+                        </svg>
+
+                        </button>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div ng-if="displayNotes()" class="col-xs-4 no-padding"
+             ng-class="{'width_0': !displayNotes()}">
+            <notes-component>
+            </notes-component>
+        </div>
+
+
+</div>

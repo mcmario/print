@@ -1,0 +1,446 @@
+<header-component></header-component>
+<sidebar></sidebar>
+
+
+<div class="spinner_container" ng-if="ctrl.spinner==true">
+    <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</div>
+<div class="content no-padding"
+     style="overflow:hidden;  height: calc(100vh - 70px); padding-bottom: 20px;"
+     ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}">
+
+    <div class="no-padding page_wrapper smooth_width newUserPage"
+         ng-class="{' col-xs-8 col-lg-5': displayNotes(), 'col-xs-8 col-lg-6  col-lg-offset-1': !displayNotes()}">
+        <div class="container-fluid page page_boxed col-xs-12 newUserPage">
+
+            <div class=" col-xs-offset-2" action="" id="newEmpForm"
+                 ng-class="{'col-lg-8': displayNotes(), 'col-lg-8  col-lg-offset-2': !displayNotes()}"
+            >
+                <h4 class="newEmpHeader">Додати співробітника</h4>
+
+
+                <div class="fPart" ng-repeat="new in ctrl.userTempTitles track by $index" ng-if="new.order==ctrl.page">
+                    <!--ng-if="new.order>=ctrl.fieldFrom&& new.order<=ctrl.fieldTo">-->
+
+                    <div class="newEmpInputField">
+
+                        <label class="newUserLable"
+                               ng-if="new.type!='title'"
+                        > {{ new.name }}
+
+                            <span style="color: red;" ng-if="new.require==true"
+                                  title="обов'язкове поле">*</span></label>
+                        <h3 ng-if="new.type=='title'" ng-click="ctrl.createAddress()">{{ new.name }}<span
+                                style="color: red;" ng-if="new.require==true"
+                                title="обов'язкове поле">*</span></h3>
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newUser[new.value]" ng-if="new.type=='text'">
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newUser[new.value]" ng-if="new.type=='textA'">
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newUser[new.value]" ng-if="new.type=='textC'"
+                               onkeyup="this.value = this.value.replace(/[A-Za-z0-9]/g, '')">
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newUser[new.value]" ng-if="new.type=='textCr'"
+                               onkeyup="this.value = this.value.replace(/[A-Za-z0-9іє]/g, '')">
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newUser[new.value]" ng-if="new.type=='textL'"
+                               onkeyup="this.value = this.value.replace(/[А-Яа-яЁё0-9]/g, '')">
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newUser[new.value]" ng-if="new.type=='textTel'"
+                               ng-blur="ctrl.checkPhone(ctrl.newUser[new.value])">
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newUser[new.value]" ng-if="new.type=='textPas'"
+                               onkeyup="this.value = this.value.slice(0,2); this.value = this.value.replace(/[A-Za-z0-9]/g, '');this.value = this.value.toLocaleUpperCase()"
+
+                        >
+                        <input type="number" class="newEmpName"
+                               ng-model="ctrl.newUser[new.value]" ng-if="new.type=='textN'"
+                               onkeyup="this.value = this.value.slice(0,10)">
+                        <input type="number" class="newEmpName"
+                               ng-model="ctrl.newUser[new.value]" ng-if="new.type=='textPasId'"
+                               onkeyup="this.value = this.value.slice(0,9)">
+                        <input type="date" class="newEmpName dateInput"
+                               ng-model="ctrl.newUser[new.value]" ng-if="new.type=='date'">
+                        <!--education-->
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newEdu[new.value]" ng-if="new.type=='edu'">
+                        <input type="button" ng-click="ctrl.addEducation()" ng-if="new.type=='edu'&& new.type2=='final'"
+                               value="додати освіту">
+
+
+                        <!--&lt;!&ndash; post education &ndash;&gt;-->
+                        <!--<input type="text" class="newEmpName"-->
+                        <!--ng-model="ctrl.ctrl.newPEdu[new.value]" ng-if="new.type=='pEdu'">-->
+                        <!--<input type="button" ng-click="ctrl.addPostEdu()" ng-if="new.type=='pEdu'&& new.type2=='final'"-->
+                        <!--value="додати післядипломну">-->
+
+                        <!--work experience-->
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newWorkExp[new.value]" ng-if="new.type=='wExp'">
+                        <input type="button" ng-click="ctrl.addWorkExp()" ng-if="new.type=='wExp'&& new.type2=='final'"
+                               value="додати роботу">
+
+                        <input type="text" class="newEmpName"
+                               ng-model="ctrl.newRel[new.value]" ng-if="new.type=='family'">
+                        <input type="date" class="newEmpName dateInput"
+                               ng-model="ctrl.newRel[new.value]" ng-if="new.type=='relDate'">
+                        <input type="button" ng-click="ctrl.addRel()" ng-if="new.type=='family'&& new.type2=='final'"
+                               value="додати члена родини">
+
+                        <!--when textarea is needed-->
+
+                        <textarea name="" class="newEmpTextarea customScroll" cols="30" rows="2"
+                                  ng-if="new.type=='textarea'"
+                                  ng-model="ctrl.newUser[new.value]">{{ ctrl.newUser[new.value] }}</textarea>
+
+
+                        <!--when select is needed-->
+
+
+                        <select class="newEmpName selectField" ng-if="new.type=='branch'"
+                                ng-model="ctrl.newUser[new.value]">
+                            <option value="" selected disabled>Виберіть філіал</option>
+
+                            <option ng-repeat="branch in ctrl.branches  track by $index"
+                                    value="{{ branch }}">{{ branch }}
+                            </option>
+                        </select>
+
+                        <select class="newEmpName selectField" ng-if="new.type=='city'"
+                                ng-model="ctrl.newUser[new.value]">
+                            <option value="" selected disabled>Виберіть місто</option>
+
+                            <option ng-repeat="city in ctrl.cities  track by $index"
+                                    value="{{ city }}">{{ city }}
+                            </option>
+                        </select>
+                        <select class="newEmpName selectField" ng-if="new.type=='position'"
+                                ng-model="ctrl.newUser[new.value]">
+                            <option value="" selected disabled>Виберіть посаду</option>
+
+                            <option ng-repeat="position in ctrl.positions  track by $index" value="{{ position }}">
+                                {{ position }}
+                            </option>
+                        </select>
+
+                        <select class="newEmpName selectField" ng-if="new.type=='selectSchedule'"
+                                ng-model="ctrl.newUser[new.value]">
+                            <option value="" selected disabled>Виберіть графік роботи</option>
+                            <option ng-repeat="field in ctrl.schedule track by $index" value="{{ field }}">{{ field }}
+                            </option>
+                        </select>
+                        <select class="newEmpName selectField" ng-init="ctrl.getAccrualCode()"
+                                ng-if="new.type=='selectAcc'"
+                                ng-model="ctrl.newUser[new.value]">
+                            <option value="" selected disabled>Виберіть тип нарахувань</option>
+                            <option ng-repeat="field in ctrl.AccrualCode track by $index" value="{{ field.code }}">{{
+                                field.name }}
+                            </option>
+                        </select>
+
+                        <select class="newEmpName selectField" ng-if="new.type=='selectFam'"
+                                ng-model="ctrl.newUser.married">
+                            <option value="" selected disabled>Виберіть сімейний стан</option>
+
+                            <option value="не одружений(на)">
+                                Не одружений(а)
+                            </option>
+                            <option value="одружений(на)">
+                                Одружений(а)
+                            </option>
+                            <option value="розлучений(на)">
+                                Розлучений(а)
+                            </option>
+                        </select>
+                        <select class="newEmpName selectField" ng-if="new.type=='selectLevel'"
+                                ng-model="ctrl.newUser[new.value]">
+                            <option value="" selected disabled>Виберіть організаційний рівень</option>
+
+                            <option value="1">
+                                Топ-менеджмент
+                            </option>
+                            <option value="2">
+                                Менеджмент середнього рівня
+                            </option>
+                            <option value="3">
+                                Лінійні працівники
+                            </option>
+
+                        </select>
+
+
+                        <select class="newEmpName selectField" ng-if="new.type=='selectDept'"
+                                ng-model="ctrl.selectedDept"
+                                ng-change="ctrl.selectDept()">
+                            <option value="" selected disabled>Виберіть департамент</option>
+
+                            <option ng-repeat="dept in ctrl.departments track by $index" value="{{ dept }}">{{ dept }}
+                            </option>
+                        </select>
+
+
+                        <select class="newEmpName selectField" name="" ng-if=" new.type=='selectG'"
+                                ng-model="ctrl.newUser.gender">
+                            <option value="" selected disabled>Виберіть стать</option>
+
+                            <option value="Чоловіча">Чоловіча</option>
+                            <option value="Жіноча">Жіноча</option>
+                        </select>
+                        <select class="newEmpName selectField" name="" ng-if=" new.type=='selectEduT'"
+                                ng-model="ctrl.newEdu.education_type">
+                            <option value="" selected>виберіть тип освіти</option>
+                            <option value="{{ education.name }}" ng-repeat="education in ctrl.eduType  track by $index">
+                                {{ education.name }}
+                            </option>
+                        </select>
+                        <select class="newEmpName selectField" name="" ng-if=" new.type=='eduSelectType'"
+                                ng-model="ctrl.newEdu.form_of_training">
+                            <option value="" selected>виберіть форму навчання</option>
+                            <option value="денна">Денна</option>
+                            <option value="заочна">Заочна</option>
+                            <option value="екстернат">Екстернат</option>
+                        </select>
+
+                        <select class="newEmpName selectField" name="" ng-if="new.type=='familySelect'"
+                                ng-model="ctrl.newRel.type_">
+                            <option value="" selected disabled>Виберіть родинний зв'язок</option>
+
+                            <option value="Чоловік">Чоловік</option>
+                            <option value="Дружина">Дружина</option>
+                            <option value="Дитина">Дитина</option>
+                        </select>
+                        <select class="newEmpName selectField" ng-if="new.type==='permission'&&new.value==='phonebook'"
+                                ng-model="ctrl.newUser[new.value]">
+                            <option value="" selected disabled>Виберіть дію</option>
+                            <option value="1">Додати до телефонної книги</option>
+                            <option value="0"> Не додавати до телефонної книги</option>
+                        </select>
+                        <select class="newEmpName selectField" ng-if="new.type==='permission'&&new.value==='wifi'"
+                                ng-model="ctrl.newUser[new.value]">
+                            <option value="" selected disabled>Виберіть дію</option>
+                            <option value="1">Надати доступи (wifi, email, RDP)</option>
+                            <option value="0">Не надавати доступ</option>
+                        </select>
+
+                        <div class="dropdown  col-xs-12 col-lg-12 newEmpName no-padding"
+                             ng-init="ctrl.getListManagers();"
+                             style="position: relative;height: 40px;" ng-if="new.type=='dropdownManager'">
+                            <button class=" col-xs-12 dropdown-toggle  text-left"
+                                    type="button"
+                                    data-toggle="dropdown"
+                                    style="width: 100%;height: 40px; border-radius: 0; background: none;"
+                                    ng-click="perSearch='';ctrl.showManager=''">
+                                <span
+                                        ng-bind="ctrl.showManager?ctrl.showManager:'Лінійний керівник'"
+                                ></span>
+                                <span>{{ showManager }}</span>
+
+                            </button>
+
+                            <ul class="dropdown-menu col-xs-12 customScroll"
+                                style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+                                <li class="dropdown-menu_search-input" style="position: sticky; top: 0;">
+                                    <input type="text"
+                                           style="width: 100%;"
+                                           autofocus placeholder="Введіть ім'я чи прізвище"
+                                           ng-model="perSearch"></li>
+                                <li class="polls_statistics_filters_li"
+
+                                    ng-click="ctrl.newUser.manager=person.id; ctrl.showManager=person.surname+' '+person.name"
+                                    ng-repeat="person in ctrl.listManagers | filter: perSearch"
+
+                                >
+                                    <span class="invisible"></span>
+                                    <span>{{ person.surname }} {{ person.name }}</span>
+                                </li>
+
+                            </ul>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <br>
+                <span ng-show="ctrl.page==1">
+                   <label ng-click="ctrl.addPhoto()">
+                <span class="save curr_empl_button" id="">Обрати фото профілю</span>
+
+                       <!--<input-->
+
+                       <!--id="fileNameNew"-->
+                       <!--ng-class="{'':!data.fileName}"-->
+                       <!--style="display: none"-->
+                       <!--tabindex="2"-->
+                       <!--accept="application/pdf, .jpg, .jpeg, .png"-->
+                       <!--name="file"-->
+                       <!--type="file"-->
+                       <!--fileinput="file"-->
+                       <!--filepreview="data.file"-->
+                       <!--placeholder="Оберіть файл"/>-->
+                       <!--</label>-->
+
+
+                       <!--<label>-->
+
+                       <!--&lt;!&ndash; <form-->
+                       <!--class="no-padding"-->
+                       <!--novalidate-->
+                       <!--enctype=multipart/form-data-->
+                       <!--method="post"-->
+                       <!--action='/files'-->
+                       <!--id="documentsForm"-->
+                       <!--name="form">-->
+
+
+                       <!--<input type="text" class="hidden" ng-model="data.type" ng-value="'photo'">-->
+                       <!--<input type="text" class="hidden" ng-model="data.name" ng-value="'фотографія'">-->
+                       <!--<input type="text" class="hidden" ng-model="data.doctype" ng-value="'photo'">-->
+                       <!--<input type="text" class="hidden" ng-model="data.doctype" ng-value="'photo'">-->
+                       <!--<input style="display: none;" type="text" name="id" ng-value="ctrl.newIndividualid">-->
+                       <!--<input style="display: none;" type="text" name="part" value="3">-->
+                       <!--<input type="file"-->
+                       <!--id="fileInput2" ng-model="ctrl.photo"-->
+                       <!--onload="ctrl.photoLoaded=true; ctrl.checkImg(ctrl.photo);"-->
+                       <!--ng-change="ctrl.checkFileSize('fileInput2',this) "-->
+
+                       <!--tabindex="2"-->
+                       <!--accept="application/pdf, .jpg, .jpeg, .png"-->
+                       <!--name="file"-->
+                       <!--fileinput="file"-->
+                       <!--filepreview="data.file"-->
+                       <!--placeholder="Оберіть файл"-->
+
+
+                       <!--&gt;-->
+                       <!--<input type="button" value="Load"-->
+                       <!--ng-click="ctrl.checkFileSize('fileInput2',this);ctrl.checkImg(ctrl.photo)">-->
+                       <!--</form>-->
+                       <!--&lt;!&ndash;placeholder="Оберіть файл"&ndash;&gt;-->
+                       <!---->
+                       <!---->
+                       <!---->
+                       <!---->
+                       <!---->
+                       <!---->
+                       <!--<form-->
+                       <!--class="no-padding"-->
+                       <!--novalidate-->
+                       <!--enctype=multipart/form-data-->
+                       <!--method="post"-->
+                       <!--action='/photo'-->
+                       <!--id="documentsForm"-->
+                       <!--name="form">-->
+
+                       <!--<label class=" newUserLable no-padding">-->
+                       <!--<select name="type" style="display: none" id="" ng-model="data.doctype" ng-init="data.doctype='photo'"-->
+                       <!--class="newEmpName">-->
+                       <!--<option value="" selected disabled>Вкажіть тип документу</option>-->
+                       <!--<option value="passport">паспорт</option>-->
+                       <!--<option value="photo">фото</option>-->
+                       <!--&lt;!&ndash;<option value="photo">фото</option>&ndash;&gt;-->
+                       <!--<option value="ipn">ІПН</option>-->
+                       <!--<option value="education">документи про освіту</option>-->
+                       <!--<option value="license">посвідчення водія</option>-->
+                       <!--<option value="other">інше</option>-->
+
+
+                       <!--</select>-->
+                       <!--</label>-->
+
+
+                       <!--<input style="display: none;" type="number" name="id" id="formIdInput" value="{{ ctrl.newIndividualid }}">-->
+
+                       <!---->
+
+
+                       <!--</form>-->
+
+
+                       <!--</label>-->
+
+
+                   </label>
+                </span>
+                <div class="progress progressBar">
+                    <div class="progress-bar progres_color" role="progressbar" aria-valuenow="3" aria-valuemin="0"
+                         aria-valuemax="5" style="width:{{ ctrl.progres }}">
+
+                    </div>
+                </div>
+                <h5 class="progresCount">{{ ctrl.page }}/{{ ctrl.pages }}</h5>
+                <div class="buttonsPanel ">
+
+                    <input type="button" class=" button_new_user newUserBack" value="назад"
+                           ng-click="ctrl.ChangePart(-1)" ng-if="ctrl.page>1">
+                    <input type="button" class=" button_new_user newUserBack invisible" value=" "
+                           ng-if="ctrl.page==1"><!--invisible-->
+                    <input type="button" class="button_new_user" form="newEmpForm" ng-disabled="stopSave" ng-if="1"
+                           ng-click="ctrl.submit();ctrl.spinner"
+                           value="зберегти">
+
+
+                    <input type="button" class=" button_new_user newUserBack newUserForvard" value="далі"
+                           ng-click="ctrl.checkIpn(ctrl.newUser.ipn);" ng-if="ctrl.page<ctrl.pages&&ctrl.page===2">
+
+                    <input type="button" class=" button_new_user newUserBack newUserForvard" value="далі"
+                           ng-click="ctrl.ChangePart(1)" ng-if="ctrl.page<ctrl.pages&&ctrl.page!==2">
+
+                </div>
+                <div class="col-xs-5 invisible">
+                    xxxx<br>x<br>x<br>x xxxx<br>x<br>x<br>x xxxx<br>x<br>x<br>x
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="no-padding page-wrapper smooth_width col-xs-2 manual" style="margin: 0;">
+        <h3 ng-click="showManual=!showManual">Інструкція</h3><br>
+        <ul style="list-style-type: none" ng-if="!showManual">
+            <li>Поля позначені <span style="color: red;">*</span> є обов'язковими для заповнення</li>
+            <li>для додавання дати використовуйте формат ДД ММ РРРР де ДД-число, ММ - номер місяця, РРРР-рік</li>
+            <li ng-if="ctrl.page==2"><strong>ІПН повинен містити 10 цифр без пробілів</strong></li>
+            <li ng-if="ctrl.page==2"><strong>Серію паспорта записуйте без пробілу та великими буквами<i>
+                (АА)</i></strong>
+            </li>
+            <li ng-if="ctrl.page==2"><strong>Номер паспорта або ІД карти записуйте без пробілів<i>
+                (123456789)</i></strong>
+            </li>
+            <li ng-if="ctrl.page==2"><strong>Телефонний номер записуйте у повному форматі
+                <i> (+380991234567)</i></strong>
+            </li>
+
+            <li ng-if="ctrl.page==4"><strong>Для вибору посади спочатку виберіть філіал, місто, підрозділ </strong></li>
+            <li ng-if="ctrl.page==4"><strong>Для надання дозволів для доступу до корпоративних ресурсів, або його
+                заборони, виберіть відповідні пункти </strong></li>
+
+            <li ng-if="ctrl.page==5"><strong>Для додавання ще однієї освіти натисніть кнопку "додати освіту" та
+                заповніть необхідні поля</strong></li>
+            <li ng-if="ctrl.page==6"><strong>Для додавання ще одного досвіду роботи, натисніть кнопку "додати роботу" та
+                заповніть необхідні поля</strong></li>
+            <li ng-if="ctrl.page==7"><strong>Для додавання ще одного члена сім'ї, натисніть кнопку "додати члена родини"
+                та заповніть необхідні поля</strong></li>
+            <li ng-if="ctrl.page==7"><strong> Для дитини поля "місце роботи/навчання" та "посада" є
+                необов'язковими</strong></li>
+            <li><strong> У разі назаповнення поля чи полів які є обов'язковими для заповнення, Вас
+                буде перенаправлено на перший розділ з незаповненим полем </strong></li>
+        </ul>
+        <canvas id="canvasNew" width="768" height="768" hidden></canvas>
+
+        <span ></span>
+        <span></span>
+
+    </div>
+    <div ng-if="displayNotes()" class="col-md-4 col-xs-offset-1 no-padding"
+         ng-class="{'width_0': !displayNotes()}">
+        <notes-component>
+        </notes-component>
+    </div>
+
+</div>

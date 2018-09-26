@@ -1,0 +1,29 @@
+<span class="modal_title">Створити нотатку</span>
+
+<div class="new-note-modal_content" ng-init="init()">
+    <input type="text" class="newEmpInputField" ng-model="newNote.name" placeholder="Назва нотатки">
+
+    <select class="newEmpInputField customScroll" ng-model="newNote.type_" ng-change="chooseType(newNote.type_)">
+        <option value="" disabled>виберіть тип нотатки</option>
+        <option ng-repeat="type in notesType" ng-value="type.value">{{type.title}}</option>
+    </select>
+
+
+
+    <select class="newEmpInputField customScroll" ng-model="newNote.id_person" ng-if="peopleForNotes.length>=0">
+        <option value="" disabled ng-if="newNote.type_=='active'">виберіть працівника</option>
+        <option value="" disabled ng-if="newNote.type_=='dismissed'">виберіть звільненого працівника</option>
+        <option value="" disabled ng-if="newNote.type_=='candidate'">виберіть кандидата</option>
+        <option ng-repeat="person in peopleForNotes" ng-value="person.id">{{person.surname}} {{person.name}}</option>
+    </select>
+    <textarea class="newEmpTextarea" name="" id="" cols="30" rows="5" ng-model="newNote.text" onkeydown="this.style.height=this.scrollHeight+'px'"></textarea>
+</div>
+<div class="material-modal_button_container_flex">
+    <button class="button curr_empl_button curr_empl_button_notes-modal text-center"
+            ng-click="addNewNote(newNote); closeThisDialog(0)"
+            ng-class="{'disabled':!newNote.type_||newNote.text.length<1||(newNote.type_!='else'&&!newNote.id_person)}"
+    >Створити
+    </button>
+
+    <!--<button class="button curr_empl_button_notes-modal" ng-click="closeThisDialog(0)">Відміна</button>-->
+</div>

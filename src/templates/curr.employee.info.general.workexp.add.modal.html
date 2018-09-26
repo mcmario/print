@@ -1,0 +1,50 @@
+<div class="doc_preview_modal" style="width: auto;">
+    <span class="title-text">Додати досвід роботи</span>
+
+    <div class=" col-xs-12 animate-if modal-main">
+
+
+        <label class="newUserLable">Назва організації
+        </label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newWorkExpInfo.workplace">
+
+        <label class="newUserLable">Посада <span style="color: red;"
+                                                 title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newWorkExpInfo.position">
+
+        <label class="newUserLable">Період роботи <span style="color: red;"
+                                                        title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newWorkExpInfo.years">
+
+
+        <label class="newUserLable">Заробітна плата <span style="color: red;"
+                                                          title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newWorkExpInfo.salary">
+
+
+        <label class="newUserLable">причина звільнення<span style="color: red;"
+                                                            title="обов'язкове поле">*</span></label>
+        <input type="text" class="newEmpName"
+               ng-model="ctrl.newWorkExpInfo.dismissal_reason">
+
+        <label class="newUserLable">Обов'язки<span style="color: red;"
+                                                   title="обов'язкове поле">*</span></label>
+        <textarea type="text" class=" resizableTextArea"
+                  ng-model="ctrl.newWorkExpInfo.duties">
+            </textarea>
+        <div class="button_panel">
+            <br>
+            <button class="info_body_button_panel_vacations_save col-xs-6"
+                    ng-click="saveNewWorkExpModal(ctrl.newWorkExpInfo);closeThisDialog(0)"
+            >
+                Зберегти
+
+            </button>
+        </div>
+    </div>
+
+</div>

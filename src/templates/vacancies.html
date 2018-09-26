@@ -1,0 +1,34 @@
+<header-component></header-component>
+<sidebar></sidebar>
+
+<div class="content no-padding" style="overflow:hidden;"
+     ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}">
+  <!--<component-control-menu-list-->
+      <!--person="personName"-->
+      <!--city="cityName"-->
+      <!--department="departmentName"-->
+      <!--people="peopleList"-->
+      <!--displayNotes="displayNotes()">-->
+  <!--</component-control-menu-list>-->
+  <!--<div class="no-padding" ng-class="{'col-md-9': displayNotes(), 'col-md-12': !displayNotes()}">-->
+  <div class="no-padding smooth_width"
+       ng-class="{'col-md-8': displayNotes(), 'col-md-12': !displayNotes()}">
+    <!--<div class="container-fluid page page_boxed">-->
+      <!--<component-list-people-->
+          <!--person="personName"-->
+          <!--city="cityName"-->
+          <!--department="departmentName"-->
+          <!--people="peopleList">-->
+      <!--</component-list-people>-->
+    <component-list-vacancies
+            vacancy="vacancyName"
+            vacancies="vacanciesList">
+    </component-list-vacancies>
+    <!--</div>-->
+  </div>
+  <div ng-if="displayNotes()" class="col-md-4 no-padding"
+       ng-class="{'width_0': !displayNotes()}">
+    <notes-component>
+    </notes-component>
+  </div>
+</div>

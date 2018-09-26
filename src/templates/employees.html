@@ -1,0 +1,51 @@
+<!--<header-component>-->
+
+
+<!--</header-component>-->
+
+
+
+
+
+
+<sidebar></sidebar>
+<!--{{spinner}}2-->
+<div class="content no-padding" style="overflow:hidden;"
+     ng-class="{'smaller': sidebarVisible(), 'translate': displayNotes()}">
+   <!--<div class="spinner" ng-init="ctrl.spinner=true" style="width: 100vw; height: 100vh; left: 0;" ng-if="1">-->
+<!--<div class="bounce1"></div>-->
+<!--<div class="bounce2"></div>-->
+<!--<div class="bounce3"></div>-->
+<!--</div>-->
+
+
+
+<component-control-menu-list
+        class="no-padding"
+        person="personName"
+        city="cityName"
+        department="departmentName"
+        people="peopleList"
+        >
+</component-control-menu-list>
+
+
+    <div class="smooth_width col-xs-12 customScroll no-padding"
+         ng-class="{'col-lg-8': displayNotes(), 'col-lg-12': !displayNotes()}">
+        <!--<div class="spinner_container " >-->
+
+        <component-list-people
+                class="col-xs-12 no-padding customScroll"
+                person="personName"
+                city="cityName"
+                department="departmentName"
+                people="peopleList">
+        </component-list-people>
+        <!--</div>-->
+    </div>
+    <div ng-if="displayNotes()" class="col-lg-4 no-padding"
+         ng-class="{'width_0': !displayNotes()}">
+        <notes-component employeesType="ctrl.employeesType">
+        </notes-component>
+    </div>
+</div>

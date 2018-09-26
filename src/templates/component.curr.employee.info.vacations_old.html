@@ -1,0 +1,960 @@
+<div class="info_container">
+    <div class="spinner_container" ng-if="$ctrl.spinner==true">
+        <div class="spinner spinner_components">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <!-- vacation header-->
+    <div class="col-xs-12 info_header no-padding">
+        <div class="info_person col-xs-5">
+
+            <h3 class="curr_empl_name ">
+                {{$ctrl.data[0].surname_ua}} {{$ctrl.data[0].name_ua}} {{$ctrl.data[0].middle_name_ua}}
+            </h3>
+            <span class="info_header_title" ng-init="ctrl.showRejected=false">Відпустки</span>
+
+
+        </div>
+        <div class="vacations_header_right col-xs-8 no-padding">
+            <div class="info_person col-xs-12 info_body_button_panel_vacations vacations_header_exp">
+                <div class="">
+                <span>
+                    Стаж у компанії  з ({{vacations.start_work | date:'dd.MM.yyyy'}})
+                </span>
+                    <span class="vacations_header_exp_time"
+                          ng-if="vacations.exp.years!=0">
+                    {{vacations.exp.years}},
+                </span>
+                    <span class="vacations_header_exp_time"
+                          ng-if="vacations.exp.monthes!=0">
+                    {{vacations.exp.monthes}}</span>
+                </div>
+                <br>
+
+            </div>
+            <div class="col-xs-12 info_body_button_panel info_body_button_panel_vacations ">
+                <div class="dropdown  col-xs-5 col-lg-5 no-padding" ng-init="$ctrl.getListPeople()"
+                     style="position: relative;height: 40px;">
+                    <button class=" polls_statistics_filters dropdown-toggle rounded-buttons-header" type="button"
+                            data-toggle="dropdown"
+                            style="width: 100%;height: 40px; border-radius: 0"
+                            ng-click="perSearch=''">
+                        <span>Інший працівник</span>
+
+                    </button>
+                    <!--<div  class="dropdown-menu dropdown-menu_search-input" style="min-width:350px;position: sticky; top: 1px;width: 100%;">-->
+
+
+                    <!--</div>-->
+                    <!--<ul class="dropdown-menu col-xs-12 customScroll">-->
+                    <!---->
+                    <!--</ul>-->
+                    <ul class="dropdown-menu col-xs-12 customScroll"
+                        style="min-width:350px; max-height: 300px;overflow: auto; margin-right: 10px; position: absolute;">
+                        <li class="dropdown-menu_search-input" style="position: sticky; top: 0;">
+                            <input type="text"
+                                   style="width: 100%;"
+                                   autofocus placeholder="Введіть ім'я чи прізвище"
+                                   ng-model="perSearch"></li>
+                        <li class="polls_statistics_filters_li"
+
+                            ng-click="$ctrl.changeWorker(person.id)"
+                            ng-repeat="person in $ctrl.listPeople | filter: perSearch"
+
+                        >
+                            <span class="invisible"></span>
+                            <span>{{person.surname}} {{person.name}}</span>
+                        </li>
+
+                    </ul>
+                </div>
+                <button ng-click="$ctrl.editCount=true; $ctrl.addVacationBut();$ctrl.addNewVac=false;$ctrl.editPeriodCount=false "
+                        ng-class="{'disabled':$ctrl.editCount==true}"
+                        class="info_button_add info_body_button_panel_vacations_edit no-padding"
+                        style="height: 40px;background-image: none">
+                    Додати період
+                </button>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- /vacation header-->
+
+
+    <!-- show hide panel-->
+    <div class="col-xs-12 vacation_showhide_panel"
+         ng-if="vacations.count.length>1&&vacations.count.length!=$ctrl.periodAvailable.years.length">
+
+        <button class="vacations_showhide_panel_button" ng-click="$ctrl.hideZeroPeriod=false"
+                ng-if="$ctrl.hideZeroPeriod==true&&vacations.count.length>1">
+            <i class="button_img"></i>
+            приховати
+        </button>
+        <button class="vacations_showhide_panel_button vacations_showhide_panel_button_rotate"
+
+                ng-click="$ctrl.hideZeroPeriod=true" ng-if="$ctrl.hideZeroPeriod!=true&&vacations.count.length>1">
+            <i
+                    class="button_img button_img_rotate"></i>
+            показати
+        </button>
+        <span ng-if="$ctrl.hideZeroPeriod!=true&&$ctrl.periodAvailable.zeroPeriods.length>=1" class="text-danger">є приховані періоди з залишком 0 днів</span>
+    </div>
+    <!-- /show hide panel-->
+
+
+    <!-- table with vacation rests-->
+    <table class="table table-bordered  table-responsive animate-if vacations-table" ng-if="vacations.count.length>0">
+        <tr>
+            <th class="vacations_table_titles align-middle"><span>Період</span><br>
+            </th>
+            <td class="vacations_table_head animate-hide" ng-repeat="period in vacations.count track by $index "
+                ng-hide="period.balance<=0 && $ctrl.hideZeroPeriod!=true &&vacations.count.length>1&&period.year!=$ctrl.curYear">
+                {{period.year}}
+                <div class="vacations_table_head_buttons">
+                    <button class="vacation_periods_button vacation_periods_button_edit note_button_edit"
+                            ng-click="$ctrl.editCount=true;$ctrl.editPeriodCount=true;$ctrl.editPeriod(period);"
+                            title="редагувати період">
+
+                    </button>
+                    <button class="vacation_periods_button vacation_periods_button_delete note_button_cancel"
+                            ng-click="$ctrl.confirmModal(period.id,'period')" title="видалити період"
+
+                            ng-class="{'disabled':period.used>0||period.year==$ctrl.curYear}">
+
+
+                    </button>
+                </div>
+            </td>
+            <th class=" vacations_table_titles text-center">Разом</th>
+        </tr>
+        <tr>
+            <th class="vacations_table_titles">Нараховано</th>
+            <td class="animate-hide vacations_table_head" ng-repeat="period in vacations.count track by $index "
+                ng-hide="period.balance<=0 && $ctrl.hideZeroPeriod!=true&&vacations.count.length>1&&period.period!=$ctrl.curYear">
+                {{period.count}}
+            </td>
+            <td class="vacations_table_content">{{vacations.total.count}}</td>
+
+        </tr>
+        <tr>
+            <th class="vacations_table_titles">Використано</th>
+            <td class="animate-hide vacations_table_head" ng-repeat="period in vacations.count track by $index "
+                ng-hide="period.balance<=0 && $ctrl.hideZeroPeriod!=true&&vacations.count.length>1&&period.period!=$ctrl.curYear">
+                {{period.used}}
+            </td>
+            <td class="vacations_table_content">{{vacations.total.used}}</td>
+        </tr>
+        <tr>
+            <th class="vacations_table_titles">Залишок</th>
+            <td class="animate-hide vacations_table_head" ng-repeat="period in vacations.count track by $index "
+                ng-hide="period.balance<=0 && $ctrl.hideZeroPeriod!=true&&vacations.count.length>1&&period.year!=$ctrl.curYear">
+                {{period.balance}}
+            </td>
+            <td class="vacations_table_content">{{vacations.total.balance}}</td>
+
+        </tr>
+
+    </table>
+    <!-- /table with vacation rests-->
+    <div class="col-xs-6"></div>
+    <div class="col-xs-6 info_body_button_panel info_body_button_panel_vacations float-right">
+        <button ng-click="$ctrl.editCount=true; $ctrl.addVacationBut();$ctrl.addNewVac=false;$ctrl.editPeriodCount=false "
+                ng-class="{'disabled':$ctrl.editCount==true||$ctrl.addNewVac==true}"
+                class="info_button_add info_body_button_panel_vacations_edit no-padding invisible"
+                style="height: 40px;background-image: none">
+            Додати період
+        </button>
+        <button ng-click="$ctrl.addNewVac=true; $ctrl.addVacationBut();$ctrl.editCount=false;$ctrl.setTemplPeriods();$ctrl.photoLoaded=false"
+                class="col-xs-2 info_button_add col-xs-3 no-padding"
+                ng-if="vacations.count.length>0 "
+                style="margin: 0"
+                ng-class="{'disabled':$ctrl.editCount==true||$ctrl.addNewVac==true}">
+            Додати відпустку
+        </button>
+
+
+    </div>
+
+
+    <!--edit periods-->
+    <div class="col-xs-12 no-padding animate-if container-fluid vacations_period_add" ng-if="$ctrl.editCount">
+
+        <span class="col-xs-3 text-center">Кількість днів </span>
+        <span class="col-xs-3 text-center">Використано  днів</span>
+        <span class="col-xs-2 text-center">Період {{}}</span>
+        <span class="col-xs-4 text-center">Операції </span>
+
+
+        <div class="col-xs-3">
+            <!--<input type="number" class=" info_person_input_number  col-xs-8 col-xs-offset-2 vacations_number"-->
+            <!--placeholder="К-сть днів"-->
+            <!--ng-model="$ctrl.newPeriod.count"-->
+            <!--ng-class="{'text-danger ':  $ctrl.newPeriod.count < 0}">-->
+            <select
+
+                    ng-model="$ctrl.newPeriod.count"
+                    class="vacations_vacation_list_select text-center"
+                    ng-change="$ctrl.newPeriod.count<$ctrl.newPeriod.used?$ctrl.newPeriod.used=$ctrl.newPeriod.count:true;$ctrl.logData($ctrl.newPeriod.count)">
+                <option ng-value="$index" class="vacations_vacation_list_select" ng-hide="$index==0"
+                        ng-repeat="n in [].constructor(31) track by $index ">
+                    {{$index}}
+                </option>
+
+            </select>
+
+        </div>
+        <div class="col-xs-3">
+
+
+            <select
+
+                    ng-model="$ctrl.newPeriod.used"
+                    class="vacations_vacation_list_select text-center">
+                <option ng-value="$index" class="vacations_vacation_list_select"
+                        ng-repeat="n in [].constructor($ctrl.newPeriod.count) track by $index ">
+                    {{$index}}
+                </option>
+                <option ng-value="$ctrl.newPeriod.count"
+                        ng-if="$ctrl.newPeriod.count>=1"><span style="margin: 0 auto;">{{$ctrl.newPeriod.count}}</span>
+                </option>
+            </select>
+
+        </div>
+        <div class="col-xs-2">
+            <select
+                    ng-disable="$ctrl.editPeriodCount!=true"
+                    ng-model="$ctrl.newPeriod.year"
+                    class="vacations_vacation_list_select text-center"
+            >
+                <option ng-value="$ctrl.curYear-$index" ng-repeat="n in [].constructor(10) track by $index "
+
+                        ng-class="{'disabled':$ctrl.periodAvailable.all.indexOf($ctrl.curYear-$index)>=0 }"
+                        ng-hide="$ctrl.periodAvailable.all.indexOf($ctrl.curYear-$index)>=0">
+                    {{$ctrl.curYear-$index}}
+                </option>
+                <option value="" disabled>
+                    ----------
+                </option>
+                <option ng-value="$ctrl.curYear+1">{{$ctrl.curYear+1}}</option>
+            </select>
+
+
+            <!--<input type="number" class=" info_person_input_number col-xs-8 col-xs-offset-2 vacations_number"-->
+            <!--placeholder="період"-->
+
+            <!--ng-class="{'text-danger ': $ctrl.newPeriod.period>1000&&-->
+            <!--($ctrl.periodAvailable.all.indexOf($ctrl.newPeriod.period)>=0-->
+            <!--|| $ctrl.newPeriod.period<=2000-->
+            <!--||$ctrl.newPeriod.period>2222-->
+            <!--||$ctrl.newPeriod.period>=$ctrl.curYear )}"-->
+            <!--ng-if="$ctrl.editCount==true&&$ctrl.editPeriodCount!=true">-->
+            <span class="text-center col-xs-12"
+                  ng-if="$ctrl.editPeriodCount==true">
+                {{$ctrl.newPeriod.period}}
+            </span>
+        </div>
+
+        <!--button panel-->
+        <div class="col-xs-4 vacations_period_add_buttons_panel">
+            <button ng-click=" $ctrl.changeCount($ctrl.newPeriod);$ctrl.editPeriodCount=false  "
+                    class=" info_button_add info_body_button_panel_vacations_save  no-padding vacations_period_add_buttons"
+                    style="height: 40px"
+                    ng-if="$ctrl.editCount==true&&!$ctrl.editExisPeriod"
+                    ng-class="{'disabled ':
+                    $ctrl.periodAvailable.all.indexOf($ctrl.newPeriod.year)>=0
+                    ||$ctrl.newPeriod.count<$ctrl.newPeriod.used
+                    ||$ctrl.newPeriod.used<0
+                    ||$ctrl.newPeriod.count<=0
+                    ||!$ctrl.newPeriod.year
+                    ||!$ctrl.newPeriod.count
+                    ||$ctrl.newPeriod.year<2000
+                    ||$ctrl.newPeriod.year>2222
+
+                    }"
+            >
+                зберегти
+            </button>
+
+            <button ng-click=" $ctrl.saveEditedPeriod();$ctrl.editPeriodCount=false "
+                    class=" info_button_add info_body_button_panel_vacations_save  no-padding vacations_period_add_buttons"
+                    style="height: 40px"
+                    ng-if="$ctrl.editCount==true&&$ctrl.editExisPeriod"
+            >
+                зберегти
+            </button>
+            <button ng-click="$ctrl.editCount=false;$ctrl.editPeriodCount=false; $ctrl.cancelEdition();"
+                    class=" info_button_add info_body_button_panel_vacations_cancel no-padding vacations_period_add_buttons"
+                    style="height: 40px"
+                    ng-if="$ctrl.editCount==true"
+            >
+                скасувати зміни
+            </button>
+            <!--</div>-->
+            <!--/button panel-->
+        </div>
+    </div>
+  <!--add new vacation-->
+    <div class="col-xs-12 no-padding info_body  " ng-if="$ctrl.addNewVac==true"
+         style="margin-bottom: 10px;">
+
+        <span class="col-xs-2 vacations_vacation_list_titles">
+            Дата початку:
+        </span>
+        <span class="col-xs-1 vacations_vacation_list_titles">
+            Кількість днів:
+        </span>
+        <span class="col-xs-2 vacations_vacation_list_titles">
+            Дата закінчення:
+        </span>
+        <span class="col-xs-2 vacations_vacation_list_titles">
+            Період:
+        </span>
+        <span class="col-xs-1 vacations_vacation_list_titles">
+            Заява
+        </span>
+        <span class="col-xs-4 vacations_vacation_list_titles">
+            Дії
+        </span>
+
+
+    </div>
+    <div class="col-xs-12  info_body info_body_row animate-if no-padding vacations_vacation_add"
+         ng-if="$ctrl.addNewVac==true">
+
+        <div class="col-xs-2  info_body_row_vacations_headers">
+            <input type="date" class=" info_body_row_vacations_headers dateInput"
+                   ng-model="$ctrl.newVacation.start_date"
+                   ng-change="setVacationDuration()">
+        </div>
+        <div class="col-xs-1 info_body_row_vacations_headers ">
+
+
+            <select name=""
+                    ng-class="{'text-danger ':  $ctrl.newVacation.count <= 0||$ctrl.newVacation.count>$ctrl.restDays}"
+                    ng-change="setVacationDuration()" ng-model="$ctrl.newVacation.count">
+
+                <option ng-value="$index+1" ng-repeat="n in $ctrl.newVacation.rest track by $index ">{{$index+1}}
+                </option>
+            </select>
+            <!--<input type="number"-->
+            <!--class="vacations_number"-->
+            <!---->
+            <!--value="1"-->
+            <!---->
+            <!--&gt;-->
+        </div>
+
+
+        <div class="col-xs-2  info_body_row_vacations_headers">
+            <input type="date" class="info_body_row_vacations_headers dateInput vacations_vacation_add_dayFinish "
+                   style="border: 0px;"
+                   ng-model="$ctrl.newVacation.end_date"
+                   ng-class="{'text-danger ':  $ctrl.newVacation.count <= 0}"
+                   ng-change="$ctrl.checkConflictDates()">
+
+        </div>
+
+        <div class="col-xs-2  info_body_row_vacations_headers no-padding">
+            <select name="" id="" ng-model="$ctrl.newVacation.year"
+                    class="vacations_vacation_list_select"
+                    ng-change="$ctrl.getAvailableRestDays($ctrl.newVacation.year)"
+                    ng-class="{'text-danger ':  $ctrl.periodAvailable.years.indexOf($ctrl.newVacation.year)>0 }">
+
+                <option ng-value="year" ng-repeat="year in $ctrl.periodAvailable.years track by $index"
+                        ng-class="{'text-danger ':  $ctrl.periodAvailable.years.indexOf(year)>0 }">
+                    {{year}}
+                </option>
+            </select>
+
+        </div>
+        <div class="col-xs-1  no-padding">
+            <label class="col-xs-12 vacations_vacation_add_file_label ">
+
+                <span class="col-xs-12 vacations_vacation_add_file_label_span"
+                      style="padding: 6px" title="додати заяву"
+                      ng-class="{'vacations_vacation_add_file_label_span_success':$ctrl.photoLoaded}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="15033 8627 65 71" height="100%">
+                      <g id="surface1" transform="translate(15018 8618)">
+                          <path id="Path_235" fill="black" data-name="Path 235"
+                                d="M15,9V71H49.637A15.987,15.987,0,1,0,65,48.051V23.586L50.414,9Zm2,2H49V25H63V48.051A16,16,0,0,0,48,64a15.817,15.817,0,0,0,.813,5H17Zm34,1.414L61.586,23H51ZM64,50A14,14,0,1,1,50,64,13.987,13.987,0,0,1,64,50Zm-1,7v6H57v2h6v6h2V65h6V63H65V57Z"/>
+                      </g>
+                    </svg>
+                </span>
+
+
+                <input type="file" id="fileInput1" accept=".jpg,.jpeg,.png,.pdf" ng-model="$ctrl.photo"
+                       style="display: none;" onload="$ctrl.photoLoaded=true;"
+                       base-sixty-four-input ng-class="{'icon-new_document':$ctrl.photoLoaded}"
+                       ng-change="$ctrl.checkFileSize('fileInput1')">
+
+
+            </label>
+        </div>
+
+        <div class="col-xs-4 info_body_button_panel info_body_button_panel_vacations">
+
+            <button class="info_body_button_panel_vacations_save col-xs-6"
+                    ng-click="$ctrl.addNewVacation()"
+                    ng-class="{'disabled':$ctrl.newVacation.count<=0||$ctrl.newVacation.count>$ctrl.restDays||$ctrl.fileSize!=true||$ctrl.stopSave==true }"
+            >
+                Зберегти
+
+            </button>
+            <button class="info_body_button_panel_vacations_cancel col-xs-6"
+                    ng-click="$ctrl.addNewVac=false; $ctrl.newVacation={}"
+            >
+                Скасувати
+            </button>
+
+
+        </div>
+
+    </div>
+
+    <!--pending vacations-->
+    <div class="col-xs-12 no-padding info_body  " ng-if="vacations.pending.length>0"
+         style="margin-bottom: 10px;">
+        <span class="col-xs-12 text-center" ng-click='$ctrl.hidePending=!$ctrl.hidePending'>Заявки на відпустку без підтвердження</span>
+        <span class="col-xs-2 vacations_vacation_list_titles">
+            Дата початку:
+        </span>
+        <span class="col-xs-1 vacations_vacation_list_titles">
+            Кількість днів:
+        </span>
+        <span class="col-xs-2 vacations_vacation_list_titles">
+            Дата закінчення:
+        </span>
+        <span class="col-xs-1 vacations_vacation_list_titles">
+            Період:
+        </span>
+        <span class="col-xs-2 vacations_vacation_list_titles">
+            Коментарі:{{showComments}}
+        </span>
+        <span class="col-xs-4 vacations_vacation_list_titles">
+            Дії
+        </span>
+
+
+    </div>
+
+
+    <div ng-repeat="vacation in vacations.pending track by $index " class="col-xs-12 no-padding " ng-if="!$ctrl.hidePending">
+        <div class="col-xs-12 no-padding info_body vacations_vacation_list">
+
+
+            <div class="col-xs-12 no-padding " style="min-height: 45px;">
+
+                <div class="col-xs-2  info_body_row_vacations_headers no-padding">
+                    <input type="date" class=" info_body_row_vacations_headers dateInput"
+                           value="{{$ctrl.vacationToEdit.start_date}}"
+                           ng-if="$ctrl.editionP[$index]"
+                           ng-model="$ctrl.vacationToEdit.start_date"
+
+                    >
+                    <span class=" info_body_row_vacations_headers" ng-if="$ctrl.editionP[$index]!=true">{{vacation.start_date| date:'dd.MM.yyyy'}}</span>
+                </div>
+                <div class="col-xs-1 info_body_row_vacations_headers">
+
+                    <span class=" " ng-if="$ctrl.editionP[$index]!=true">
+                            {{vacation.count}}
+                    </span>
+
+
+                    <select class="vacations_number" ng-model="$ctrl.vacationToEdit.count"
+                            ng-if="$ctrl.editionP[$index]==true"
+                            ng-change="$ctrl.editVacationDuration()">
+                        <option ng-value="$index+1"
+                                ng-repeat="x in [].constructor($ctrl.vacationToEdit.availableDays) track by $index">
+                            {{$index+1}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-xs-2  info_body_row_vacations_headers ">
+                    <input type="date" class="info_body_row_vacations_headers dateInput"
+                           ng-if="$ctrl.editionP[$index]"
+                           value="{{$ctrl.vacationToEdit.end_date}}"
+                           ng-model="$ctrl.vacationToEdit.end_date"
+
+                    >
+                    <span class="info_body_row_vacations_headers" ng-if="$ctrl.editionP[$index]!=true">{{vacation.end_date| date:'dd.MM.yyyy'}}</span>
+
+                </div>
+
+
+                <div class="col-xs-1 info_body_row_vacations_headers">
+                    <span class=" info_body_row_vacations_headers"
+                          ng-if="$ctrl.editionP[$index]!=true">
+                            {{vacation.year}}
+                    </span>
+
+
+                    <select name=""
+                            ng-model="$ctrl.vacationToEdit.year"
+                            ng-if="$ctrl.editionP[$index]==true"
+                            ng-change="$ctrl.restForEditionPeriodChange($ctrl.vacationToEdit.year)"
+                            class="vacations_vacation_list_select"
+                            ng-class="{'text-danger ':  $ctrl.periodAvailable.years.indexOf($ctrl.newVacation.year)>0}">
+                        <option ng-value="year" ng-repeat="year in $ctrl.periodAvailable.all track by $index"
+                                ng-class="{'text-muted ':  $ctrl.periodAvailable.years.indexOf(year)<0 }">
+                            {{year}}
+                        </option>
+                    </select>
+
+
+                </div>
+
+
+                <div class="col-xs-2 info_body_button_panel info_body_button_panel_vacations text-center no-padding" align="center">
+                    <span ng-click="!vacation.comments?null:$ctrl.showCommentsP[$index]=!$ctrl.showCommentsP[$index]"
+                          class="text-center"
+                          style="width: 100%;"
+                          ng-bind="!vacation.comments?'Відсутній':!$ctrl.showCommentsP[$index]?'Показати':'Приховати'"></span>
+                    <span ng-if="$ctrl.showCommentsP[$index]"
+                          style="position: absolute;top: 30px; z-index: 99999;width: 200px;height: auto;"
+                          class="bg-info animate-if"
+
+                    >{{vacation.comments}}</span>
+
+                </div>
+
+                <div class="col-xs-4  info_body_button_panel info_body_button_panel_vacations no-margin "
+                     style="justify-content: space-between!important">
+                    <button class="info_body_button_panel_vacations_edit tripple_button col-xs-4"
+                            ng-click="$ctrl.addNewVac=false;$ctrl.editPendingVacations($index,vacation)"
+                            ng-if="!$ctrl.editionP[$index]"
+                            ng-class="{'disabled':vacation.editable===true}"
+                    >
+                        Редагувати
+                    </button>
+
+
+                    <button class="info_body_button_panel_vacations_save  col-xs-6"
+                            ng-click="$ctrl.updateVacation($index,'pending')"
+                            ng-if="$ctrl.editionP[$index]"
+                    >
+                        Зберегти
+                    </button>
+                    <button class="info_body_button_panel_vacations_save tripple_button col-xs-4"
+                            ng-click="$ctrl.confirmPendingVacation(vacation.id,'confirmation',vacation)"
+                            ng-if="!$ctrl.editionP[$index]"
+                    >
+                        Підтвердити
+                    </button>
+
+                    <button class="info_body_button_panel_vacations_delete tripple_button col-xs-4"
+                            ng-click="$ctrl.confirmModal(vacation.id,'pending')"
+                            ng-if="!$ctrl.editionP[$index]"
+                            ng-class="{'disabled':vacation.editable===true}"
+                    >
+                        Відхилити
+                    </button>
+
+
+                    <button class=" vacations_vacation_list_cancel col-xs-6"
+                            ng-click=" $ctrl.cancelEdition(vacation, $index);$ctrl.editionP[$index]=false"
+
+                            ng-if="$ctrl.editionP[$index]">
+
+
+                        Скасувати
+                    </button>
+
+                    <!--</button>-->
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!--confirmed vacations-->
+
+    <div class="col-xs-12 no-padding info_body info_body_row " ng-if="vacations.period.length>0||$ctrl.addNewVac==true"
+         style="margin-bottom: 10px;">
+        <span class="col-xs-12 text-center" ng-click='$ctrl.hideConfirmed=!$ctrl.hideConfirmed'>Підтверджені відпустки</span>
+
+        <span class="col-xs-2 vacations_vacation_list_titles">
+            Дата початку:
+        </span>
+        <span class="col-xs-1 vacations_vacation_list_titles">
+            кількість днів:
+        </span>
+        <span class="col-xs-2 vacations_vacation_list_titles">
+            Дата закінчення:
+        </span>
+        <span class="col-xs-1 vacations_vacation_list_titles">
+            Період:
+        </span>
+        <span class="col-xs-2 vacations_vacation_list_titles">
+            Заява:
+        </span>
+        <span class="col-xs-4 vacations_vacation_list_titles">
+            Операції
+        </span>
+
+
+    </div>
+    <div ng-repeat="vacation in vacations.period track by $index "
+         ng-if="vacation.status!='sent'" class="col-xs-12 no-padding">
+        <div class="col-xs-12 no-padding info_body vacations_vacation_list">
+
+
+            <div class="col-xs-12 no-padding info_body_row">
+
+                <div class="col-xs-2  info_body_row_vacations_headers no-padding">
+                    <input type="date" class=" info_body_row_vacations_headers dateInput"
+                           value="{{$ctrl.vacationToEdit.start_date}}"
+                           ng-if="$ctrl.edition[$index]"
+                           ng-model="$ctrl.vacationToEdit.start_date"
+
+                    >
+                    <span class=" info_body_row_vacations_headers" ng-if="$ctrl.edition[$index]!=true">{{vacation.start_date| date:'dd.MM.yyyy'}}</span>
+                </div>
+                <div class="col-xs-1 info_body_row_vacations_headers">
+
+                    <span class=" " ng-if="$ctrl.edition[$index]!=true">
+                            {{vacation.count}}
+                    </span>
+
+
+                    <select class="vacations_number" ng-model="$ctrl.vacationToEdit.count"
+                            ng-if="$ctrl.edition[$index]==true"
+                            ng-change="$ctrl.editVacationDuration()">
+                        <option ng-value="$index+1"
+                                ng-repeat="x in [].constructor($ctrl.vacationToEdit.availableDays) track by $index">
+                            {{$index+1}}
+                        </option>
+                    </select>
+
+
+                    <!--<input type="number"-->
+
+
+                    <!--&gt;-->
+
+                </div>
+
+                <div class="col-xs-2  info_body_row_vacations_headers ">
+                    <input type="date" class="info_body_row_vacations_headers dateInput"
+                           ng-if="$ctrl.edition[$index]"
+                           value="{{$ctrl.vacationToEdit.end_date}}"
+                           ng-model="$ctrl.vacationToEdit.end_date"
+
+                    >
+                    <span class="info_body_row_vacations_headers" ng-if="$ctrl.edition[$index]!=true">{{vacation.end_date| date:'dd.MM.yyyy'}}</span>
+
+                </div>
+
+
+                <div class="col-xs-1 info_body_row_vacations_headers">
+                    <span class=" info_body_row_vacations_headers"
+                          ng-if="$ctrl.edition[$index]!=true">
+                            {{vacation.year}}
+                    </span>
+
+
+                    <select name=""
+                            ng-model="$ctrl.vacationToEdit.year"
+                            ng-if="$ctrl.edition[$index]==true"
+                            ng-change="$ctrl.restForEditionPeriodChange($ctrl.vacationToEdit.year)"
+                            class="vacations_vacation_list_select"
+                            ng-class="{'text-danger ':  $ctrl.periodAvailable.years.indexOf($ctrl.newVacation.year)>0,'disabled':$ctrl.edition[$index]}">
+                        <option ng-value="year" ng-repeat="year in $ctrl.periodAvailable.all track by $index"
+                                ng-class="{'text-muted ':  $ctrl.periodAvailable.years.indexOf(year)<0 }">
+                            {{year}}
+                        </option>
+                    </select>
+
+
+                </div>
+
+
+                <div class="col-xs-1 col-xs-offset-1 info_body_row_vacations_headers">
+
+                    <button class="vacation_periods_button vacation_periods_button_showDoc vacations_vacation_list_buttons"
+                            ng-if="vacation.downloaded==true"
+                            style="width: 100%;"
+                            ng-click="$ctrl.showDocument(vacation)"
+                            title="Переглянути заяву">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="14958 8627 68.39 73.889">
+                            <defs>
+                                <style>
+                                    .cls-1, .cls-3 {
+                                        fill: none;
+                                    }
+
+                                    .cls-1 {
+                                        stroke: #000;
+                                    }
+
+                                    .cls-2 {
+                                        stroke: none;
+                                    }
+                                </style>
+                            </defs>
+                            <g id="surface2" transform="translate(14943 8618)">
+                                <path id="Path_235" data-name="Path 235" fill="black"
+                                      d="M15,9V71H49.637A15.987,15.987,0,1,0,65,48.051V23.586L50.414,9Zm2,2H49V25H63V48.051A16,16,0,0,0,48,64a15.817,15.817,0,0,0,.813,5H17Zm34,1.414L61.586,23H51ZM64,50A14,14,0,1,1,50,64,13.987,13.987,0,0,1,64,50Z"/>
+                                <g id="Rectangle_258" data-name="Rectangle 258" class="cls-1"
+                                   transform="translate(74.904 72.99) rotate(45)">
+                                    <rect class="cls-2" width="12" height="2"/>
+                                    <rect class="cls-3" x="0.5" y="0.5" width="11" height="1"/>
+                                </g>
+                            </g>
+                        </svg>
+
+
+                    </button>
+
+
+                    <label class="col-xs-12 vacations_vacation_add_file_label no-padding"
+                           ng-if="vacation.downloaded==false">
+                        <span class="col-xs-12 vacations_vacation_add_file_label_span" title="додати заяву"
+                              style="padding:6px;"
+                              ng-class="{'vacations_vacation_add_file_label_span_success':$ctrl.photo.base64.length>3&&$ctrl.edition[$index]}">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="15033 8627 65 71" width="100%">
+                                <g id="surface1" transform="translate(15018 8618)">
+                                    <path id="Path_235" fill="black" data-name="Path 235"
+                                          d="M15,9V71H49.637A15.987,15.987,0,1,0,65,48.051V23.586L50.414,9Zm2,2H49V25H63V48.051A16,16,0,0,0,48,64a15.817,15.817,0,0,0,.813,5H17Zm34,1.414L61.586,23H51ZM64,50A14,14,0,1,1,50,64,13.987,13.987,0,0,1,64,50Zm-1,7v6H57v2h6v6h2V65h6V63H65V57Z"/>
+                                </g>
+                            </svg>
+                        </span>
+
+
+                        <input type="file" id="fileInput2" accept=".jpg,.jpeg,.png,.pdf" ng-model="$ctrl.photo"
+                               style="display: none;"
+                               onload="$ctrl.addNewVac=false; $ctrl.vacationPhoto[$index]=true;  $ctrl.editVacations($index,vacation)"
+                               base-sixty-four-input ng-class="{'icon-new_document':$ctrl.photoLoaded}"
+                               ng-change="$ctrl.checkFileSize('fileInput2')">
+                    </label>
+
+                </div>
+
+
+                <div class="col-xs-4 info_body_button_panel info_body_button_panel_vacations">
+                    <button class="info_body_button_panel_vacations_edit col-xs-6"
+                            ng-click="$ctrl.addNewVac=false;$ctrl.editVacations($index,vacation)"
+                            ng-if="!$ctrl.edition[$index]"
+                            ng-class="{'disabled':vacation.editable===true}"
+                    >
+                        Редагувати
+                    </button>
+
+
+                    <button class="info_body_button_panel_vacations_save tripple_button col-xs-4"
+                            ng-click="$ctrl.updateVacation($index)"
+                            ng-if="$ctrl.edition[$index]"
+                    >
+                        Зберегти
+                    </button>
+
+
+                    <button class="info_body_button_panel_vacations_delete col-xs-6"
+                            ng-click="$ctrl.confirmModal(vacation.id,'vacation')"
+                            ng-if="!$ctrl.edition[$index]"
+                            ng-class="{'disabled':vacation.editable===true}"
+                    >
+                        Видалити
+                    </button>
+
+
+                    <label ng-if="$ctrl.edition[$index]" class=" col-xs-4 vacations_vacation_list_refresh tripple_button no-padding"
+                    >
+                        <span class="col-xs-12" ng-if="$ctrl.photoLoaded[$index]!=true" style="padding-left: 3px;">Оновити заяву</span>
+                        <span class="col-xs-12" ng-if="$ctrl.photoLoaded[$index]==true">Заяву оновлено</span>
+                        <input type="file" id="fileInput3" accept=".jpg,.jpeg,.png,.pdf" ng-model="$ctrl.photo"
+                               style="display: none;" onload="$ctrl.photoLoaded[$index]=true"
+                               ng-change="$ctrl.checkFileSize('fileInput3')"
+                               base-sixty-four-input ng-class="{'icon-new_document':$ctrl.photoLoaded}">
+
+
+                    </label>
+                    <button class=" vacations_vacation_list_cancel tripple_button col-xs-4"
+                            ng-click=" $ctrl.cancelEdition(vacation, $index);$ctrl.edition[$index]=false"
+
+                            ng-if="$ctrl.edition[$index]">
+
+
+                        Скасувати
+                    </button>
+
+                    <!--</button>-->
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!--rejected vacations-->
+    <span class="col-xs-12 text-center" ng-click="ctrl.showRejected=!ctrl.showRejected" ng-if="vacations.rejected.length>0" ng-bind="!ctrl.showRejected?'Показати відхилені заявки':'Приховати відхилені заявки'">   </span>
+    <div class="col-xs-12 no-padding info_body bg-danger animate-if" ng-if="vacations.rejected.length>0&&ctrl.showRejected"
+         style="margin-bottom: 10px;">
+
+
+
+            <span class="col-xs-2 vacations_vacation_list_titles">
+            Дата початку:
+        </span>
+            <span class="col-xs-1 vacations_vacation_list_titles">
+            Кількість днів:
+        </span>
+            <span class="col-xs-2 vacations_vacation_list_titles">
+            Дата закінчення:
+        </span>
+            <span class="col-xs-1 vacations_vacation_list_titles">
+            період:
+        </span>
+            <span class="col-xs-2 vacations_vacation_list_titles">
+            Коментарі:{{showComments}}
+        </span>
+            <span class="col-xs-4 vacations_vacation_list_titles">
+            Дії
+        </span>
+        </div>
+    <div ng-repeat="vacation in vacations.rejected track by $index " class="col-xs-12 no-padding animate-if"  ng-if="ctrl.showRejected">
+        <div class="col-xs-12 no-padding info_body vacations_vacation_list">
+
+
+            <div class="col-xs-12 no-padding " style="min-height: 45px;">
+
+                <div class="col-xs-2  info_body_row_vacations_headers no-padding">
+                    <input type="date" class=" info_body_row_vacations_headers dateInput"
+                           value="{{$ctrl.vacationToEdit.start_date}}"
+                           ng-if="$ctrl.editionR[$index]"
+                           ng-model="$ctrl.vacationToEdit.start_date"
+
+                    >
+                    <span class=" info_body_row_vacations_headers" ng-if="$ctrl.editionR[$index]!=true">{{vacation.start_date| date:'dd.MM.yyyy'}}</span>
+                </div>
+                <div class="col-xs-1 info_body_row_vacations_headers">
+
+                    <span class=" " ng-if="$ctrl.editionR[$index]!=true">
+                            {{vacation.count}}
+                    </span>
+
+
+                    <select class="vacations_number" ng-model="$ctrl.vacationToEdit.count"
+                            ng-if="$ctrl.editionR[$index]==true"
+                            ng-change="$ctrl.editVacationDuration()">
+                        <option ng-value="$index+1"
+                                ng-repeat="x in [].constructor($ctrl.vacationToEdit.availableDays) track by $index">
+                            {{$index+1}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-xs-2  info_body_row_vacations_headers ">
+                    <input type="date" class="info_body_row_vacations_headers dateInput"
+                           ng-if="$ctrl.editionR[$index]"
+                           value="{{$ctrl.vacationToEdit.end_date}}"
+                           ng-model="$ctrl.vacationToEdit.end_date"
+
+                    >
+                    <span class="info_body_row_vacations_headers" ng-if="$ctrl.editionR[$index]!=true">{{vacation.end_date| date:'dd.MM.yyyy'}}</span>
+
+                </div>
+
+
+                <div class="col-xs-1 info_body_row_vacations_headers">
+                    <span class=" info_body_row_vacations_headers"
+                          ng-if="$ctrl.editionR[$index]!=true">
+                            {{vacation.year}}
+                    </span>
+
+
+                    <select name=""
+                            ng-model="$ctrl.vacationToEdit.year"
+                            ng-if="$ctrl.editionR[$index]==true"
+                            ng-change="$ctrl.restForEditionPeriodChange($ctrl.vacationToEdit.year)"
+                            class="vacations_vacation_list_select"
+                            ng-class="{'text-danger ':  $ctrl.periodAvailable.years.indexOf($ctrl.newVacation.year)>0}">
+                        <option ng-value="year" ng-repeat="year in $ctrl.periodAvailable.all track by $index"
+                                ng-class="{'text-muted ':  $ctrl.periodAvailable.years.indexOf(year)<0 }">
+                            {{year}}
+                        </option>
+                    </select>
+
+
+                </div>
+
+
+                <div class="col-xs-2 info_body_button_panel info_body_button_panel_vacations" align="center">
+                    <span class="col-xs-12"
+                            ng-click="$ctrl.showCommentsR[$index]=!$ctrl.showCommentsR[$index]"
+                          ng-bind="!vacation.comments?'Відсутній': !$ctrl.showCommentsR[$index]?'Показати':'Приховати'"></span>
+                    <span ng-if="$ctrl.showCommentsR[$index]"
+                          style="position: absolute;top: 30px; z-index: 99999;width: 200px;height: auto;"
+                          class="bg-info animate-if"
+
+                    >{{vacation.comments}}</span>
+
+                </div>
+
+                <div class="col-xs-4  info_body_button_panel info_body_button_panel_vacations no-margin "
+                     style="justify-content: space-between!important">
+                    <button class="info_body_button_panel_vacations_edit col-xs-6"
+                            ng-click="$ctrl.addNewVac=false;$ctrl.editRejectVacations($index,vacation)"
+                            ng-if="!$ctrl.editionR[$index]"
+                            ng-class="{'disabled':vacation.editable===true}"
+                    >
+                        Редагувати
+                    </button>
+
+
+                    <button class="info_body_button_panel_vacations_save col-xs-6"
+                            ng-click="$ctrl.updateVacation($index,'pending')"
+                            ng-if="$ctrl.editionR[$index]"
+                    >
+                        Зберегти
+                    </button>
+                    <button class="info_body_button_panel_vacations_save col-xs-6"
+                            ng-click="$ctrl.confirmPendingVacation(vacation.id,'confirmation',vacation)"
+                            ng-if="!$ctrl.editionR[$index]"
+                    >
+                        Підтвердити
+                    </button>
+
+
+
+
+                    <button class=" vacations_vacation_list_cancel col-xs-6"
+                            ng-click=" $ctrl.cancelEdition(vacation, $index);$ctrl.editionR[$index]=false"
+
+                            ng-if="$ctrl.editionR[$index]">
+
+
+                        Скасувати
+                    </button>
+
+                    <!--</button>-->
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <br>
+    <br>
+</div>
+

@@ -1,0 +1,35 @@
+<div class="col-xs-12">
+  <h4>{{$ctrl.comparisonObject.title}}</h4>
+</div>
+<div class="col-xs-4">
+  <label>
+    <input type="radio"
+           ng-model="$ctrl.comparisonObject.value"
+           name="{{$ctrl.comparisonObject.title}}"
+           value="{{$ctrl.oneSVariant.value}}">
+    <span class='radio_circle'></span>
+    {{$ctrl.oneSVariant.value}}
+  </label>
+</div>
+
+<div class="col-xs-4">
+  <label>
+    <input type="radio"
+           ng-model="$ctrl.comparisonObject.value"
+           name="{{$ctrl.comparisonObject.title}}"
+           value="{{$ctrl.sqlVariant.value}}">
+    <span class='radio_circle'></span>
+    {{$ctrl.sqlVariant.value}}
+  </label>
+</div>
+
+<div class="col-xs-4">
+  <label>
+    <input type="radio"
+           ng-model="$ctrl.comparisonObject.value"
+           name="{{$ctrl.comparisonObject.title}}"
+           value="{{$ctrl.adVariant.value}}">
+    <span class='radio_circle'></span>
+    {{$ctrl.adVariant.value}}
+  </label>
+</div>
