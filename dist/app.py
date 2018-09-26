@@ -1,8 +1,9 @@
-from flask import Flask, render_template, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, redirect, url_for, flash, jsonify, request
 from werkzeug.contrib.fixers import ProxyFix
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from forms import LoginForm
-from alchemybase import db, User
+from alchemybase import db, User, Printing, Customer, Material, UserSchema
+
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -19,7 +20,6 @@ login_manager.login_message_category = "info"
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
 @app.route('/auth', methods=['GET', 'POST'])
 def login_view():
     form = LoginForm()
@@ -31,6 +31,45 @@ def login_view():
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
+@app.route('/user/list', methods=['GET'])
+@login_required
+def user_list():
+    record = db.session.query(User).all()
+    converter = UserSchema(many=True, exclude=['password_hash'])
+    users = converter.dump(record).data
+    return jsonify(users)
+
+@app.route('/user/add', methods=['POST'])
+@login_required
+def user_add():
+    user = User(**request.json)
+    db.session.add(user)
+    db.session.commit()
+    return jsonify('ok')
+
+@app.route('/user/update/<_id>', methods=['PUT'])
+@login_required
+def user_update(_id):
+    data = request.json
+    db.session.query(User).filter_by(id=_id).update(data)
+    db.session.commit()
+    return jsonify('ok')
+
+@app.route('/user/change_password/<_id>', methods=['PUT'])
+@login_required
+def user_change_password(_id):
+    new_password = request.data
+    user = db.session.query(User).filter_by(id=_id).first()
+    user.password = new_password
+    db.session.commit()
+    return jsonify('ok')
+
+@app.route('/user/delete/<_id>', methods=['DELETE'])
+@login_required
+def user_delete(_id):
+    db.session.query(User).filter_by(id=_id).delete()
+    db.session.commit()
+    return jsonify('ok')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

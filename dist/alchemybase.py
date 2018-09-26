@@ -9,6 +9,9 @@ from config import SQLALCHEMY_DATABASE_URI
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
+from marshmallow import fields
+from marshmallow_sqlalchemy import ModelSchema, ModelConverter
+from sqlalchemy.sql.sqltypes import NullType
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -20,17 +23,18 @@ db = SQLAlchemy(app)
 
 class User(UserMixin, db.Model):
     """
-    Тип освіти(вища, неповна вища,..) підтягнутий з бази 1с
+    Користувачі
     """
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     surname = db.Column(db.String(100))
     name = db.Column(db.String(100))
+    middlename = db.Column(db.String(100), default=None)
     email = db.Column(db.String(150), default=None)
     birthday = db.Column(db.DateTime, default=None)
-    phone = db.Column(db.String(20), default=None)
+    phone = db.Column(db.String(100), default=None)
     type = db.Column(db.String(50))
-    login = db.Column(db.String(50))
+    login = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(128))
     password_hash = db.Column(db.String(128))
 
@@ -47,3 +51,48 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return "{id=%s, surname='%s', name='%s'}" % (self.id, self.surname, self.name)
+
+class Printing(db.Model):
+    """
+    Друкарні
+    """
+    __tablename__ = 'printing'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200))
+
+class Customer(db.Model):
+    """
+    Клієнти
+    """
+    __tablename__ = 'сustomers'
+    id = db.Column(db.Integer, primary_key=True)
+    surname = db.Column(db.String(100))
+    name = db.Column(db.String(100))
+    middlename = db.Column(db.String(100), default=None)
+    email = db.Column(db.String(150), default=None)
+    phone = db.Column(db.String(100), default=None)
+    type = db.Column(db.String(50))
+    company = db.Column(db.String(200))
+    comment = db.Column(db.Text)
+
+class Material(db.Model):
+    """
+    Матеріали
+    """
+    __tablename__ = 'marerials'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150))
+    dimension = db.Column(db.String(150))
+    available = db.Column(db.Boolean, default=True)
+
+
+
+
+class SQLAlchemyUtilsConverter(ModelConverter):
+    SQLA_TYPE_MAPPING = dict(list(ModelConverter.SQLA_TYPE_MAPPING.items()) + [(NullType, fields.Raw)])
+
+
+class UserSchema(ModelSchema):
+    class Meta:
+        model = User
+        model_converter = SQLAlchemyUtilsConverter
