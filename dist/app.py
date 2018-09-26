@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, flash, jsonify, req
 from werkzeug.contrib.fixers import ProxyFix
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from forms import LoginForm
-from alchemybase import db, User, Printing, Customer, Material, UserSchema, CustomerSchema
+from alchemybase import db, User, Printing, Customer, Material, UserSchema, CustomerSchema, MaterialSchema
 
 
 app = Flask(__name__)
@@ -99,6 +99,37 @@ def customer_update(_id):
 @login_required
 def customer_delete(_id):
     db.session.query(Customer).filter_by(id=_id).delete()
+    db.session.commit()
+    return jsonify('ok')
+
+@app.route('/material/list', methods=['GET'])
+@login_required
+def material_list():
+    record = db.session.query(Material).all()
+    converter = MaterialSchema(many=True)
+    materials = converter.dump(record).data
+    return jsonify(materials)
+
+@app.route('/material/add', methods=['POST'])
+@login_required
+def material_add():
+    material = Material(**request.json)
+    db.session.add(material)
+    db.session.commit()
+    return jsonify('ok')
+
+@app.route('/material/update/<_id>', methods=['PUT'])
+@login_required
+def material_update(_id):
+    data = request.json
+    db.session.query(Material).filter_by(id=_id).update(data)
+    db.session.commit()
+    return jsonify('ok')
+
+@app.route('/material/delete/<_id>', methods=['DELETE'])
+@login_required
+def material_delete(_id):
+    db.session.query(Material).filter_by(id=_id).delete()
     db.session.commit()
     return jsonify('ok')
 

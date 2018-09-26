@@ -101,3 +101,8 @@ class CustomerSchema(ModelSchema):
     class Meta:
         model = Customer
         model_converter = SQLAlchemyUtilsConverter
+
+class MaterialSchema(ModelSchema):
+    class Meta:
+        model = Material
+        model_converter = SQLAlchemyUtilsConverter
