@@ -17,9 +17,9 @@ app = Flask(__name__)
 app.config.from_object('config')
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 
-
 Base = declarative_base()
 db = SQLAlchemy(app)
+
 
 class User(UserMixin, db.Model):
     """
@@ -50,7 +50,9 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return "{id=%s, surname='%s', name='%s'}" % (self.id, self.surname, self.name)
+        return "{id=%s, surname='%s', name='%s', middlename='%s', email='%s', birthday='%s', phone='%s', type='%s'}" % (
+        self.id, self.surname, self.name, self.middlename, self.email, self.birthday, self.phone, self.type)
+
 
 class Printing(db.Model):
     """
@@ -59,6 +61,10 @@ class Printing(db.Model):
     __tablename__ = 'printing'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
+
+    def __repr__(self):
+        return "{id=%sname='%s'}" % (self.id, self.name)
+
 
 class Customer(db.Model):
     """
@@ -75,6 +81,11 @@ class Customer(db.Model):
     company = db.Column(db.String(200))
     comment = db.Column(db.Text)
 
+    def __repr__(self):
+        return "{id=%s, surname='%s', name='%s', middlename='%s', email='%s', company='%s', phone='%s', type='%s', comment='%s'}" % (
+        self.id, self.surname, self.name, self.middlename, self.email, self.company, self.phone, self.type, self.comment)
+
+
 class Material(db.Model):
     """
     Матеріали
@@ -85,7 +96,61 @@ class Material(db.Model):
     dimension = db.Column(db.String(150))
     available = db.Column(db.Boolean, default=True)
 
+    def __repr__(self):
+        return "{id=%s, name='%s', dimension='%s', available='%s'}" % (self.id, self.name, self.dimension, self.available)
 
+
+class Order(db.Model):
+    """
+    Таблиця з замовленнями
+    """
+    __tablename__ = 'orders'
+    id = db.Column(db.Integer, primary_key=True)
+    delivery_type = db.Column(db.String(100))
+    address = db.Column(db.String(250))
+    payment = db.Column(db.Boolean)
+    status = db.Column(db.String(100))
+    comment = db.Column(db.Text, default=None)
+    date_created = db.Column(db.DateTime, default=datetime.now)
+    approximate_date = db.Column(db.DateTime, default=None)
+    date_finish = db.Column(db.DateTime, default=None)
+    total = db.Column(db.Float)
+
+    fk_user = db.Column(db.Integer, db.ForeignKey(User.id), index=True)
+    fk_customer = db.Column(db.Integer, db.ForeignKey(Customer.id), index=True)
+    fk_printing = db.Column(db.Integer, db.ForeignKey(Printing.id), index=True)
+    user = relationship(User, backref=backref('orders', uselist=True, cascade='delete,all'))
+    printing = relationship(Printing, backref=backref('orders', uselist=True, cascade='delete,all'))
+    customer = relationship(Customer, backref=backref('orders', uselist=True, cascade='delete,all'))
+
+    def __repr__(self):
+        return "{id=%s, delivery_type='%s', address='%s', payment='%s', status='%s', comment='%s', date_created='%s', approximate_datee='%s', date_finish='%s', total='%s', fk_user='%s', fk_customer='%s', fk_printing='%s'}" % (
+        self.id, self.delivery_type, self.address, self.payment, self.status, self.comment, self.date_created, self.approximate_date, self.date_finish, self.total, self.fk_user, self.fk_customer, self.fk_printing)
+
+
+
+class Order_element(db.Model):
+    """
+    Таблиця з замовленнями
+    """
+    __tablename__ = 'order_elements'
+    id = db.Column(db.Integer, primary_key=True)
+    height = db.Column(db.Integer)
+    width = db.Column(db.Integer)
+    count = db.Column(db.Integer)
+    price = db.Column(db.Integer)
+    comment = db.Column(db.Text, default=None)
+    luvers = db.Column(db.Boolean, default=False)
+    step = db.Column(db.Integer, default=0)
+
+    fk_material = db.Column(db.Integer, db.ForeignKey(Material.id), index=True)
+    fk_order = db.Column(db.Integer, db.ForeignKey(Order.id), index=True)
+    material = relationship(Material, backref=backref('order_elements', uselist=True, cascade='delete,all'))
+    order = relationship(Order, backref=backref('order_elements', uselist=True, cascade='delete,all'))
+
+    def __repr__(self):
+        return "{id=%s, height='%s', width='%s', count='%s', price='%s', comment='%s', luvers='%s', type='%s', fk_material='%s', fk_order='%s'}" % (
+        self.id, self.height, self.width, self.count, self.price, self.comment, self.luvers, self.step, self.fk_material, self.fk_order)
 
 
 class SQLAlchemyUtilsConverter(ModelConverter):
@@ -97,12 +162,37 @@ class UserSchema(ModelSchema):
         model = User
         model_converter = SQLAlchemyUtilsConverter
 
+
 class CustomerSchema(ModelSchema):
     class Meta:
         model = Customer
         model_converter = SQLAlchemyUtilsConverter
 
+
 class MaterialSchema(ModelSchema):
     class Meta:
         model = Material
+        model_converter = SQLAlchemyUtilsConverter
+
+class PrintingSchema(ModelSchema):
+    class Meta:
+        model = Printing
+        model_converter = SQLAlchemyUtilsConverter
+
+class OrderSchema(ModelSchema):
+    user = fields.Nested(UserSchema)
+    printing = fields.Nested(PrintingSchema)
+    customer = fields.Nested(CustomerSchema)
+    # date_created = fields.Date('%Y-%m-%d')
+    # approximate_date = fields.Date('%Y-%m-%d')
+    # date_finish = fields.Date('%Y-%m-%d')
+    class Meta:
+        model = Order
+        model_converter = SQLAlchemyUtilsConverter
+
+
+class Order_elementSchema(ModelSchema):
+    # order = fields.Nested(OrderSchema)
+    class Meta:
+        model = Order_element
         model_converter = SQLAlchemyUtilsConverter
