@@ -3,7 +3,7 @@ from werkzeug.contrib.fixers import ProxyFix
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from forms import LoginForm
 from alchemybase import db, User, Printing, Customer, Material, Order, UserSchema, CustomerSchema, MaterialSchema, \
-    Order_elementSchema, OrderSchema, Order_element, PrintingSchema
+    Order_elementSchema, OrderSchema, Order_element, PrintingSchema, Client_type, Price, Client_typeSchema, PriceSchema
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -45,7 +45,9 @@ def user_list():
 @app.route('/user/add', methods=['POST'])
 @login_required
 def user_add():
-    user = User(**request.json)
+    data = request.json
+    data['birthday'] = data['birthday'][0:10]
+    user = User(**data)
     db.session.add(user)
     db.session.commit()
     return jsonify('ok')
@@ -55,6 +57,7 @@ def user_add():
 @login_required
 def user_update(_id):
     data = request.json
+    data['birthday'] = data['birthday'][0:10]
     db.session.query(User).filter_by(id=_id).update(data)
     db.session.commit()
     return jsonify('ok')

@@ -65,6 +65,16 @@ class Printing(db.Model):
     def __repr__(self):
         return "{id=%sname='%s'}" % (self.id, self.name)
 
+class Client_type(db.Model):
+    """
+    Клієнти
+    """
+    __tablename__ = 'client_types'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+
+    def __repr__(self):
+        return "{id=%s,  name='%s'}" % (self.id, self.name)
 
 class Customer(db.Model):
     """
@@ -95,10 +105,29 @@ class Material(db.Model):
     name = db.Column(db.String(150))
     dimension = db.Column(db.String(150))
     available = db.Column(db.Boolean, default=True)
+    units = db.Column(db.String(100), default='м.кв')
 
     def __repr__(self):
-        return "{id=%s, name='%s', dimension='%s', available='%s'}" % (self.id, self.name, self.dimension, self.available)
+        return "{id=%s, name='%s', dimension='%s', available='%s', units='%s'}" % (self.id, self.name, self.dimension, self.available, self.units)
 
+class Price(db.Model):
+    """
+    Матеріали
+    """
+    __tablename__ = 'prices'
+    id = db.Column(db.Integer, primary_key=True)
+    price1 = db.Column(db.Integer)
+    price2 = db.Column(db.Integer)
+    delimiter = db.Column(db.Integer)
+
+    fk_material = db.Column(db.Integer, db.ForeignKey(Material.id), index=True)
+    fk_client_type = db.Column(db.Integer, db.ForeignKey(Client_type.id), index=True)
+    material = relationship(Material, backref=backref('prices', uselist=True, cascade='delete,all'))
+    client_type = relationship(Client_type, backref=backref('prices', uselist=True, cascade='delete,all'))
+
+
+    def __repr__(self):
+        return "{id=%s, price1='%s', price2='%s', delimiter='%s', fk_material='%s', fk_client_type='%s'}" % (self.id, self.price1, self.price2, self.delimiter, self.fk_material, self.fk_client_type)
 
 class Order(db.Model):
     """
@@ -135,8 +164,8 @@ class Order_element(db.Model):
     """
     __tablename__ = 'order_elements'
     id = db.Column(db.Integer, primary_key=True)
-    height = db.Column(db.Integer)
-    width = db.Column(db.Integer)
+    height = db.Column(db.Integer, default=None)
+    width = db.Column(db.Integer, default=None)
     count = db.Column(db.Integer)
     price = db.Column(db.Integer)
     comment = db.Column(db.Text, default=None)
@@ -172,6 +201,19 @@ class CustomerSchema(ModelSchema):
 class MaterialSchema(ModelSchema):
     class Meta:
         model = Material
+        model_converter = SQLAlchemyUtilsConverter
+
+class Client_typeSchema(ModelSchema):
+    class Meta:
+        model = Client_type
+        model_converter = SQLAlchemyUtilsConverter
+
+class PriceSchema(ModelSchema):
+    material = fields.Nested(MaterialSchema)
+    client_type = fields.Nested(Client_typeSchema)
+
+    class Meta:
+        model = Price
         model_converter = SQLAlchemyUtilsConverter
 
 class PrintingSchema(ModelSchema):
