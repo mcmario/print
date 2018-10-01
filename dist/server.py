@@ -1,6 +1,10 @@
 import logging
 from app import app
 from alchemybase import db
+from user import user
+from customer import customer
+from material import material
+from order import order
 
 db.init_app(app)
 db.create_all()
@@ -11,6 +15,11 @@ if __name__ == '__main__':
     formatter = logging.Formatter('%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s', datefmt='%H:%M:%S')
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
+
+    app.register_blueprint(user)
+    app.register_blueprint(customer)
+    app.register_blueprint(material)
+    app.register_blueprint(order)
 
 
     app.run(port=4450, debug=True, threaded=True)
