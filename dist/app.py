@@ -2,8 +2,7 @@ from flask import Flask, render_template, redirect, url_for, flash, jsonify, req
 from werkzeug.contrib.fixers import ProxyFix
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from forms import LoginForm
-from alchemybase import db, User, Printing, Customer, Material, Order, UserSchema, CustomerSchema, MaterialSchema, \
-    Order_elementSchema, OrderSchema, Order_element, PrintingSchema, Client_type, Price, Client_typeSchema, PriceSchema
+from alchemybase import db, User, Printing
 
 app = Flask(__name__)
 app.config.from_object('config')

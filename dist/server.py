@@ -5,6 +5,7 @@ from user import user
 from customer import customer
 from material import material
 from order import order
+from printer import printer
 
 db.init_app(app)
 db.create_all()
@@ -20,6 +21,7 @@ if __name__ == '__main__':
     app.register_blueprint(customer)
     app.register_blueprint(material)
     app.register_blueprint(order)
+    app.register_blueprint(printer)
 
 
     app.run(port=4450, debug=True, threaded=True)
