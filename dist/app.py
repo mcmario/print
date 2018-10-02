@@ -31,13 +31,13 @@ def login_view():
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-#     user = User(surname='admin', name='admin', login='admin', password='admin', type='admin')
-#     db.session.add(user)
-#     db.session.flush()
-#     db.session.commit()
-#     return jsonify('ok')
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    user = User(surname='admin', name='admin', login='admin', password='admin', type='admin')
+    db.session.add(user)
+    db.session.flush()
+    db.session.commit()
+    return jsonify('ok')
 
 
 @app.route('/sign_out')

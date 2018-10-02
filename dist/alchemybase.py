@@ -51,7 +51,7 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return "{id=%s, surname='%s', name='%s', middlename='%s', email='%s', birthday='%s', phone='%s', type='%s'}" % (
-        self.id, self.surname, self.name, self.middlename, self.email, self.birthday, self.phone, self.type)
+            self.id, self.surname, self.name, self.middlename, self.email, self.birthday, self.phone, self.type)
 
 
 class Printing(db.Model):
@@ -65,6 +65,7 @@ class Printing(db.Model):
     def __repr__(self):
         return "{id=%sname='%s'}" % (self.id, self.name)
 
+
 class Client_type(db.Model):
     """
     Клієнти
@@ -75,6 +76,7 @@ class Client_type(db.Model):
 
     def __repr__(self):
         return "{id=%s,  name='%s'}" % (self.id, self.name)
+
 
 class Customer(db.Model):
     """
@@ -87,13 +89,16 @@ class Customer(db.Model):
     middlename = db.Column(db.String(100), default=None)
     email = db.Column(db.String(150), default=None)
     phone = db.Column(db.String(100), default=None)
-    type = db.Column(db.String(50))
     company = db.Column(db.String(200))
     comment = db.Column(db.Text)
 
+    fk_client_type = db.Column(db.Integer, db.ForeignKey(Client_type.id), index=True)
+    client_type = relationship(Client_type, backref=backref('сustomers', uselist=True, cascade='delete,all'))
+
     def __repr__(self):
-        return "{id=%s, surname='%s', name='%s', middlename='%s', email='%s', company='%s', phone='%s', type='%s', comment='%s'}" % (
-        self.id, self.surname, self.name, self.middlename, self.email, self.company, self.phone, self.type, self.comment)
+        return "{id=%s, surname='%s', name='%s', middlename='%s', email='%s', company='%s', phone='%s', type='%s', comment='%s', fk_client_type='%s'}" % (
+            self.id, self.surname, self.name, self.middlename, self.email, self.company, self.phone, self.type,
+            self.comment, self.fk_client_type)
 
 
 class Material(db.Model):
@@ -108,7 +113,9 @@ class Material(db.Model):
     units = db.Column(db.String(100), default='м.кв')
 
     def __repr__(self):
-        return "{id=%s, name='%s', dimension='%s', available='%s', units='%s'}" % (self.id, self.name, self.dimension, self.available, self.units)
+        return "{id=%s, name='%s', dimension='%s', available='%s', units='%s'}" % (
+        self.id, self.name, self.dimension, self.available, self.units)
+
 
 class Price(db.Model):
     """
@@ -125,9 +132,10 @@ class Price(db.Model):
     material = relationship(Material, backref=backref('prices', uselist=True, cascade='delete,all'))
     client_type = relationship(Client_type, backref=backref('prices', uselist=True, cascade='delete,all'))
 
-
     def __repr__(self):
-        return "{id=%s, price1='%s', price2='%s', delimiter='%s', fk_material='%s', fk_client_type='%s'}" % (self.id, self.price1, self.price2, self.delimiter, self.fk_material, self.fk_client_type)
+        return "{id=%s, price1='%s', price2='%s', delimiter='%s', fk_material='%s', fk_client_type='%s'}" % (
+        self.id, self.price1, self.price2, self.delimiter, self.fk_material, self.fk_client_type)
+
 
 class Order(db.Model):
     """
@@ -154,8 +162,8 @@ class Order(db.Model):
 
     def __repr__(self):
         return "{id=%s, delivery_type='%s', address='%s', payment='%s', status='%s', comment='%s', date_created='%s', approximate_datee='%s', date_finish='%s', total='%s', fk_user='%s', fk_customer='%s', fk_printing='%s'}" % (
-        self.id, self.delivery_type, self.address, self.payment, self.status, self.comment, self.date_created, self.approximate_date, self.date_finish, self.total, self.fk_user, self.fk_customer, self.fk_printing)
-
+            self.id, self.delivery_type, self.address, self.payment, self.status, self.comment, self.date_created,
+            self.approximate_date, self.date_finish, self.total, self.fk_user, self.fk_customer, self.fk_printing)
 
 
 class Order_element(db.Model):
@@ -179,7 +187,8 @@ class Order_element(db.Model):
 
     def __repr__(self):
         return "{id=%s, height='%s', width='%s', count='%s', price='%s', comment='%s', luvers='%s', type='%s', fk_material='%s', fk_order='%s'}" % (
-        self.id, self.height, self.width, self.count, self.price, self.comment, self.luvers, self.step, self.fk_material, self.fk_order)
+            self.id, self.height, self.width, self.count, self.price, self.comment, self.luvers, self.step,
+            self.fk_material, self.fk_order)
 
 
 class SQLAlchemyUtilsConverter(ModelConverter):
@@ -191,21 +200,23 @@ class UserSchema(ModelSchema):
         model = User
         model_converter = SQLAlchemyUtilsConverter
 
-
-class CustomerSchema(ModelSchema):
-    class Meta:
-        model = Customer
-        model_converter = SQLAlchemyUtilsConverter
-
-
 class MaterialSchema(ModelSchema):
     class Meta:
         model = Material
         model_converter = SQLAlchemyUtilsConverter
 
+
 class Client_typeSchema(ModelSchema):
     class Meta:
         model = Client_type
+        model_converter = SQLAlchemyUtilsConverter
+
+
+class CustomerSchema(ModelSchema):
+    client_type = fields.Nested(Client_typeSchema)
+
+    class Meta:
+        model = Customer
         model_converter = SQLAlchemyUtilsConverter
 
 class PriceSchema(ModelSchema):
@@ -216,15 +227,18 @@ class PriceSchema(ModelSchema):
         model = Price
         model_converter = SQLAlchemyUtilsConverter
 
+
 class PrintingSchema(ModelSchema):
     class Meta:
         model = Printing
         model_converter = SQLAlchemyUtilsConverter
 
+
 class OrderSchema(ModelSchema):
     user = fields.Nested(UserSchema)
     printing = fields.Nested(PrintingSchema)
     customer = fields.Nested(CustomerSchema)
+
     # date_created = fields.Date('%Y-%m-%d')
     # approximate_date = fields.Date('%Y-%m-%d')
     # date_finish = fields.Date('%Y-%m-%d')
