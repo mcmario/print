@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
+from datetime import datetime
 from alchemybase import db, Order, OrderSchema, Order_elementSchema, Order_element
 from app import login_required_manager, login_required_manager_change
 
@@ -24,6 +25,8 @@ def order_list(status):
 @login_required_manager()
 def order_add():
     data = request.json
+    if data['approximate_date'] != '':
+        data['approximate_date'] = data['approximate_date'][0:10]
     order = Order(**data['order'])
     db.session.add(order)
     db.session.flush()
@@ -53,14 +56,20 @@ def order_info(_id):
 @login_required_manager_change()
 def order_update(_id):
     data = request.json
+    if data['approximate_date'] != '':
+        data['approximate_date'] = data['approximate_date'][0:10]
     db.session.query(Order).filter_by(id=_id).update(data)
     db.session.commit()
     return jsonify('ok')
 
-@order.route('/order/update/<_id>/<status>', methods=['PUT'])
+@order.route('/order/update/<_id>/<status>', methods=['GET'])
 @login_required
 def order_update_status(_id, status):
-    db.session.query(Order).filter_by(id=_id).update({Order.status == status})
+    datenow = datetime.strftime(datetime.now(), "%Y-%m-%d")
+    if status == 'finish':
+        db.session.query(Order).filter_by(id=_id).update({Order.status: status, Order.date_finish:datenow})
+    else:
+        db.session.query(Order).filter_by(id=_id).update({Order.status: status})
     db.session.commit()
     return jsonify('ok')
 
