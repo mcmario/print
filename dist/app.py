@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, flash, jsonify, req
 from werkzeug.contrib.fixers import ProxyFix
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from forms import LoginForm
+from functools import wraps
 from alchemybase import db, User, Printing
 
 app = Flask(__name__)
@@ -19,6 +20,27 @@ login_manager.login_message_category = "info"
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+def login_required_admin():
+    def wrapper(f):
+        @wraps(f)
+        def decorated_view(*args, **kwargs):
+            type = db.session.query(User.type).filter(User.id == current_user.get_id()).first()
+            if type[0] != 'admin':
+                return redirect(url_for('index'))
+            return f(*args, **kwargs)
+        return decorated_view
+    return wrapper
+
+def login_required_manager():
+    def wrapper(f):
+        @wraps(f)
+        def decorated_view(*args, **kwargs):
+            type = db.session.query(User.type).filter(User.id == current_user.get_id()).first()
+            if type[0] != 'manager' and type[0] != 'admin':
+                return redirect(url_for('index'))
+            return f(*args, **kwargs)
+        return decorated_view
+    return wrapper
 
 @app.route('/auth', methods=['GET', 'POST'])
 def login_view():
@@ -34,10 +56,18 @@ def login_view():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     user = User(surname='admin', name='admin', login='admin', password='admin', type='admin')
+    # user = User(surname='worker', name='worker', login='worker', password='worker', type='worker')
+    # user = User(surname='print', name='print', login='print', password='print', type='print')
     db.session.add(user)
     db.session.flush()
     db.session.commit()
     return jsonify('ok')
+
+@app.route('/get_type', methods=['GET'])
+@login_required
+def get_type():
+    type = db.session.query(User.type).filter(User.id == current_user.get_id()).first()
+    return jsonify(type[0])
 
 
 @app.route('/sign_out')

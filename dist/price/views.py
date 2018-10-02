@@ -1,12 +1,14 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
 from alchemybase import db, PriceSchema, Price
+from app import login_required_admin, login_required_manager
 
 
 price = Blueprint('price', __name__)
 
 @price.route('/price/list', methods=['GET'])
 @login_required
+@login_required_manager()
 def price_list():
     record = db.session.query(Price).all()
     converter = PriceSchema(many=True, exclude=['material', 'client_type.prices'])
@@ -15,6 +17,7 @@ def price_list():
 
 @price.route('/price/info/<_id>', methods=['GET'])
 @login_required
+@login_required_manager()
 def price_info(_id):
     record = db.session.query(Price).filter(Price.fk_client_type == _id).all()
     converter = PriceSchema(many=True, exclude=['client_type.prices', 'material.order_elements', 'material.prices'])
@@ -23,6 +26,7 @@ def price_info(_id):
 
 @price.route('/price/info/<_id>/<material_id>', methods=['GET'])
 @login_required
+@login_required_manager()
 def price_info_material(_id, material_id):
     record = db.session.query(Price).filter(Price.fk_client_type == _id).filter(Price.fk_material == material_id).all()
     converter = PriceSchema(many=True, exclude=['client_type.prices', 'material.order_elements', 'material.prices'])
@@ -31,6 +35,7 @@ def price_info_material(_id, material_id):
 
 @price.route('/price/add', methods=['POST'])
 @login_required
+@login_required_admin()
 def price_add():
     data = request.json
     for arg in data:
@@ -42,6 +47,7 @@ def price_add():
 
 @price.route('/price/update/<_id>', methods=['PUT'])
 @login_required
+@login_required_admin()
 def price_update(_id):
     data = request.json
     db.session.query(Price).filter_by(id=_id).update(data)
@@ -51,6 +57,7 @@ def price_update(_id):
 
 @price.route('/price/delete/<_id>', methods=['DELETE'])
 @login_required
+@login_required_admin()
 def price_delete(_id):
     db.session.query(Price).filter(Price.fk_client_type == _id).delete()
     db.session.commit()
