@@ -21,8 +21,14 @@ def order_list(status):
 @order.route('/order/add', methods=['POST'])
 @login_required
 def order_add():
-    order = Order(**request.json)
+    data = request.json
+    order = Order(**data['order'])
     db.session.add(order)
+    db.session.flush()
+    for arg in data['elements']:
+        arg['fk_order'] = order.id
+        element = Order_element(**arg)
+        db.session.add(element)
     db.session.commit()
     return jsonify(order.id)
 
@@ -53,5 +59,31 @@ def order_update(_id):
 @login_required
 def order_delete(_id):
     db.session.query(Order).filter_by(id=_id).delete()
+    db.session.commit()
+    return jsonify('ok')
+
+@order.route('/order_element/add', methods=['POST'])
+@login_required
+def order_element_add():
+    data = request.json
+    order_element = Order_element(**data)
+    db.session.add(order_element)
+    db.session.commit()
+    return jsonify('ok')
+
+
+@order.route('/order_element/update/<_id>', methods=['PUT'])
+@login_required
+def order_element_update(_id):
+    data = request.json
+    db.session.query(Order_element).filter_by(id=_id).update(data)
+    db.session.commit()
+    return jsonify('ok')
+
+
+@order.route('/order_element/delete/<_id>', methods=['DELETE'])
+@login_required
+def order_element_delete(_id):
+    db.session.query(Order_element).filter_by(id=_id).delete()
     db.session.commit()
     return jsonify('ok')
