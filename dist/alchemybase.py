@@ -8,7 +8,7 @@ from sqlalchemy.dialects.mysql import MEDIUMBLOB
 from config import SQLALCHEMY_DATABASE_URI
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask.ext.login import UserMixin
+from flask_login import UserMixin
 from marshmallow import fields
 from marshmallow_sqlalchemy import ModelSchema, ModelConverter
 from sqlalchemy.sql.sqltypes import NullType
