@@ -3,7 +3,8 @@ from werkzeug.contrib.fixers import ProxyFix
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from forms import LoginForm
 from functools import wraps
-from alchemybase import db, User, Printing
+from alchemybase import db, User, Printing, Order
+from sqlalchemy import or_
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -20,6 +21,7 @@ login_manager.login_message_category = "info"
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 def login_required_admin():
     def wrapper(f):
         @wraps(f)
@@ -28,8 +30,11 @@ def login_required_admin():
             if type[0] != 'admin':
                 return redirect(url_for('index'))
             return f(*args, **kwargs)
+
         return decorated_view
+
     return wrapper
+
 
 def login_required_manager():
     def wrapper(f):
@@ -39,8 +44,28 @@ def login_required_manager():
             if type[0] != 'manager' and type[0] != 'admin':
                 return redirect(url_for('index'))
             return f(*args, **kwargs)
+
         return decorated_view
+
     return wrapper
+
+
+def login_required_manager_change():
+    def wrapper(f):
+        @wraps(f)
+        def decorated_view(_id,*args, **kwargs):
+            type = db.session.query(User.type).filter(User.id == current_user.get_id()).first()
+            order = db.session.query(Order).filter(Order.id == _id).filter(
+                or_(Order.status == 'pending', Order.status == 'sent')).first()
+            print(order)
+            if (type[0] != 'manager' and type[0] != 'admin') or order == None:
+                return redirect(url_for('index'))
+            return f(_id,*args, **kwargs)
+
+        return decorated_view
+
+    return wrapper
+
 
 @app.route('/auth', methods=['GET', 'POST'])
 def login_view():
@@ -53,6 +78,7 @@ def login_view():
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     user = User(surname='admin', name='admin', login='admin', password='admin', type='admin')
@@ -62,6 +88,7 @@ def register():
     db.session.flush()
     db.session.commit()
     return jsonify('ok')
+
 
 @app.route('/get_type', methods=['GET'])
 @login_required

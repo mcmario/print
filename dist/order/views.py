@@ -1,8 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
 from alchemybase import db, Order, OrderSchema, Order_elementSchema, Order_element
-from app import login_required_manager
-
+from app import login_required_manager, login_required_manager_change
 
 
 order = Blueprint('order', __name__)
@@ -51,17 +50,23 @@ def order_info(_id):
 
 @order.route('/order/update/<_id>', methods=['PUT'])
 @login_required
-@login_required_manager()
+@login_required_manager_change()
 def order_update(_id):
     data = request.json
     db.session.query(Order).filter_by(id=_id).update(data)
     db.session.commit()
     return jsonify('ok')
 
+@order.route('/order/update/<_id>/<status>', methods=['PUT'])
+@login_required
+def order_update_status(_id, status):
+    db.session.query(Order).filter_by(id=_id).update({Order.status == status})
+    db.session.commit()
+    return jsonify('ok')
 
 @order.route('/order/delete/<_id>', methods=['DELETE'])
 @login_required
-@login_required_manager()
+@login_required_manager_change()
 def order_delete(_id):
     db.session.query(Order).filter_by(id=_id).delete()
     db.session.commit()
