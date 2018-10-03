@@ -25,8 +25,8 @@ def order_list(status):
 @login_required_manager()
 def order_add():
     data = request.json
-    if data['approximate_date'] != '':
-        data['approximate_date'] = data['approximate_date'][0:10]
+    if data['order']['approximate_date'] != '':
+        data['order']['approximate_date'] = data['order']['approximate_date'][0:10]
     order = Order(**data['order'])
     db.session.add(order)
     db.session.flush()
