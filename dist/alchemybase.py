@@ -114,7 +114,7 @@ class Material(db.Model):
 
     def __repr__(self):
         return "{id=%s, name='%s', dimension='%s', available='%s', units='%s'}" % (
-        self.id, self.name, self.dimension, self.available, self.units)
+            self.id, self.name, self.dimension, self.available, self.units)
 
 
 class Price(db.Model):
@@ -134,7 +134,7 @@ class Price(db.Model):
 
     def __repr__(self):
         return "{id=%s, price1='%s', price2='%s', delimiter='%s', fk_material='%s', fk_client_type='%s'}" % (
-        self.id, self.price1, self.price2, self.delimiter, self.fk_material, self.fk_client_type)
+            self.id, self.price1, self.price2, self.delimiter, self.fk_material, self.fk_client_type)
 
 
 class Order(db.Model):
@@ -179,6 +179,8 @@ class Order_element(db.Model):
     comment = db.Column(db.Text, default=None)
     luvers = db.Column(db.Boolean, default=False)
     step = db.Column(db.Integer, default=0)
+    file_name = db.column(db.String(200), default=None)
+    url = db.column(db.Text, default=None)
 
     fk_material = db.Column(db.Integer, db.ForeignKey(Material.id), index=True)
     fk_order = db.Column(db.Integer, db.ForeignKey(Order.id), index=True)
@@ -186,9 +188,9 @@ class Order_element(db.Model):
     order = relationship(Order, backref=backref('order_elements', uselist=True, cascade='delete,all'))
 
     def __repr__(self):
-        return "{id=%s, height='%s', width='%s', count='%s', price='%s', comment='%s', luvers='%s', type='%s', fk_material='%s', fk_order='%s'}" % (
+        return "{id=%s, height='%s', width='%s', count='%s', price='%s', comment='%s', luvers='%s', type='%s', fk_material='%s', fk_order='%s', file_name='%s', url='%s'}" % (
             self.id, self.height, self.width, self.count, self.price, self.comment, self.luvers, self.step,
-            self.fk_material, self.fk_order)
+            self.fk_material, self.fk_order, self.file_name, self.url)
 
 
 class SQLAlchemyUtilsConverter(ModelConverter):
@@ -199,6 +201,7 @@ class UserSchema(ModelSchema):
     class Meta:
         model = User
         model_converter = SQLAlchemyUtilsConverter
+
 
 class MaterialSchema(ModelSchema):
     class Meta:
@@ -218,6 +221,7 @@ class CustomerSchema(ModelSchema):
     class Meta:
         model = Customer
         model_converter = SQLAlchemyUtilsConverter
+
 
 class PriceSchema(ModelSchema):
     material = fields.Nested(MaterialSchema)
@@ -239,9 +243,9 @@ class OrderSchema(ModelSchema):
     printing = fields.Nested(PrintingSchema)
     customer = fields.Nested(CustomerSchema)
 
-    # date_created = fields.Date('%Y-%m-%d')
-    # approximate_date = fields.Date('%Y-%m-%d')
-    # date_finish = fields.Date('%Y-%m-%d')
+    date_created = fields.Date('%Y-%m-%d')
+    approximate_date = fields.Date('%Y-%m-%d')
+    date_finish = fields.Date('%Y-%m-%d')
     class Meta:
         model = Order
         model_converter = SQLAlchemyUtilsConverter
